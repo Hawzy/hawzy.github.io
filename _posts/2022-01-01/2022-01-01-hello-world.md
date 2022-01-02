@@ -1,5 +1,5 @@
 ---
-title: Hello World! Create a free blog post using VSCode and Markdown
+title: Hello World! Create a blog using VSCode and Markdown
 tags:
 - 100DaysOfCode
 - Markdown
