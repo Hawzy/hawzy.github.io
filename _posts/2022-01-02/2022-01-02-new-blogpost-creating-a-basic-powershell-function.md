@@ -43,8 +43,6 @@ comments: true
 }
 ```
 
-After this function is stored in memory we can run `New-Blogpost` in powershell, it will then create a folder with the current date, and open a template of a blogpost in VS Code to start editing.
-
 ## Conclusion
 
 After this function is stored in memory we can run `New-Blogpost` in powershell, it will then create a folder with the current date in the present working directory, and open a template of a blogpost in VS Code to start editing.
