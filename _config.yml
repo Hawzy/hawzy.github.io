@@ -22,18 +22,19 @@ subtitle                 : #"no YOU'RE weird" # site tagline that appears below 
 name                     : #"Nick Hasenoehrl"
 description              : "an IT and coding project blog"
 url                      : "https://hawzy.github.io"
+url                      : "http://localhost:4000"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "hawzy/hawzy.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : "/assets/images/dumpsterfire.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
-# breadcrumbs            : true # true, false (default)
+breadcrumbs              : true # true, false (default)
 words_per_minute         : 200
 search: true
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
+  provider               : disqus # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
-    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+    shortname            : hawzy # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
   discourse:
     server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
   facebook:
@@ -72,8 +73,8 @@ google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
   instant_search         : # false (default), true
 # SEO Related
-google_site_verification :
-bing_site_verification   :
+google_site_verification : "09e54f1b9b34a321"
+bing_site_verification   : "2E26418ED42AEE36FF7484645648ED32"
 naver_site_verification  :
 yandex_site_verification :
 baidu_site_verification  :
@@ -85,7 +86,7 @@ facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : # Open Graph/Twitter default site image
+og_image                 : /assets/images/android-chrome-192x192.png # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -95,11 +96,10 @@ social:
 
 # Analytics
 analytics:
-  provider               : "google-gtag" # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : google-gtag # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          : "G-S4CZ8DD6EQ"
+    tracking_id          : G-S4CZ8DD6EQ
     anonymize_ip         : false # true, false (default)
-
 
 # Site Author
 
@@ -164,6 +164,7 @@ exclude:
   - tmp
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
+  - "docker-compose*.yml"
 keep_files:
   - .git
   - .svn
@@ -201,7 +202,7 @@ sass:
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: America/Los_Angeles # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
 # Plugins (previously gems:)
@@ -280,3 +281,7 @@ defaults:
     values:
       layout: single
       author_profile: true
+  - scope:
+      path: "_pages"
+    values:
+      sitemap: false
