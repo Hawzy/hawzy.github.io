@@ -27,7 +27,7 @@ repository               : "hawzy/hawzy.github.io" # GitHub username/repo-name e
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : "/assets/images/dumpsterfire.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
-breadcrumbs              : true # true, false (default)
+breadcrumbs              : false # true, false (default)
 words_per_minute         : 200
 search: true
 comments:
@@ -266,7 +266,6 @@ defaults:
       type: posts
     values:
       layout: single
-      permalinks: date
       author_profile: true
       read_time: true
       comments: true
@@ -285,3 +284,4 @@ defaults:
   #    path: "_pages"
   #  values:
   #    sitemap: false
+permalink: /:categories/:year/:title:output_ext
