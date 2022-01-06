@@ -265,6 +265,7 @@ defaults:
       path: ""
       type: posts
     values:
+      layout: single
       permalinks: date
       author_profile: true
       read_time: true
