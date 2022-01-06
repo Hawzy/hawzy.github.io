@@ -22,7 +22,6 @@ subtitle                 : #"no YOU'RE weird" # site tagline that appears below 
 name                     : #"Nick Hasenoehrl"
 description              : "an IT and coding project blog"
 url                      : "https://hawzy.github.io"
-url                      : "http://localhost:4000"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "hawzy/hawzy.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
