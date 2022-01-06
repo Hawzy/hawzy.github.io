@@ -71,6 +71,7 @@ algolia:
 google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
   instant_search         : # false (default), true
+environment: prod
 # SEO Related
 google_site_verification : "09e54f1b9b34a321"
 bing_site_verification   : "2E26418ED42AEE36FF7484645648ED32"
@@ -98,7 +99,6 @@ analytics:
   provider               : google-gtag
   google:
     tracking_id          : G-S4CZ8DD6EQ
-    anonymize_ip         : false # true, false (default)
 
 # Site Author
 
@@ -265,7 +265,7 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: single
+      permalinks: date
       author_profile: true
       read_time: true
       comments: true
@@ -280,7 +280,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-  - scope:
-      path: "_pages"
-    values:
-      sitemap: false
+  #- scope:
+  #    path: "_pages"
+  #  values:
+  #    sitemap: false

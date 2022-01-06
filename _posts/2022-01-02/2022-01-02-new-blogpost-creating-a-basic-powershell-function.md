@@ -5,6 +5,8 @@ tags:
 - PowerShell
 - GitHub
 - Jekyll
+categories:
+- Blog
 comments: true
 ---
 
