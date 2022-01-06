@@ -3,6 +3,8 @@ title: New-Blogpost - Upgrading a PowerShell function to add parameters
 tags:
 - 100DaysOfCode
 - Powershell
+- Github
+- Jekyll
 comments: true
 ---
 
