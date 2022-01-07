@@ -94,12 +94,6 @@ social:
   name                   : # If the user or organization name differs from the site's name
   links: # An array of links to social media profiles
 
-# Analytics
-analytics:
-  provider               : google-gtag
-  google:
-    tracking_id          : G-S4CZ8DD6EQ
-
 # Site Author
 
 author:
