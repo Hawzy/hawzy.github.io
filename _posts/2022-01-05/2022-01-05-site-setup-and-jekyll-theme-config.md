@@ -74,4 +74,4 @@ Here is the link to my full config file if you want to take a look: https://raw.
 
 ## Conclusion
 
-On Day 5 of 100 Days of Code,I cloned a jekyll theme repo, I tweaked the settings and added dark mode (very important), and added my About Me page info.  On Day 6 I will push my local files up to GitHub and
+On Day 5 of 100 Days of Code,I cloned a jekyll theme repo, I tweaked the settings and added dark mode (very important), and added my About Me page info.  On Day 6 I will push my local files up to GitHub and make https://hawzy.github.io viewable on the internet.
