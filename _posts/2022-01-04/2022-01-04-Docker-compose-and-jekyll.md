@@ -1,5 +1,5 @@
 ---
-title: Docker-Compose and Jekyll
+title: Docker Compose and Jekyll
 tags:
 - 100DaysOfCode
 - Powershell
