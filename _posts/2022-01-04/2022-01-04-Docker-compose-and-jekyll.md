@@ -7,6 +7,8 @@ tags:
 - Jekyll
 - Docker
 - 2022
+categories:
+- Blog
 comments: true
 ---
 
