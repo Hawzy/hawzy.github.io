@@ -116,7 +116,7 @@ author:
       url: "https://github.com/hawzy"
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/nhasenoehrl"
+      url: "https://linkedin.com/in/nhasenoehrl"
 
 # Site Footer
 footer:
@@ -129,7 +129,7 @@ footer:
       url: "https://github.com/hawzy"
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/nhasenoehrl"
+      url: "https://www.linkedin.com/in/nhasenoehrl/"
 
 
 # Reading Files
@@ -265,6 +265,7 @@ defaults:
       path: ""
       type: posts
     values:
+      layout: single
       author_profile: true
       read_time: true
       comments: true
@@ -283,3 +284,4 @@ defaults:
   #    path: "_pages"
   #  values:
   #    sitemap: false
+permalink: /:categories/:year/:title:output_ext
