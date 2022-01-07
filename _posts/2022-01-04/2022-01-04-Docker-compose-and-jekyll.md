@@ -24,7 +24,7 @@ For this project I'm running Windows 10 with these programs installed:
 
 ## Clone Jekyll Theme - Minimal mistakes
 
-We are going to clone the [Minimal Mistakes Theme](https://github.com/mmistakes/minimal-mistakes_) repo to use as our theme, I have github desktop installed but they buried git.exe so its not reachable by default and we need to add it to path.  First I'm going to install the [Pscx - PowerShell Community Extensions](https://github.com/Pscx/Pscx) which has a cmdlet called `Add-PathVariable` and a bunch of other cool stuff.  Once that is added to path I can run git.
+We are going to clone the [Minimal Mistakes Theme](https://github.com/mmistakes/minimal-mistakes) repo to use as our theme, I have github desktop installed but they buried git.exe so its not reachable by default and we need to add it to path.  First I'm going to install the [Pscx - PowerShell Community Extensions](https://github.com/Pscx/Pscx) which has a cmdlet called `Add-PathVariable` and a bunch of other cool stuff.  Once that is added to path I can run git.
 
 ```powershell
 Install-Module Pscx -Scope CurrentUser -AllowClobber -Force
