@@ -45,4 +45,6 @@ Now anytime I update the folder `C:/github/hawzy.github.io` I can run the follow
 
 ## Conclusion
 
-For day 6 of 100 days of code, I used git from the command line to push my local blog repository to GitHub, and now have repeatable steps to do so again in the future.
+For day 6 of 100 days of code, I used git from the command line to push my local blog repository to GitHub, and now have repeatable steps to do so again in the future.  And here is what it looks like:
+
+![git push](/assets/posts/git_push.png)
