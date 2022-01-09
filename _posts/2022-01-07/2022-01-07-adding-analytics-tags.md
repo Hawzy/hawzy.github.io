@@ -17,7 +17,7 @@ First go to the respective websites and create an account and find the tag secti
   * https://analytics.google.com/
     * ![google analytics tag](/assets/posts/analytics_google.png)
   * https://www.bing.com/webmasters/
-  ![bing analytics tag](/assets/posts/analytics_clarity.png)
+    * ![bing analytics tag](/assets/posts/analytics_clarity.png)
 
 each site will give you a script tag to embed into the `<Head>` section of the website.
 
@@ -48,14 +48,8 @@ I'm using the minimal mistakes theme, but other Jekyll themes should be similar.
 
 Then we include the analytics-providres\custom.html in the headers tag by including it in the following file: `C:\github\hawzy.github.io\_layouts\default.html`
 
-```html
- <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-    {% include /analytics-providers/custom.html %}
-  </head>
-  ```
-  
+![Update Head Tags](/assets/posts/head_update.png)
+
 And thats it, git add, git commit and git push.
 
 ## Conclusion
