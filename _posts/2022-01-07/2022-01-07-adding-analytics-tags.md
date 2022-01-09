@@ -10,13 +10,13 @@ categories:
 - Blog
 comments: true
 ---
-Hi, welcome to day 7/100 days of code.  Today I'm going to walk through adding Google Analytics and Bing Webmaster Tools Analytics to this blog.  As always you can view the raw contents of this blog here: https://github.com/hawzy/hawzy.github.io 
+Hi, welcome to day 7/100 days of code.  Today I'm going to walk through adding Google Analytics and Bing Webmaster Tools Analytics to this blog.  As always you can view the raw contents of this blog here: [https://github.com/hawzy/hawzy.github.io](https://github.com/hawzy/hawzy.github.io)
 
 ## Sign Up
 First go to the respective websites and create an account and find the tag section
-  * https://analytics.google.com/
+  * [https://analytics.google.com/](https://analytics.google.com/)
     * ![google analytics tag](/assets/posts/analytics_google.png)
-  * https://www.bing.com/webmasters/
+  * [https://www.bing.com/webmasters/](https://www.bing.com/webmasters/)
     * ![bing analytics tag](/assets/posts/analytics_clarity.png)
 
 each site will give you a script tag to embed into the `<Head>` section of the website.
