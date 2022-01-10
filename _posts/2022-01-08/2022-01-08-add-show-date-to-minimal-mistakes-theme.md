@@ -15,6 +15,12 @@ Out of the box Minimal Mistakes theme does not show the date on posts, just the 
 
 whats happening here is we are editing the `page__hero.html`, to look for the inclusion of `show_date: true` in the front matter.  If it finds that it displays the date.  And then we also edit the `config.yml` to include `show_date: true` on all posts.
 
+```html
+{% if page.show_date %}
+	<p class="page__meta"><i class="far fa-calendar-alt" aria-hidden="true"></i> {{ page.date | date: '%B %d, %Y' }}</p>
+      {% elsif page.read_time %}
+```
+
 Here is an example of what it looks like when its all done:
 
 ![show date](/assets/posts/show_date.png)
