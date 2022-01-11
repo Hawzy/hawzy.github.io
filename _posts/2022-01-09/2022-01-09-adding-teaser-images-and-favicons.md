@@ -9,6 +9,7 @@ categories:
 comments: true
 header:
   teaser: "/assets/images/teasers/headers.png"
+excerpt: "Today I add Teaser Images and Favicons to my Jekyll Blog"
 ---
 
 Welcome to Day 9 of 100, I'm going to show how to add a favicon (which is the browser 
