@@ -41,6 +41,8 @@ Layer 1 - key 2: Win + V [clipboard history]
 
 Once we are done mapping the keys in kbfirmware we download the hex file and use the QMK firmware utility to flash the macropad.  Then test and confirm it works.  
 
+You can download the hex file from this post here and use it on your own macropad: [https://github.com/Hawzy/hawzy.github.io/blob/main/_posts/2022-01-10/hawzysdefaults.hex)(https://github.com/Hawzy/hawzy.github.io/blob/main/_posts/2022-01-10/hawzysdefaults.hex)]
+
 ## Conclusion
 
 In this blog post I walk through a high level overview of how to customise the firmware on a very tiny keyboard.  That wraps up day 10 of 100, excited to have decimated this challenge, only 90% to go.
