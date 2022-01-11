@@ -8,7 +8,7 @@ categories:
 - Blog
 comments: true
 header:
-  teaser: "/assets/images/headers.png"
+  teaser: "/assets/teaser/headers.png"
 ---
 
 Welcome to Day 9 of 100, I'm going to show how to add a favicon (which is the browser 

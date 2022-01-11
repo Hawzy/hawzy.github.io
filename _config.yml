@@ -30,6 +30,7 @@ masthead_title           : # overrides the website title displayed in the masthe
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 150
 search: true
+teaser: /assets/images/teaser.jpg
 comments:
   provider               : disqus # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
   disqus:
