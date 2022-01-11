@@ -5,7 +5,6 @@ tags:
 - PowerShell
 - GitHub
 - Jekyll
-- "2022"
 categories:
 - Blog
 comments: true

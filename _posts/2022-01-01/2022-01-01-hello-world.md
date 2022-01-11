@@ -4,7 +4,6 @@ tags:
 - 100DaysOfCode
 - Markdown
 - VS Code
-- "2022"
 comments: true
 categories:
 - Blog

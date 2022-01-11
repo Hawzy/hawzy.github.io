@@ -5,7 +5,6 @@ tags:
 - Jekyll
 - Github
 - Docker Compose
-- "2022"
 categories:
 - Blog
 comments: true

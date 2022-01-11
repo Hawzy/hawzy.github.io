@@ -4,7 +4,7 @@ tags:
 - 100DaysOfCode
 - Git
 - GitHub
-- "2022"
+
 categories:
 - Blog
 comments: true

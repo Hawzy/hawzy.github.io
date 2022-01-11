@@ -3,7 +3,6 @@ title: Add show_date to Minimal Mistakes Theme
 tags:
 - 100DaysOfCode
 - Jekyll
-- "2022"
 categories:
 - Blog
 comments: true

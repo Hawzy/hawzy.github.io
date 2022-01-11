@@ -4,7 +4,6 @@ tags:
 - 100DaysOfCode
 - Jekyll
 - "Google Analytics"
-- "2022"
 - "Bing Webmaster Tools"
 categories:
 - Blog
