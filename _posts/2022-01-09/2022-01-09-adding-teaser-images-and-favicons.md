@@ -8,7 +8,7 @@ categories:
 - Blog
 comments: true
 header:
-  teaser: "/assets/teaser/headers.png"
+  teaser: "/assets/teasers/headers.png"
 ---
 
 Welcome to Day 9 of 100, I'm going to show how to add a favicon (which is the browser 
@@ -43,7 +43,7 @@ To override the default teaser image defined in `_config.yml` we can add this to
 
 ```yaml
 header:
-  teaser: "/assets/images/headers.png"
+  teaser: "/assets/teasers/headers.png"
 ```
 and that should come through on the post preview and twitter card.
 
