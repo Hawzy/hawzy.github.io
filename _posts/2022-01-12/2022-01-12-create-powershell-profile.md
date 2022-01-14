@@ -8,8 +8,10 @@ tags:
 categories:
 - Blog
 comments: true
+header:
+  teaser: "/assets/images/teasers/directory_structure.png"
 ---
-For day 11 of 100 Days of Code, I'm going to create a new repo to host my PowerShell Profile.  The profile gets auto-loaded when you launch the PowerShell Console depending on your user context.  So I'm going to populate it with useful commands, modules, configs, themes and cmdlets so that whenever I set up a new computer I can copy down my settings and be ready to go.  You can see the location of the different profile types by running `$profile | select *`
+For day 11 of 100 Days of Code, I'm going to create a new repo to host my PowerShell Profile [https://github.com/Hawzy/powershell-profile](https://github.com/Hawzy/powershell-profile).  The profile gets auto-loaded when you launch the PowerShell Console depending on your user context.  So I'm going to populate it with useful commands, modules, configs, themes and cmdlets so that whenever I set up a new computer I can copy down my settings and be ready to go.  You can see the location of the different profile types by running `$profile | select *`
 
 ## Resources
 
@@ -20,14 +22,20 @@ Couple links and profiles that had some good stuff in them.
 * [https://github.com/stevencohn/WindowsPowerShell](https://github.com/stevencohn/WindowsPowerShell)
 
 ## Create Github Repo
+I had already created the repo on the webpage of github.com so it already exists we just need to sync our local repo.
 
-1. `mkdir C:\github\powershell-profile'
+1. `mkdir C:\github\powershell-profile`
 2. `git init`
-3. code C:\github\powershell-profile\profile.ps1 && code C:\github\powershell-profile\readme.md
+3. `code C:\github\powershell-profile\profile.ps1 && code C:\github\powershell-profile\readme.md`
+4. `git remote add origin https://github.com/Hawzy/powershell-profile.git`
 
 ## Structure
 
 I think this is a great way to keep organized, seperate each function by type, and then load each seperate type file.  Save in `$profile`
+
+For my purposes I'm using the `CurrentUserAllHosts    : C:\Users\nickh\OneDrive\Documents\PowerShell\profile.ps1` Profile and putting all these files directly into my Onedrive
+
+![Directory Structure](/assets/posts/directory_structure.png)
 
 ```powershell
 $profileDir = $PSScriptRoot;
@@ -76,4 +84,4 @@ Once profile.ps1 and all my other supporting .ps1 files are in place I can copy 
 
 ## Conclusion
 
-Now I just need to reload the profile and test the new function on this blogpost `gac "day 11"`.  If you are reading this, then it looked like it worked.  For Day 11 of 100 days of code, I created the structure of my PowerShell Profile and added a couple functions to it.  I put it in OneDrive so it should now sync to all my machines that are setup that way, but I can also pull a copy from GitHub if I need to.
+Now I just need to reload the profile and test the new function on this blogpost `gac "day 11" && git push`.  If you are reading this, then it looked like it worked.  For Day 11 of 100 days of code, I created the structure of my PowerShell Profile and added a couple functions to it.  I put it in OneDrive so it should now sync to all my machines that are setup that way, but I can also pull a copy from GitHub if I need to.  You can view the GitHub repo here: [https://github.com/Hawzy/powershell-profile](https://github.com/Hawzy/powershell-profile)
