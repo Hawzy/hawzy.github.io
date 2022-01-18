@@ -4,7 +4,7 @@ tags:
 - 100DaysOfCode
 - PowerShell
 - PowerShell Profile
-- Github
+- GitHub
 categories:
 - Blog
 comments: true

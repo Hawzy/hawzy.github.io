@@ -3,7 +3,7 @@ title: Site Setup and Jekyll theme configuration
 tags:
 - 100DaysOfCode
 - Jekyll
-- Github
+- GitHub
 - Docker Compose
 categories:
 - Blog
