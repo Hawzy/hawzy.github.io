@@ -2,7 +2,7 @@
 title: Docker Compose and Jekyll
 tags:
 - 100DaysOfCode
-- Powershell
+- PowerShell
 - Github
 - Jekyll
 - Docker

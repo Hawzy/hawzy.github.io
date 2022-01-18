@@ -2,7 +2,6 @@
 title: Updating "The Key" firmware with custom configuration
 tags:
 - 100DaysOfCode
-- Powershell
 - Macropad
 - StackOverflow
 - "The Key"

@@ -2,7 +2,7 @@
 title: Install Oh My Posh Theme Engine
 tags:
  - 100DaysOfCode
- - Powershell
+ - PowerShell
  - "Windows Terminal"
  - "PowerShell Profile"
 categories:
