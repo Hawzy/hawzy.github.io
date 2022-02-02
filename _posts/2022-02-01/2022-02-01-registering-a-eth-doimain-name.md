@@ -21,7 +21,7 @@ Once the browser extension is installed follow the prompts to **Create a Wallet*
 
 So now we have an address we can transfer funds into, next step is to buy some Ethereum and transfer to this wallet.
 
-![wallet](metamask_wallet.png)
+![wallet](/assets/posts/metamask_wallet.png)
 
 ## Load Ethereum into Wallet
 
@@ -33,18 +33,18 @@ You can also buy directly through a 3rd party service connected to metamask by p
 
 Point your browser with metamask extension to https://app.ens.domains/.  Once there your extension should automatically prompt you to connect, you can also click the extension icon.
 
-![connect](metamask_connect.png)
+![connect](/assets/posts/metamask_connect.png)
 
 Press **Next** and **Connect**.
 
 ## Register Domain name with Ethereum Name Service (ENS)
 
 Search for the domain name you want, and make sure your wallet is connected on the left hand side.
-![connect](wallet_connected.png)
+![connected]/assets/posts/(wallet_connected.png)
 
 5 letter domains run  \$5/year, I want mine to expire in 2040, so that'll be $80 + whatever gas fees end up being
 
-![Purchase](hawzy.eth.png)
+![Purchase](/assets/posts/hawzy.eth.png)
 
 Press Proceed to register, gas fees fluctuate in the metamask wallet, for mine they ended up being \$11-\$12. and then there is a second transaction gas fee that ended up being another \$60. Decentralized finance!  Total cost with gas + fees for me ended up being almost exactly \$10/year for a total cost of \$181.47 -or- 0.0649611 ETH.  Which ends up being about the same as a .net TLD domain name.
 
