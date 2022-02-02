@@ -3,7 +3,7 @@ title: Docker Compose and Jekyll
 tags:
 - 100DaysOfCode
 - PowerShell
-- Github
+- GitHub
 - Jekyll
 - Docker
 categories:
