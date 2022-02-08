@@ -13,7 +13,7 @@ header:
 For Day 15 of 100 Days of code, I wanted to build out my PowerShell Profile a little bit more, and focus on Windows Administration
 ## PowerShell Functions
 
-```PowerShell
+```powershell
 function get-windows-build {
 	Get-CimInstance -Class Win32_OperatingSystem
 }
@@ -40,7 +40,7 @@ Select-Object -Property Name, @{
 
 For Day 15, in my PowerShell Profile, I created a new file called windows.ps1 put it in my `$ProifileDir` with these functions and load it via my PowerShell Profile.
 
-```PowerShell
+```powershell
 foreach ( $includeFile in ("azure", "defaults", "openssl", "dev", "windows") ) {
     Unblock-File $profileDir\$includeFile.ps1
 . "$profileDir\$includeFile.ps1"
