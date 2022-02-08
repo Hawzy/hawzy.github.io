@@ -38,7 +38,7 @@ Select-Object -Property Name, @{
 ```
 ## Conclusion
 
-For Day 15, in my PowerShell Profile, I created a new file called windows.ps1 put it in my `$ProifileDir` with these functions and load it via my PowerShell Profile.
+For Day 15, in my PowerShell Profile, I created a new file called windows.ps1 put it in my `$ProfileDir` with these functions and load it via my PowerShell Profile.
 
 ```powershell
 foreach ( $includeFile in ("azure", "defaults", "openssl", "dev", "windows") ) {

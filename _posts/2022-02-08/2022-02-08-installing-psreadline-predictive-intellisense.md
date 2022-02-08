@@ -25,6 +25,8 @@ For the functionality i wanted, these 2 lines was all it took
 
 ![PSReadLine](/assets/posts/psreadline.png)
 
+I will also need to add `Set-PSReadLineOption -PredictionSource History` to my profile.ps1, so that it runs every time i start PowerShell
+
 ## Conclusion
 
 For Day 16 I enabled PSReadLine, honestly not sure why it took me so long.  Should be pretty useful.
