@@ -21,7 +21,7 @@ Head over to the Golang download section and grab your correct installer [golang
 
 In VSCode open extensions and install the Rich Go language support plugin.
 
-setup a new project directory 'mkdir C:\github\golang'
+setup a new project directory `mkdir C:\github\golang`
 
 ![Picture](/assets/posts/golang.png)
 
