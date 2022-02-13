@@ -29,4 +29,4 @@ I will also need to add `Set-PSReadLineOption -PredictionSource History` to my p
 
 ## Conclusion
 
-For Day 16 I enabled PSReadLine, honestly not sure why it took me so long.  Should be pretty useful.
+For Day 16 I enabled PSReadLine, this should be a useful addition at home and work.
