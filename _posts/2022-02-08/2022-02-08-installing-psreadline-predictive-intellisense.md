@@ -9,7 +9,7 @@ categories:
 - Blog
 comments: true
 header:
-  teaser: "/assets/images/teasers/powershell-prompt.png"
+  teaser: "/assets/images/teasers/psreadline.png"
 ---
 You can read all about PSReadLine here: [About PSReadLine](https://docs.microsoft.com/en-us/powershell/module/psreadline/about/about_psreadline), the feature I want most is the predictive intellisense, you set your PowerShell command history as the source so that you can prioritize commands you use frequently.
 
@@ -17,7 +17,7 @@ I'm using PowerShell 7.2 from the Windows Store.
 
 ## Install
 
-```code PowerShell
+```code powershell
 Install-Module -Name PSReadLine -AllowPrerelease -Force
 Set-PSReadLineOption -PredictionSource History
 ```
