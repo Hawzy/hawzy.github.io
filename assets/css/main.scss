@@ -2456,9 +2456,9 @@ body.surface-blog {
 
   .scifi-archive-drawer {
     margin-top: 2rem;
-    background-color: rgba(14, 21, 37, 0.6);
-    border: 1px solid var(--scifi-border);
-    border-radius: 8px;
+    background-color: var(--hz-surface, var(--scifi-surface));
+    border: 1px solid var(--hz-border, var(--scifi-border));
+    border-radius: var(--hz-radius, 8px);
     padding: 0.85rem 1.15rem;
 
     &__summary {
