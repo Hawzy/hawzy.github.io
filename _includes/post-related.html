@@ -1,0 +1,155 @@
+{% assign active_candidates = site.posts | where_exp: "p", "p.archived != true" %}
+
+{% assign page_projects_str = "" %}
+{% if page.projects %}
+  {% for p in page.projects %}
+    {% assign token = "|" | append: p | append: "|" %}
+    {% unless page_projects_str contains token %}
+      {% assign page_projects_str = page_projects_str | append: token %}
+    {% endunless %}
+  {% endfor %}
+{% endif %}
+{% if page.project %}
+  {% assign token = "|" | append: page.project | append: "|" %}
+  {% unless page_projects_str contains token %}
+    {% assign page_projects_str = page_projects_str | append: token %}
+  {% endunless %}
+{% endif %}
+
+{% assign scored_raw = "" %}
+{% for cand in active_candidates %}
+  {% if cand.url == page.url %}
+    {% continue %}
+  {% endif %}
+
+  {% assign score = 0 %}
+  {% if page_projects_str != "" %}
+    {% if cand.projects %}
+      {% for cp in cand.projects %}
+        {% assign ctoken = "|" | append: cp | append: "|" %}
+        {% if page_projects_str contains ctoken %}
+          {% assign score = score | plus: 3 %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if cand.project %}
+      {% unless cand.projects contains cand.project %}
+        {% assign ctoken = "|" | append: cand.project | append: "|" %}
+        {% if page_projects_str contains ctoken %}
+          {% assign score = score | plus: 3 %}
+        {% endif %}
+      {% endunless %}
+    {% endif %}
+  {% endif %}
+
+  {% if page.tags and cand.tags %}
+    {% for ct in cand.tags %}
+      {% if page.tags contains ct %}
+        {% assign score = score | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if score > 0 %}
+    {% if score < 10 %}
+      {% assign score_pad = "00" | append: score %}
+    {% elsif score < 100 %}
+      {% assign score_pad = "0" | append: score %}
+    {% else %}
+      {% assign score_pad = "" | append: score %}
+    {% endif %}
+
+    {% assign idx_inv = 9999 | minus: forloop.index0 %}
+    {% if idx_inv < 10 %}
+      {% assign idx_inv_pad = "000" | append: idx_inv %}
+    {% elsif idx_inv < 100 %}
+      {% assign idx_inv_pad = "00" | append: idx_inv %}
+    {% elsif idx_inv < 1000 %}
+      {% assign idx_inv_pad = "0" | append: idx_inv %}
+    {% else %}
+      {% assign idx_inv_pad = "" | append: idx_inv %}
+    {% endif %}
+
+    {% assign entry = score_pad | append: "::" | append: idx_inv_pad | append: "::" | append: forloop.index0 %}
+    {% if scored_raw != "" %}
+      {% assign scored_raw = scored_raw | append: ";;" | append: entry %}
+    {% else %}
+      {% assign scored_raw = entry %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign has_surface = false %}
+{% if page_projects_str != "" and site.data.projects %}
+  {% for proj in site.data.projects %}
+    {% assign ptoken = "|" | append: proj.slug | append: "|" %}
+    {% if page_projects_str contains ptoken and proj.surface_url %}
+      {% assign has_surface = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if scored_raw != "" or has_surface %}
+  {% assign scored_entries = scored_raw | split: ";;" | sort | reverse %}
+  <section class="hz-related-posts" aria-label="Related reading">
+    <h2 class="hz-related-posts__title">Related Reading</h2>
+
+    {% if has_surface %}
+      <div class="hz-related-posts__surfaces">
+        {% for proj in site.data.projects %}
+          {% assign ptoken = "|" | append: proj.slug | append: "|" %}
+          {% if page_projects_str contains ptoken and proj.surface_url %}
+            <p class="hz-related-posts__surface">
+              <span class="hz-related-posts__surface-badge">{{ proj.slug }}</span>
+              <a href="{{ proj.surface_url | relative_url }}">{{ proj.surface_label | default: proj.title }} &rarr;</a>
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if scored_raw != "" %}
+      <ul class="hz-related-posts__list">
+        {% for entry in scored_entries limit:3 %}
+          {% assign parts = entry | split: "::" %}
+          {% assign cand_idx = parts[2] | plus: 0 %}
+          {% assign rel_post = active_candidates[cand_idx] %}
+          {% if rel_post %}
+            <li class="hz-related-posts__item">
+              <time datetime="{{ rel_post.date | date_to_xmlschema }}" class="hz-related-posts__date">{{ rel_post.date | date: "%Y-%m-%d" }}</time>
+              <a href="{{ rel_post.url | relative_url }}" class="hz-related-posts__link">{{ rel_post.title }}</a>
+              <span class="hz-related-posts__tags">
+                {% if page_projects_str != "" %}
+                  {% if rel_post.projects %}
+                    {% for rp in rel_post.projects %}
+                      {% assign rtoken = "|" | append: rp | append: "|" %}
+                      {% if page_projects_str contains rtoken %}
+                        <a href="{{ '/projects/#' | append: rp | relative_url }}" class="hz-related-posts__chip">{{ rp }}</a>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                  {% if rel_post.project %}
+                    {% unless rel_post.projects contains rel_post.project %}
+                      {% assign rtoken = "|" | append: rel_post.project | append: "|" %}
+                      {% if page_projects_str contains rtoken %}
+                        <a href="{{ '/projects/#' | append: rel_post.project | relative_url }}" class="hz-related-posts__chip">{{ rel_post.project }}</a>
+                      {% endif %}
+                    {% endunless %}
+                  {% endif %}
+                {% endif %}
+                {% if page.tags and rel_post.tags %}
+                  {% for rt in rel_post.tags %}
+                    {% if page.tags contains rt %}
+                      <a href="{{ '/?tag=' | append: rt | relative_url }}" class="hz-related-posts__tag">#{{ rt }}</a>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+{% endif %}

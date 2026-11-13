@@ -12,15 +12,53 @@ classes:
 <p class="hz-projects-intro">Code and AI agent projects built in Google Antigravity to get recurring chores off my plate.</p>
 
 <div class="hz-project-grid">
-  <article id="blog-relaunch" class="hz-project-card">
-    <div class="hz-eyebrow">Jekyll &middot; 5 Themes &middot; Antigravity Skills</div>
-    <h2 class="hz-project-card__title"><a href="{{ '/blog/2026/rebuilding-my-blog-with-antigravity-and-view-loops.html' | relative_url }}">This Site: 5-Theme Jekyll &amp; Agentic Writing Pipeline</a></h2>
-    <p class="hz-project-card__desc">Static GitHub Pages blog rebuilt with a live browser view loop, five Oh My Posh / editor palettes, and a deterministic Python post auditor.</p>
-  </article>
+  {% assign active_posts = site.posts | where_exp: "p", "p.archived != true" %}
+  {% for proj in site.data.projects %}
+    {% assign card_href = "#" | append: proj.slug %}
+    {% if proj.surface_url %}
+      {% assign card_href = proj.surface_url | relative_url %}
+    {% else %}
+      {% for post in active_posts %}
+        {% if post.projects contains proj.slug or post.project == proj.slug %}
+          {% assign card_href = post.url | relative_url %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
 
-  <article id="dinner-planner" class="hz-project-card">
-    <div class="hz-eyebrow">Jekyll &middot; Python &middot; B2A JSON</div>
-    <h2 class="hz-project-card__title"><a href="{{ '/recipes/' | relative_url }}">Agentic Kitchen &amp; Weekly Dinner Planner</a></h2>
-    <p class="hz-project-card__desc">Dual-surface family recipe catalog and weekly meal rotation pairing <em>Cooking for Engineers</em> dependency grids with machine-readable <code>/api/recipes.json</code> and <code>/api/weekly-menu.json</code> endpoints (full pipeline writeup coming soon).</p>
-  </article>
+    {% assign has_proj_posts = false %}
+    {% for post in active_posts %}
+      {% if post.projects contains proj.slug or post.project == proj.slug %}
+        {% assign has_proj_posts = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    <article id="{{ proj.slug }}" class="hz-project-card">
+      <div class="hz-eyebrow">{{ proj.eyebrow }}</div>
+      <h2 class="hz-project-card__title"><a href="{{ card_href }}">{{ proj.title }}</a></h2>
+      <p class="hz-project-card__desc">{{ proj.description }}</p>
+
+      {% if has_proj_posts %}
+        <ul class="hz-project-card__posts" aria-label="Posts for {{ proj.title }}">
+          {% for post in active_posts %}
+            {% if post.projects contains proj.slug or post.project == proj.slug %}
+              <li class="hz-project-card__post-item">
+                <time datetime="{{ post.date | date_to_xmlschema }}" class="hz-project-card__post-date">{{ post.date | date: "%Y-%m-%d" }}</time>
+                <a href="{{ post.url | relative_url }}" class="hz-project-card__post-link">{{ post.title }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if proj.surface_url %}
+        <p class="hz-project-card__meta">
+          <a href="{{ proj.surface_url | relative_url }}" class="hz-project-card__surface-link">{{ proj.surface_label | default: proj.surface_url }} &rarr;</a>
+        </p>
+      {% elsif has_proj_posts == false %}
+        <p class="hz-project-card__meta">Full build writeup coming soon.</p>
+      {% endif %}
+    </article>
+  {% endfor %}
 </div>

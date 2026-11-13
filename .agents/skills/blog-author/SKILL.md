@@ -21,16 +21,23 @@ title: "Post Title"
 excerpt: "1-2 sentence summary (20-220 chars) used on Layout C featured cards and Twitter/X summary cards."
 categories:
   - Blog
+projects:
+  - blog-relaunch # optional: slug(s) from _data/projects.yml (use project: <slug> or projects: [...])
 tags:
   - antigravity
   - jekyll
 ---
 ```
 
+**Tag & Project Reuse Rule:**
+- Tags are free-form lowercase hyphenated slugs (`[a-z0-9][a-z0-9-]*`), NOT restricted to a closed allowlist. Multiple tags per post are encouraged when projects overlap.
+- Before picking `tags:` or `projects:`, scan existing active posts (`_posts/*.md` where `archived` is not `true` and filenames do not start with `2022-`) and `_data/projects.yml`. Reuse existing tag slugs verbatim whenever topics overlap (for example `antigravity`, `superpowers`, `jekyll`) before minting a new slug.
+- Any slug listed in `project` or `projects` must exist in `_data/projects.yml` (add the project entry there first if it is a new active project).
+
 ## Authoring & Verification Workflow
 
 1. **Read Three Inputs Only:**
-   - Read `_drafts/posts/<slug>/notes.md`, `_drafts/posts/<slug>/facts.md`, and `.agents/skills/blog-voice/voice-profile.md`.
+   - Read `_drafts/posts/<slug>/notes.md`, `_drafts/posts/<slug>/facts.md`, `.agents/skills/blog-voice/voice-profile.md`, `_data/projects.yml`, and existing active post tags (`_posts/*.md`).
    - Every technical number, command, filename, or bug story must trace to `facts.md` or `notes.md`. Never invent metrics.
 2. **Draft the Post & Companion X/Twitter Thread:**
    - Write `_posts/YYYY-MM-DD-<slug>.md` following `voice-profile.md` (first-person builder voice, dry parenthetical quips, concise purposeful code blocks, zero banned AI-slop phrases).

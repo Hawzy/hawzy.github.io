@@ -11,9 +11,17 @@
     </section>
   {% else %}
     {% assign latest_post = active_posts | first %}
-    <article class="hz-feature-card" aria-label="Latest post">
+    {% assign latest_projects_str = latest_post.projects | join: ',' %}
+    {% if latest_post.project %}
+      {% if latest_projects_str != "" %}
+        {% assign latest_projects_str = latest_projects_str | append: ',' | append: latest_post.project %}
+      {% else %}
+        {% assign latest_projects_str = latest_post.project %}
+      {% endif %}
+    {% endif %}
+    <article class="hz-feature-card" aria-label="Latest post" data-tags="{{ latest_post.tags | join: ',' }}" data-projects="{{ latest_projects_str }}">
       <div class="hz-eyebrow">
-        Latest{% for tag in latest_post.tags limit:3 %} &middot; #{{ tag }}{% endfor %}
+        Latest{% for tag in latest_post.tags limit:3 %} &middot; <a href="{{ '/?tag=' | append: tag | relative_url }}" class="hz-inline-tag" data-filter-tag="{{ tag }}">#{{ tag }}</a>{% endfor %}
       </div>
       <h2 class="hz-feature-card__title">
         <a href="{{ latest_post.url | relative_url }}">{{ latest_post.title }}</a>
@@ -24,20 +32,146 @@
     </article>
   {% endif %}
 
-  <nav class="hz-project-shelf" aria-label="Projects">
-    <a href="{{ '/projects/#blog-relaunch' | relative_url }}" class="hz-project-chip">blog-relaunch</a>
-    <a href="{{ '/projects/#dinner-planner' | relative_url }}" class="hz-project-chip">dinner-planner</a>
+  {% assign raw_tags = "" %}
+  {% for post in active_posts %}
+    {% for tag in post.tags %}
+      {% assign token = "|" | append: tag | append: "|" %}
+      {% unless raw_tags contains token %}
+        {% assign raw_tags = raw_tags | append: token %}
+      {% endunless %}
+    {% endfor %}
+  {% endfor %}
+  {% assign active_tag_list = raw_tags | replace: "||", "|" | split: "|" | uniq | sort %}
+
+  <nav class="hz-project-shelf" aria-label="Projects and active tags">
+    {% for proj in site.data.projects %}
+      <a href="{{ '/projects/#' | append: proj.slug | relative_url }}" class="hz-project-chip">{{ proj.slug }}</a>
+    {% endfor %}
+    {% for tag_slug in active_tag_list %}
+      {% if tag_slug != "" %}
+        <a href="{{ '/?tag=' | append: tag_slug | relative_url }}" class="hz-tag-chip" data-filter-tag="{{ tag_slug }}">#{{ tag_slug }}</a>
+      {% endif %}
+    {% endfor %}
   </nav>
+
+  <div id="hz-tag-filter-status" class="hz-tag-filter-status" hidden>
+    <span>Filtering by <strong id="hz-tag-filter-name"></strong></span>
+    <span id="hz-tag-filter-count" class="hz-tag-filter-count"></span>
+    <a href="{{ page.url | relative_url }}" id="hz-tag-filter-clear" class="hz-tag-filter-clear">Clear filter &times;</a>
+  </div>
 
   {% if active_posts.size > 0 %}
     <ul class="hz-post-list" aria-label="All posts">
       {% for post in active_posts %}
-        <li class="hz-post-list__item">
+        {% assign post_projects_str = post.projects | join: ',' %}
+        {% if post.project %}
+          {% if post_projects_str != "" %}
+            {% assign post_projects_str = post_projects_str | append: ',' | append: post.project %}
+          {% else %}
+            {% assign post_projects_str = post.project %}
+          {% endif %}
+        {% endif %}
+        <li class="hz-post-list__item" data-tags="{{ post.tags | join: ',' }}" data-projects="{{ post_projects_str }}">
           <time datetime="{{ post.date | date_to_xmlschema }}" class="hz-post-list__date">{{ post.date | date: "%Y-%m-%d" }}</time>
           <a href="{{ post.url | relative_url }}" class="hz-post-list__link">{{ post.title }}</a>
         </li>
       {% endfor %}
     </ul>
+
+    <script>
+      (function () {
+        var statusEl = document.getElementById("hz-tag-filter-status");
+        var nameEl = document.getElementById("hz-tag-filter-name");
+        var countEl = document.getElementById("hz-tag-filter-count");
+        var clearEl = document.getElementById("hz-tag-filter-clear");
+        var items = Array.prototype.slice.call(document.querySelectorAll(".hz-post-list__item"));
+        var featureCard = document.querySelector(".hz-feature-card");
+        var tagButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter-tag]"));
+
+        if (!statusEl || !nameEl) return;
+
+        function hasTag(el, slug) {
+          var raw = (el && el.getAttribute("data-tags")) || "";
+          if (!raw) return false;
+          return raw.split(",").indexOf(slug) !== -1;
+        }
+
+        function applyTagFilter(rawSlug) {
+          var slug = (rawSlug || "").trim().toLowerCase();
+          if (!slug) {
+            if (featureCard) featureCard.hidden = false;
+            items.forEach(function (item) { item.hidden = false; });
+            tagButtons.forEach(function (btn) {
+              btn.classList.remove("is-active");
+              btn.removeAttribute("aria-current");
+            });
+            statusEl.hidden = true;
+            nameEl.textContent = "";
+            if (countEl) countEl.textContent = "";
+            return;
+          }
+
+          var visibleCount = 0;
+          items.forEach(function (item) {
+            var match = hasTag(item, slug);
+            item.hidden = !match;
+            if (match) visibleCount += 1;
+          });
+          if (featureCard) {
+            featureCard.hidden = !hasTag(featureCard, slug);
+          }
+          tagButtons.forEach(function (btn) {
+            var active = btn.getAttribute("data-filter-tag") === slug;
+            btn.classList.toggle("is-active", active);
+            if (active) {
+              btn.setAttribute("aria-current", "true");
+            } else {
+              btn.removeAttribute("aria-current");
+            }
+          });
+          nameEl.textContent = "#" + slug;
+          if (countEl) {
+            countEl.textContent = "(" + visibleCount + (visibleCount === 1 ? " post" : " posts") + ")";
+          }
+          statusEl.hidden = false;
+        }
+
+        function setQueryTag(slug) {
+          if (!window.history || !window.history.replaceState) return;
+          var url = new URL(window.location.href);
+          if (slug) {
+            url.searchParams.set("tag", slug);
+          } else {
+            url.searchParams.delete("tag");
+          }
+          window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+        }
+
+        tagButtons.forEach(function (btn) {
+          btn.addEventListener("click", function (ev) {
+            var clicked = btn.getAttribute("data-filter-tag") || "";
+            var current = new URLSearchParams(window.location.search).get("tag") || "";
+            var next = current === clicked ? "" : clicked;
+            ev.preventDefault();
+            setQueryTag(next);
+            applyTagFilter(next);
+          });
+        });
+
+        if (clearEl) {
+          clearEl.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            setQueryTag("");
+            applyTagFilter("");
+          });
+        }
+
+        var initial = new URLSearchParams(window.location.search).get("tag");
+        if (initial) {
+          applyTagFilter(initial);
+        }
+      })();
+    </script>
   {% endif %}
 
   {% if archived_posts.size > 0 %}

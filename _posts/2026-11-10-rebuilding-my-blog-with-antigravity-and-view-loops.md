@@ -4,6 +4,8 @@ excerpt: "How I relaunched this static Jekyll blog after four years using Google
 date: 2026-11-10
 categories:
   - Blog
+projects:
+  - blog-relaunch
 tags:
   - antigravity
   - superpowers

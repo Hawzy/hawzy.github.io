@@ -3162,6 +3162,234 @@ html[data-theme="paper"] .hz-post-list__item {
     font-size: 0.9rem;
     line-height: 1.6;
   }
+
+  &__posts {
+    list-style: none;
+    margin: 0.85rem 0 0;
+    padding: 0.75rem 0 0;
+    border-top: 1px dashed var(--hz-border, #32302F);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__post-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  &__post-date {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.76rem;
+    color: var(--hz-muted, #A89984);
+    white-space: nowrap;
+  }
+
+  &__post-link {
+    color: var(--hz-heading, #FBF1C7);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      color: var(--hz-accent, #FE8019);
+      border-bottom-color: currentColor;
+    }
+  }
+
+  &__meta {
+    margin: 0.75rem 0 0 !important;
+    font-size: 0.84rem;
+    color: var(--hz-muted, #A89984);
+  }
+
+  &__surface-link {
+    color: var(--hz-accent-2, #B8BB26);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.hz-inline-tag {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &.is-active {
+    color: var(--hz-accent, #FE8019);
+    text-decoration: underline;
+  }
+}
+
+.hz-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  border: 1px solid var(--hz-border, #32302F);
+  background-color: var(--hz-surface, #1D2021);
+  color: var(--hz-accent, #FE8019);
+  text-decoration: none;
+  transition: border-color 140ms ease, background-color 140ms ease;
+
+  &:hover,
+  &.is-active {
+    background-color: var(--hz-code-bg, #282828);
+    border-color: var(--hz-accent, #FE8019);
+    font-weight: 600;
+  }
+}
+
+.hz-tag-filter-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  margin: 0.75rem 0 1rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--hz-border, #32302F);
+  border-radius: var(--hz-radius, 12px);
+  background-color: var(--hz-surface, #1D2021);
+  color: var(--hz-text, #EBDBB2);
+  font-size: 0.85rem;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.hz-tag-filter-count {
+  color: var(--hz-muted, #A89984);
+  font-size: 0.8rem;
+}
+
+.hz-tag-filter-clear {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--hz-accent, #FE8019);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.hz-feature-card[hidden],
+.hz-post-list__item[hidden] {
+  display: none !important;
+}
+
+.hz-related-posts {
+  margin-top: 2rem;
+  padding: 1rem 1.2rem;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-radius: var(--hz-radius, 12px);
+
+  &__title {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--hz-muted, #A89984);
+  }
+
+  &__surfaces {
+    margin-bottom: 0.6rem;
+  }
+
+  &__surface {
+    margin: 0 0 0.45rem !important;
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__surface-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.74rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 6px;
+    border: 1px solid var(--hz-border, #32302F);
+    background-color: var(--hz-code-bg, #282828);
+    color: var(--hz-accent-2, #B8BB26);
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.65rem;
+    font-size: 0.9rem;
+  }
+
+  &__date {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--hz-muted, #A89984);
+    white-space: nowrap;
+  }
+
+  &__link {
+    color: var(--hz-heading, #FBF1C7);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--hz-accent, #FE8019);
+      text-decoration: underline;
+    }
+  }
+
+  &__tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-left: auto;
+    font-size: 0.76rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  &__chip {
+    padding: 0.08rem 0.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--hz-border, #32302F);
+    color: var(--hz-accent-2, #B8BB26);
+    text-decoration: none;
+
+    &:hover {
+      border-color: var(--hz-accent-2, #B8BB26);
+    }
+  }
+
+  &__tag {
+    color: var(--hz-accent, #FE8019);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 // Credly Certification Badge Shelf (/about/)

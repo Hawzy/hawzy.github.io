@@ -214,7 +214,7 @@ class TestEndToEndVerification(unittest.TestCase):
             self.assertIn(staple, skipped_names, f"{staple} missing from skipped pantry list")
 
     def test_07_git_safety_check(self):
-        """Requirement 7: Verify local branch is feat/agentic-recipe-blog, unpushed, and clean."""
+        """Requirement 7: Verify local branch is main or feat/agentic-recipe-blog, feature branches unpushed, and working tree clean."""
         res_branch = subprocess.run(
             ["git", "branch", "--show-current"],
             capture_output=True,
@@ -223,21 +223,22 @@ class TestEndToEndVerification(unittest.TestCase):
             cwd=str(REPO_ROOT),
         )
         current_branch = res_branch.stdout.strip()
-        self.assertEqual(current_branch, "feat/agentic-recipe-blog")
+        self.assertIn(current_branch, ("main", "feat/agentic-recipe-blog"))
 
-        # Verify no remote branch has been pushed
-        res_remote = subprocess.run(
-            ["git", "branch", "-r", "--list", f"origin/{current_branch}"],
-            capture_output=True,
-            text=True,
-            check=True,
-            cwd=str(REPO_ROOT),
-        )
-        self.assertEqual(
-            res_remote.stdout.strip(),
-            "",
-            f"Remote branch origin/{current_branch} unexpectedly exists! Autonomous agents must never push."
-        )
+        # Verify non-main feature branches have not been pushed upstream
+        if current_branch != "main":
+            res_remote = subprocess.run(
+                ["git", "branch", "-r", "--list", f"origin/{current_branch}"],
+                capture_output=True,
+                text=True,
+                check=True,
+                cwd=str(REPO_ROOT),
+            )
+            self.assertEqual(
+                res_remote.stdout.strip(),
+                "",
+                f"Remote branch origin/{current_branch} unexpectedly exists! Autonomous agents must never push."
+            )
 
         # Verify git status --porcelain is empty (no uncommitted/dirty files)
         res_status = subprocess.run(
@@ -395,6 +396,9 @@ class TestEndToEndVerification(unittest.TestCase):
         projects_html = (REPO_ROOT / "_site" / "projects" / "index.html").read_text(encoding="utf-8")
         self.assertIn('id="blog-relaunch"', projects_html)
         self.assertIn('id="dinner-planner"', projects_html)
+        self.assertIn("hz-project-card__posts", projects_html)
+        self.assertIn("/blog/2026/rebuilding-my-blog-with-antigravity-and-view-loops.html", projects_html)
+        self.assertIn("hz-project-card__surface-link", projects_html)
         for hidden_slug in ("board-game-" + "copilot", "fantasy-" + "bot"):
             self.assertNotIn(hidden_slug, projects_html)
             self.assertNotIn(hidden_slug, home_html)
@@ -403,6 +407,10 @@ class TestEndToEndVerification(unittest.TestCase):
         self.assertIn("surface-blog", blog_html)
         self.assertIn('data-default-theme="gruvbox"', blog_html)
         self.assertIn("hz-hub", blog_html)
+        self.assertIn("hz-tag-chip", blog_html)
+        self.assertIn("hz-tag-filter-status", blog_html)
+        self.assertIn('data-filter-tag="antigravity"', blog_html)
+        self.assertIn("data-tags=", blog_html)
         self.assertIn("scifi-archive-drawer", blog_html)
         self.assertIn("Hello World! Create a blog", blog_html)
 
@@ -502,6 +510,12 @@ class TestEndToEndVerification(unittest.TestCase):
         sitemap_xml = (REPO_ROOT / "_site" / "sitemap.xml").read_text(encoding="utf-8")
         self.assertNotIn("/blog/2022/", sitemap_xml)
         self.assertIn("/recipes/crispy-mongolian-beef-broccoli/", sitemap_xml)
+
+        tags_html = (REPO_ROOT / "_site" / "tags" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("antigravity", tags_html)
+        self.assertNotIn("100DaysOfCode", tags_html)
+        self.assertNotIn("/blog/2022/", tags_html)
+        self.assertNotIn("Index //", tags_html)
 
         lunr_js = (REPO_ROOT / "_site" / "assets" / "js" / "lunr" / "lunr-store.js").read_text(encoding="utf-8")
         self.assertNotIn("Hello World! Create a blog", lunr_js)

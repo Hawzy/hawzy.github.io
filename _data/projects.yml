@@ -1,0 +1,13 @@
+- slug: blog-relaunch
+  title: "This Site: 5-Theme Jekyll & Agentic Writing Pipeline"
+  eyebrow: "Jekyll · 5 Themes · Antigravity Skills"
+  status: active
+  description: "Static GitHub Pages blog rebuilt with a live browser view loop, five Oh My Posh / editor palettes, and a deterministic Python post auditor."
+
+- slug: dinner-planner
+  title: "Agentic Kitchen & Weekly Dinner Planner"
+  eyebrow: "Jekyll · Python · B2A JSON"
+  status: active
+  surface_url: "/recipes/"
+  surface_label: "Open Kitchen Hub & Weekly Menu"
+  description: "Dual-surface family recipe catalog and weekly meal rotation pairing Cooking for Engineers dependency grids with machine-readable /api/recipes.json and /api/weekly-menu.json endpoints."

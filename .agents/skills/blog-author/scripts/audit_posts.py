@@ -33,6 +33,25 @@ KNOWN_SITE_ROUTES = (
 )
 
 
+def load_known_project_slugs(repo_root: Path) -> set[str]:
+    """Load declared project slugs from _data/projects.yml using stdlib only."""
+    projects_file = repo_root / "_data" / "projects.yml"
+    if not projects_file.exists():
+        return set()
+    slugs: set[str] = set()
+    for raw_line in projects_file.read_text(encoding="utf-8").splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("#"):
+            continue
+        if stripped.startswith("- "):
+            stripped = stripped[2:].strip()
+        if stripped.startswith("slug:"):
+            val = stripped.split(":", 1)[1].strip().strip('"').strip("'")
+            if val:
+                slugs.add(val)
+    return slugs
+
+
 def load_banned_phrases(repo_root: Path) -> list[str]:
     """Load bullet items under '## Banned Phrases' from voice-profile.md."""
     voice_profile = repo_root / ".agents" / "skills" / "blog-voice" / "voice-profile.md"
@@ -163,6 +182,36 @@ def audit_post_file(
             if not isinstance(tag, str) or not TAG_SLUG_RE.match(tag):
                 errors.append(
                     f"{post_path.name}: tag '{tag}' must be lowercase hyphenated slug"
+                )
+
+    post_projects: list[str] = []
+    if "projects" in fm:
+        projects_val = fm.get("projects")
+        if not isinstance(projects_val, list):
+            errors.append(f"{post_path.name}: 'projects' frontmatter must be a list of slugs")
+        else:
+            for proj in projects_val:
+                if not isinstance(proj, str) or not TAG_SLUG_RE.match(proj):
+                    errors.append(
+                        f"{post_path.name}: project '{proj}' must be lowercase hyphenated slug"
+                    )
+                else:
+                    post_projects.append(proj)
+    if "project" in fm:
+        project_val = fm.get("project")
+        if not isinstance(project_val, str) or not TAG_SLUG_RE.match(project_val):
+            errors.append(
+                f"{post_path.name}: project '{project_val}' must be lowercase hyphenated slug"
+            )
+        else:
+            post_projects.append(project_val)
+
+    known_projects = load_known_project_slugs(repo_root)
+    if known_projects:
+        for proj in post_projects:
+            if proj not in known_projects:
+                errors.append(
+                    f"{post_path.name}: unknown project slug '{proj}' not found in _data/projects.yml"
                 )
 
     prose = strip_code_blocks_and_spans(body)

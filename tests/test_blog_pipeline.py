@@ -275,6 +275,64 @@ class TestBlogPipeline(unittest.TestCase):
             self.assertEqual(len(errors), 1, f"Expected only missing doc to fail, got {errors}")
             self.assertIn("does-not-exist.html", errors[0])
 
+    def test_audit_validates_project_slugs_against_projects_yml(self):
+        audit_posts = load_audit_posts()
+        slugs = audit_posts.load_known_project_slugs(REPO_ROOT)
+        self.assertIn("blog-relaunch", slugs)
+        self.assertIn("dinner-planner", slugs)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            bad_post = tmp_path / "2026-11-13-bad-project.md"
+            bad_post.write_text(
+                "---\n"
+                'title: "Unknown Project Slug Test"\n'
+                'excerpt: "Verifies audit_posts rejects project slugs missing from _data/projects.yml."\n'
+                "categories:\n  - Blog\n"
+                "projects:\n  - nonexistent-project\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            errors = audit_posts.audit_post_file(bad_post, REPO_ROOT)
+            self.assertTrue(
+                any("unknown project slug 'nonexistent-project'" in err for err in errors),
+                f"Expected unknown project slug error, got {errors}",
+            )
+
+            good_post = tmp_path / "2026-11-13-good-project.md"
+            good_post.write_text(
+                "---\n"
+                'title: "Valid Project Slug Test"\n'
+                'excerpt: "Verifies audit_posts accepts project slugs declared in _data/projects.yml."\n'
+                "categories:\n  - Blog\n"
+                "projects:\n  - blog-relaunch\n  - dinner-planner\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(audit_posts.audit_post_file(good_post, REPO_ROOT), [])
+
+    def test_post_1_has_no_self_related_links_no_2022_pagination_and_clean_tags(self):
+        built_post = (
+            REPO_ROOT
+            / "_site"
+            / "blog"
+            / "2026"
+            / "rebuilding-my-blog-with-antigravity-and-view-loops.html"
+        )
+        self.assertTrue(built_post.exists(), f"Missing built post {built_post}")
+        built_html = built_post.read_text(encoding="utf-8")
+
+        self.assertNotIn("page__related", built_html)
+        self.assertNotIn("teaser.jpg", built_html)
+        self.assertNotIn("hz-related-posts", built_html)
+        self.assertNotIn("/blog/2022/", built_html)
+        self.assertNotIn("pagination--pager", built_html)
+        self.assertNotIn("/categories/", built_html)
+        self.assertIn("/?tag=antigravity", built_html)
+        self.assertIn("#antigravity", built_html)
+
 
 if __name__ == "__main__":
     unittest.main()
