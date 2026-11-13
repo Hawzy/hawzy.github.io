@@ -1673,9 +1673,9 @@ body.kitchen-home .page__inner-wrap > header {
 .recipe-kitchen-notes {
   margin: 0 0 1.5rem 0;
   padding: 0.85rem 1.1rem;
-  background-color: #EEF4F0;
-  border: 1px solid rgba(74, 107, 83, 0.35);
-  border-left: 4px solid #4A6B53;
+  background-color: var(--hz-surface, #EEF4F0);
+  border: 1px solid var(--hz-border, rgba(74, 107, 83, 0.35));
+  border-left: 4px solid var(--hz-accent-2, #4A6B53);
   border-radius: 8px;
 
   &__summary {
@@ -1685,13 +1685,13 @@ body.kitchen-home .page__inner-wrap > header {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #2F4F38;
+    color: var(--hz-accent-2, #2F4F38);
   }
 
   &__body {
     margin: 0.45rem 0 0 0 !important;
     font-size: 0.95rem;
-    color: #1C1917;
+    color: var(--hz-text, #1C1917);
     line-height: 1.55;
   }
 }
@@ -1699,7 +1699,7 @@ body.kitchen-home .page__inner-wrap > header {
 .recipe-card__sources {
   margin-top: 2rem;
   padding-top: 1.35rem;
-  border-top: 1px solid #E6E1DA;
+  border-top: 1px solid var(--hz-border, #E6E1DA);
 
   &-title {
     margin: 0 0 0.35rem 0 !important;
@@ -1708,28 +1708,28 @@ body.kitchen-home .page__inner-wrap > header {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #57534E;
+    color: var(--hz-muted, #57534E);
   }
 
   &-summary {
     margin: 0 0 0.5rem 0 !important;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #1C1917;
+    color: var(--hz-heading, #1C1917);
   }
 
   &-list {
     margin: 0 !important;
     padding-left: 1.2rem !important;
     font-size: 0.88rem;
-    color: #44403C;
+    color: var(--hz-text, #44403C);
 
     li {
       margin-bottom: 0.25rem;
     }
 
     a {
-      color: #C84B31;
+      color: var(--hz-accent, #C84B31);
       font-weight: 600;
       text-decoration: underline;
       text-underline-offset: 2px;
@@ -1737,7 +1737,7 @@ body.kitchen-home .page__inner-wrap > header {
   }
 
   &-author {
-    color: #57534E;
+    color: var(--hz-muted, #57534E);
   }
 }
 
@@ -2130,21 +2130,21 @@ body.surface-blog {
     text-decoration: none !important;
 
     &--muted {
-      background-color: rgba(15, 23, 42, 0.7);
-      color: var(--scifi-muted);
+      background-color: var(--hz-surface, var(--scifi-surface));
+      color: var(--hz-muted, var(--scifi-muted));
     }
 
     &--link {
-      background-color: rgba(56, 189, 248, 0.08);
-      color: var(--scifi-cyan) !important;
-      border-color: rgba(56, 189, 248, 0.32);
+      background-color: var(--hz-surface, var(--scifi-surface));
+      color: var(--hz-accent, var(--scifi-cyan)) !important;
+      border-color: var(--hz-border, var(--scifi-border));
       transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
       &:hover,
       &:focus-visible {
-        background-color: rgba(56, 189, 248, 0.2);
-        border-color: var(--scifi-cyan-bright);
-        color: var(--scifi-heading) !important;
+        background-color: var(--hz-surface-hover, var(--scifi-surface-hover));
+        border-color: var(--hz-accent, var(--scifi-cyan-bright));
+        color: var(--hz-heading, var(--scifi-heading)) !important;
       }
     }
   }
@@ -2264,15 +2264,15 @@ body.surface-blog {
   }
 
   .scifi-meta-sep {
-    color: #475569;
+    color: var(--hz-muted, var(--scifi-muted));
   }
 
   .scifi-tag {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: #7DD3FC;
-    background-color: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.24);
+    color: var(--hz-accent, var(--scifi-cyan));
+    background-color: var(--hz-surface, var(--scifi-surface));
+    border: 1px solid var(--hz-border, var(--scifi-border));
     padding: 0.1rem 0.45rem;
     border-radius: 4px;
   }
@@ -2294,14 +2294,15 @@ body.surface-blog {
   .page__taxonomy-item {
     font-family: var(--font-mono);
     font-size: 0.74rem;
-    background-color: rgba(56, 189, 248, 0.08);
-    color: var(--scifi-cyan) !important;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    background-color: var(--hz-surface, var(--scifi-surface));
+    color: var(--hz-accent, var(--scifi-cyan)) !important;
+    border: 1px solid var(--hz-border, var(--scifi-border));
     border-radius: 4px;
 
     &:hover {
-      background-color: rgba(56, 189, 248, 0.2);
-      color: var(--scifi-heading) !important;
+      background-color: var(--hz-surface-hover, var(--scifi-surface-hover));
+      border-color: var(--hz-accent, var(--scifi-cyan));
+      color: var(--hz-heading, var(--scifi-heading)) !important;
     }
   }
 
@@ -2402,10 +2403,10 @@ body.surface-blog {
     }
 
     a {
-      color: #CBD5E1;
+      color: var(--hz-text, var(--scifi-text));
 
       &:hover {
-        color: var(--scifi-cyan-bright);
+        color: var(--hz-accent, var(--scifi-cyan-bright));
       }
     }
 
@@ -2432,8 +2433,8 @@ body.surface-blog {
   }
 
   .scifi-empty-state {
-    background-color: rgba(14, 21, 37, 0.72);
-    border: 1px dashed var(--scifi-border);
+    background-color: var(--hz-surface, var(--scifi-surface));
+    border: 1px dashed var(--hz-border, var(--scifi-border));
     border-radius: 10px;
     padding: 2rem 1.75rem;
     margin-bottom: 2.25rem;
