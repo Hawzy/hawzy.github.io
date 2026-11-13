@@ -1,0 +1,48 @@
+{% if page.collection == 'recipes' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "@id": {{ page.url | absolute_url | jsonify }},
+  "name": {{ page.title | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": {{ site.author.name | default: site.title | jsonify }}
+  },
+  "description": {{ page.excerpt | strip_html | strip_newlines | strip | jsonify }},
+  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+  "prepTime": {{ page.prep_time_iso | jsonify }},
+  "cookTime": {{ page.cook_time_iso | jsonify }},
+  "totalTime": {{ page.total_time_iso | jsonify }},
+  "recipeYield": {{ page.servings | append: " servings" | jsonify }},
+  "recipeCategory": {{ page.categories | first | jsonify }},
+  "recipeCuisine": {{ page.cuisine | jsonify }},
+  "keywords": {{ page.tags | join: ", " | jsonify }},
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": {{ page.calories_per_serving | append: " calories" | jsonify }}
+  },
+  {% if page.origin == 'research' and page.sources and page.sources.size > 0 %}
+  "isBasedOn": [
+    {% for src in page.sources %}
+      {{ src.url | jsonify }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  {% endif %}
+  "recipeIngredient": [
+    {% for ing in page.ingredients %}
+      {{ ing.display_text | jsonify }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "recipeInstructions": [
+    {% for step in page.instructions %}
+      {
+        "@type": "HowToStep",
+        "position": {{ forloop.index }},
+        "text": {{ step | markdownify | replace: '<code class="language-plaintext highlighter-rouge">', '(' | replace: '<code>', '(' | replace: '</code>', ')' | strip_html | strip_newlines | strip | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

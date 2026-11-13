@@ -10,26 +10,25 @@
 # Review documentation to determine if you should use `theme` or `remote_theme`
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
-# theme                  : "minimal-mistakes-jekyll"
-# remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+theme                    : "minimal-mistakes-jekyll"
+# remote_theme           : "mmistakes/minimal-mistakes@4.28.1"
+minimal_mistakes_skin    : "dirt" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Hawzy.GitHub.io"
+title                    : "hawzy"
 title_separator          : "-"
-subtitle                 : #"no YOU'RE weird" # site tagline that appears below site title in masthead
-name                     : #"Nick Hasenoehrl"
-description              : "an IT and coding project blog"
+subtitle                 : ""
+name                     : "Nick Hasenoehrl (hawzy)"
+description              : "Code, AI agents, and home automation projects by hawzy."
 url                      : "https://hawzy.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
+baseurl                  : ""
 repository               : "hawzy/hawzy.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : "/assets/images/dumpsterfire.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
-masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
+logo                     :  # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+masthead_title           : "hawzy" # overrides the website title displayed in the masthead, use " " for no title
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 150
-search: true
 teaser: /assets/images/teaser.jpg
 comments:
   provider               : disqus # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "giscus", "custom"
@@ -61,9 +60,9 @@ reCaptcha:
 atom_feed:
   path                   : # blank (default) uses feed.xml
   hide                   : # true, false (default)
-search                   : # true, false (default)
-search_full_content      : # true, false (default)
-search_provider          : # lunr (default), algolia, google
+search                   : true
+search_full_content      : true
+search_provider          : lunr
 algolia:
   application_id         : # YOUR_APPLICATION_ID
   index_name             : # YOUR_INDEX_NAME
@@ -82,12 +81,12 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : "hawzzy"
 facebook:
   username               :
   app_id                 :
   publisher              :
-og_image                 : /assets/images/android-chrome-192x192.png # Open Graph/Twitter default site image
+og_image                 : /assets/images/og-default.png # Open Graph/Twitter default site image
 # For specifying social profiles
 # - https://developers.google.com/structured-data/customize/social-profiles
 social:
@@ -100,8 +99,8 @@ social:
 author:
   name   : "Nick Hasenoehrl"
   avatar : "/assets/images/profile_pic.jpg"
-  bio    : "Security Engineer, Father of 2, Computerphile, Buffalo wing enthusiast, Fantasy Football and Board game liker."
-  location : "Greater Seattle Area"
+  bio    : "Corporate security person, #girldad of 3, Fantasy Football commissioner, and Board Game Arena player."
+  location : "Spokane, WA"
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
@@ -109,6 +108,9 @@ author:
     - label: "Github"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/hawzy"
+    - label: "Board Game Arena"
+      icon: "fas fa-fw fa-dice"
+      url: "https://boardgamearena.com/player?id=89351360"
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "https://linkedin.com/in/nhasenoehrl"
@@ -122,6 +124,9 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/hawzy"
+    - label: "Board Game Arena"
+      icon: "fas fa-fw fa-dice"
+      url: "https://boardgamearena.com/player?id=89351360"
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/nhasenoehrl/"
@@ -129,36 +134,22 @@ footer:
 
 # Reading Files
 include:
-  - .htaccess
+  - llms.txt
   - _pages
 exclude:
-  - "*.sublime-project"
-  - "*.sublime-workspace"
-  - vendor
-  - .asset-cache
-  - .bundle
-  - .jekyll-assets-cache
-  - .sass-cache
-  - assets/js/plugins
-  - assets/js/_main.js
-  - assets/js/vendor
-  - Capfile
-  - CHANGELOG
-  - config
+  - .agents/
+  - .agent/
+  - agent/
+  - .venv/
+  - .cache/
+  - AGENTS.md
   - Gemfile
-  - Gruntfile.js
-  - gulpfile.js
-  - LICENSE
-  - log
-  - node_modules
-  - package.json
-  - package-lock.json
-  - Rakefile
-  - README
-  - tmp
-  - /docs # ignore Minimal Mistakes /docs
-  - /test # ignore Minimal Mistakes /test
-  - "docker-compose*.yml"
+  - Gemfile.lock
+  - tests/
+  - README.md
+  - vendor/
+  - _config.yml.bak
+  - _drafts/
 keep_files:
   - .git
   - .svn
@@ -193,7 +184,6 @@ sass:
 
 
 # Outputting
-permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
 timezone: America/Los_Angeles # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -201,19 +191,17 @@ timezone: America/Los_Angeles # https://en.wikipedia.org/wiki/List_of_tz_databas
 
 # Plugins (previously gems:)
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
   - jekyll-include-cache
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 # mimic GitHub Pages with --safe
 whitelist:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
   - jekyll-include-cache
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 
 # Archives
@@ -253,31 +241,55 @@ compress_html:
     envs: development
 
 
+# Collections
+collections:
+  recipes:
+    output: true
+    permalink: /:collection/:path/
+
+
 # Defaults
 defaults:
-  # _posts
   - scope:
       path: ""
-      type: posts
+      type: "posts"
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
-      show_date: true
       comments: true
-      share: true
+      share: false
       related: true
-      toc: true
-      toc_sticky: true
-  # _pages
+      surface: blog
   - scope:
-      path: "_pages"
-      type: pages
+      path: "_posts/2022-"
+      type: "posts"
+    values:
+      archived: true
+      sitemap: false
+      search: false
+      related: false
+      comments: false
+  - scope:
+      path: "docs/superpowers"
     values:
       layout: single
-      author_profile: true
-  #- scope:
-  #    path: "_pages"
-  #  values:
-  #    sitemap: false
+      author_profile: false
+      read_time: true
+      comments: false
+      share: false
+      related: false
+      surface: blog
+      sitemap: false
+      search: false
+  - scope:
+      path: ""
+      type: "recipes"
+    values:
+      layout: recipe
+      author_profile: false
+      read_time: false
+      comments: false
+      share: false
+      classes: wide
 permalink: /:categories/:year/:title:output_ext

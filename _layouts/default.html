@@ -8,14 +8,22 @@
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
-<html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
+{% assign is_kitchen_surface = false %}
+{% if page.collection == 'recipes' or page.surface == 'kitchen' %}
+  {% assign is_kitchen_surface = true %}
+{% endif %}
+{% assign is_blog_surface = true %}
+{% if is_kitchen_surface %}
+  {% assign is_blog_surface = false %}
+{% endif %}
+<html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js" data-default-theme="{% if is_kitchen_surface %}kitchen{% else %}gruvbox{% endif %}">
   <head>
     {% include head.html %}
     {% include head/custom.html %}
     {% include /analytics-providers/custom.html %}
   </head>
 
-  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
+  <body class="layout--{{ page.layout | default: layout.layout }}{% if is_blog_surface %} surface-blog{% else %} surface-kitchen{% endif %}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
     {% include_cached skip-links.html %}
     {% include_cached browser-upgrade.html %}
     {% include_cached masthead.html %}

@@ -1,4 +1,5 @@
 <!-- start custom analytics snippet -->
+{% if jekyll.environment == 'production' %}
 <!-- Clarity tracking code for https://hawzy.github.io -->
 <script>
     (function(c,l,a,r,i,t,y){
@@ -14,9 +15,14 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-S4CZ8DD6EQ');
+  var activeTheme = document.documentElement.getAttribute('data-theme') || 'gruvbox';
+  gtag('config', 'G-S4CZ8DD6EQ', { 'active_theme': activeTheme });
+  if (typeof window.clarity === 'function') {
+    window.clarity('set', 'theme', activeTheme);
+  }
 </script>
 <!-- Global site tag - Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3188913102212071"
      crossorigin="anonymous"></script>
+{% endif %}
 <!-- end custom analytics snippet -->

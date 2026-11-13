@@ -1,0 +1,56 @@
+{% assign visible_posts = site.posts | where_exp: "item", "item.hidden != true" %}
+{% assign active_posts = visible_posts | where_exp: "item", "item.archived != true" %}
+{% assign archived_posts = visible_posts | where_exp: "item", "item.archived == true" %}
+
+<div class="hz-hub scifi-hub">
+  {% if active_posts.size == 0 %}
+    <section class="scifi-empty-state hz-feature-card" aria-label="No active posts">
+      <div class="hz-eyebrow">Latest</div>
+      <p class="scifi-empty-state__title">First transmission incoming</p>
+      <p class="scifi-empty-state__sub">Notes on building code and AI agents to get chores off my plate.</p>
+    </section>
+  {% else %}
+    {% assign latest_post = active_posts | first %}
+    <article class="hz-feature-card" aria-label="Latest post">
+      <div class="hz-eyebrow">
+        Latest{% for tag in latest_post.tags limit:3 %} &middot; #{{ tag }}{% endfor %}
+      </div>
+      <h2 class="hz-feature-card__title">
+        <a href="{{ latest_post.url | relative_url }}">{{ latest_post.title }}</a>
+      </h2>
+      {% if latest_post.excerpt %}
+        <p class="hz-feature-card__excerpt">{{ latest_post.excerpt | strip_html | strip_newlines | truncate: 240 }}</p>
+      {% endif %}
+    </article>
+  {% endif %}
+
+  <nav class="hz-project-shelf" aria-label="Projects">
+    <a href="{{ '/projects/#blog-relaunch' | relative_url }}" class="hz-project-chip">blog-relaunch</a>
+    <a href="{{ '/projects/#dinner-planner' | relative_url }}" class="hz-project-chip">dinner-planner</a>
+  </nav>
+
+  {% if active_posts.size > 0 %}
+    <ul class="hz-post-list" aria-label="All posts">
+      {% for post in active_posts %}
+        <li class="hz-post-list__item">
+          <time datetime="{{ post.date | date_to_xmlschema }}" class="hz-post-list__date">{{ post.date | date: "%Y-%m-%d" }}</time>
+          <a href="{{ post.url | relative_url }}" class="hz-post-list__link">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if archived_posts.size > 0 %}
+    <details class="scifi-archive-drawer">
+      <summary class="scifi-archive-drawer__summary">// 2022 ARCHIVE &mdash; {{ archived_posts.size }} logs (#100DaysOfCode)</summary>
+      <ul class="scifi-archive-drawer__list">
+        {% for post in archived_posts %}
+          <li class="scifi-archive-drawer__item">
+            <time datetime="{{ post.date | date_to_xmlschema }}" class="scifi-archive-drawer__date">{{ post.date | date: "%Y.%m.%d" }}</time>
+            <a href="{{ post.url | relative_url }}" class="scifi-archive-drawer__link">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </details>
+  {% endif %}
+</div>

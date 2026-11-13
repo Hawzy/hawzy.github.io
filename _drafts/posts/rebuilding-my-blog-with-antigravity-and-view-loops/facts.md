@@ -1,0 +1,26 @@
+# Verified Facts — Rebuilding My Blog with Antigravity, Superpowers, and Visual View Loops
+
+Every number, path, hex code, and command in `_posts/2026-11-10-rebuilding-my-blog-with-antigravity-and-view-loops.md` traces to this sheet.
+
+- **[f1] Archive History:** The repository contains 17 `#100DaysOfCode` posts written between `2022-01-01` (`_posts/2022-01-01/2022-01-01-hello-world.md`) and `2022-02-09` (`_posts/2022-02-09/2022-02-09-setting-up-golang-environment.md`), covering PowerShell functions, Docker Compose + Jekyll, Oh My Posh (`2022-01-15-Install-oh-my-posh-theme-engine.md`), QMK macropad firmware, PSReadLine, and Go setup.
+- **[f2] Archive Scoping:** `_config.yml` scopes `_posts/2022-` with `archived: true`, `sitemap: false`, `search: false`, and `related: false`, keeping all 17 original URLs live while grouping them inside a collapsible `<details class="scifi-archive-drawer">` on `/` and `/blog/`.
+- **[f3] Site Stack & Navigation:** Built on Jekyll on top of Michael Rose's `Minimal Mistakes` (`v4.24.0`, `https://mmistakes.github.io/minimal-mistakes/`) foundation (with ~2,950 lines of custom CSS overrides in `assets/css/main.scss`), with top-level routes in `_data/navigation.yml` (`projects`, `kitchen`, `about`, `@hawzy`) plus the `hawzy` home/blog brand link.
+- **[f4] Gruvbox Material Preset:** The default `gruvbox` site theme matches Nick's Google Antigravity Dark Theme preset (`Gruvbox Material`): background `#141617`, elevated surface `#1D2021`, foreground `#D4BE98`, and primary accent `#E78A4E`.
+- **[f5] Five Theme Switcher Options:** Persisted in `localStorage["hawzy-theme"]` and applied synchronously in `_includes/head/custom.html` via `document.documentElement.dataset.theme` before first paint:
+  1. `gruvbox` — Gruvbox Material (`#141617` bg, `#D4BE98` fg, `#E78A4E` accent, `#A9B665` secondary) + Oh My Posh Diamond pill header (`.hv-diamond`).
+  2. `telemetry` — Telemetry Dark (`#080C14` bg, `#E2E8F0` fg, `#38BDF8` sky cyan, `#10B981` emerald) + Minimal path header with blinking vertical bar cursor `|` (`.hv-plain`).
+  3. `catppuccin` — Catppuccin Mocha (`#1E1E2E` bg, `#CDD6F4` fg, `#CBA6F7` mauve, `#A6E3A1` green) + Angled Powerline chevron segments (`.hv-powerline`).
+  4. `kitchen` — Warm Editorial Light (`#FAF7F2` bg, `#1C1917` fg, `#C84B31` terracotta, `#B45309` brass) + Editorial serif wordmark with blinking vertical bar cursor `|` (`.hv-serif`).
+  5. `paper` — Daylight Paper (`#FFFFFF` bg, `#1F2328` fg, `#1A7F37` green, `#0969DA` blue) + Oh My Posh `robbyrussell` arrow prompt `➜ hawzy git:(main)` (`.hv-robby`).
+- **[f6] Cursor History Detail:** Classic hardware CRT terminals (VT100, IBM PC text mode) used an underscore (`_`) or full-cell block cursor because character-cell generators addressed scanlines at the bottom of the glyph box; modern GUI code editors (VS Code, Antigravity) render a 1–2px vertical I-beam/bar caret (`|`) between character columns.
+- **[f7] Superpowers Skills Used:** `brainstorming` (interactive design & visual companion), `writing-plans` (task breakdown into `docs/superpowers/plans/2026-11-10-blog-relaunch-themes-and-writing-skills.md`), `subagent-driven-development`, and `executing-plans`.
+- **[f8] 3-Skill Blog Pipeline:** Located in `.agents/skills/`:
+  - `.agents/skills/blog-voice/` (`SKILL.md`, `voice-profile.md` with 15 banned AI-slop phrases under `## Banned Phrases`, and `prompts/gemini-personal-intelligence-handoff.md` for `@Gmail`/`@Google Docs` voice extraction).
+  - `.agents/skills/blog-research/` (`SKILL.md`, producing `_drafts/posts/<slug>/facts.md`).
+  - `.agents/skills/blog-author/` (`SKILL.md` and `scripts/audit_posts.py`).
+- **[f9] Deterministic Blog Auditor (`audit_posts.py`):** `.agents/skills/blog-author/scripts/audit_posts.py` uses Python 3 standard library only (`argparse`, `pathlib`, `re`, `sys`). It skips `archived: true` posts, checks required frontmatter (`title`, `excerpt` 20–220 chars, `categories`, lowercase-slug `tags`), strips fenced (` ```...``` `) and inline (` `...` `) code before scanning prose for banned phrases and `TODO-` markers, verifies internal `/...` asset links, and validates numbered tweets in `twitter-thread.md` using X's 23-character `t.co` URL length rule (`<= 280` chars).
+- **[f10] End-to-End Verification Suite (`tests/test_e2e_verification.py`):** Contains 12 E2E verification tests checking Jekyll static output (`_site/`), `/llms.txt`, `/api/recipes.json`, `/api/weekly-menu.json`, Layout C (`/` and `/blog/`), `/recipes/`, `/projects/`, the 5-theme masthead switcher, and live HTTP 200 status codes against `http://127.0.0.1:4000`.
+- **[f11] Public Projects Indexed on `/projects/`:**
+  - `blog-relaunch` (`c:\github\agy\blog` — 5-theme Jekyll site & agentic writing pipeline)
+  - `dinner-planner` (`c:\github\agy\recipes` — Agentic Kitchen & Weekly Dinner Planner teaser)
+- **[f12] Superpowers Links & Test Count:** `Superpowers` links to `https://github.com/obra/superpowers`; the rendered spec and plan live at `/docs/superpowers/specs/2026-11-10-blog-relaunch-themes-and-writing-skills-design.html` and `/docs/superpowers/plans/2026-11-10-blog-relaunch-themes-and-writing-skills.html`; `python -m unittest discover -s tests -v` runs 59 tests.

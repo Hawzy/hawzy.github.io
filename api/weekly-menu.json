@@ -1,0 +1,31 @@
+---
+layout: null
+permalink: /api/weekly-menu.json
+---
+{
+  "week_of": {{ site.data.weekly_menu.week_of | jsonify }},
+  "default_modality": {{ site.data.weekly_menu.default_modality | jsonify }},
+  "postal_code": {{ site.data.weekly_menu.postal_code | jsonify }},
+  "preferred_retailer_key": {{ site.data.weekly_menu.preferred_retailer_key | jsonify }},
+  "meals": [
+    {%- assign emitted = 0 -%}
+    {%- for meal in site.data.weekly_menu.meals -%}
+      {%- assign matched_recipe = site.recipes | where: "slug", meal.recipe_slug | first -%}
+      {%- if matched_recipe == nil or matched_recipe.status == 'draft' -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- if emitted > 0 -%},{%- endif -%}
+      {%- assign emitted = emitted | plus: 1 -%}
+      {
+        "day": {{ meal.day | jsonify }},
+        "recipe_slug": {{ meal.recipe_slug | jsonify }},
+        "scale_factor": {{ meal.scale_factor | default: 1.0 }},
+        "notes": {{ meal.notes | jsonify }},
+        "status": {{ matched_recipe.status | default: "untested" | jsonify }},
+        "recipe_title": {{ matched_recipe.title | jsonify }},
+        "recipe_url": {{ matched_recipe.url | absolute_url | jsonify }},
+        "ingredients": {{ matched_recipe.ingredients | jsonify }}
+      }
+    {%- endfor -%}
+  ]
+}

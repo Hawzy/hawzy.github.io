@@ -1,0 +1,31 @@
+---
+layout: null
+permalink: /api/recipes.json
+---
+{%- assign empty_array = "" | split: "" -%}
+{%- assign live_recipes = site.recipes | where_exp: "r", "r.status != 'draft'" -%}
+[
+  {% for recipe in live_recipes %}
+  {
+    "id": {{ recipe.id | jsonify }},
+    "slug": {{ recipe.slug | jsonify }},
+    "title": {{ recipe.title | jsonify }},
+    "url": {{ recipe.url | absolute_url | jsonify }},
+    "excerpt": {{ recipe.excerpt | strip_html | strip_newlines | strip | jsonify }},
+    "date": {{ recipe.date | date_to_xmlschema | jsonify }},
+    "origin": {{ recipe.origin | default: "research" | jsonify }},
+    "status": {{ recipe.status | default: "untested" | jsonify }},
+    "tested_on": {{ recipe.tested_on | jsonify }},
+    "sources": {{ recipe.sources | default: empty_array | jsonify }},
+    "prep_minutes": {{ recipe.prep_minutes | default: 0 }},
+    "cook_minutes": {{ recipe.cook_minutes | default: 0 }},
+    "servings": {{ recipe.servings | default: 1 }},
+    "calories_per_serving": {{ recipe.calories_per_serving | default: 0 }},
+    "cuisine": {{ recipe.cuisine | jsonify }},
+    "categories": {{ recipe.categories | jsonify }},
+    "tags": {{ recipe.tags | jsonify }},
+    "ingredients": {{ recipe.ingredients | jsonify }},
+    "instructions": {{ recipe.instructions | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

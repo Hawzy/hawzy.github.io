@@ -4,5 +4,3215 @@
 
 @charset "utf-8";
 
+// --------------------------------------------------------------------------
+// Editorial Culinary Theme Overrides (Bon Appetit / Pinch of Yum / RecipeTin)
+// --------------------------------------------------------------------------
+$background-color: #FAF7F2;
+$text-color: #1C1917;
+$muted-text-color: #57534E;
+$primary-color: #C84B31;
+$border-color: #E6E1DA;
+$footer-background-color: #F3EFE6;
+$link-color: #C84B31;
+$masthead-link-color: #1C1917;
+$masthead-link-color-hover: #C84B31;
+
+$serif: "Fraunces", "Playfair Display", Georgia, serif;
+$sans-serif: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$monospace: "JetBrains Mono", Monaco, Consolas, "Lucida Console", monospace;
+
+$global-font-family: $sans-serif;
+$header-font-family: $serif;
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+// --------------------------------------------------------------------------
+// Global Culinary Editorial Aesthetic & Typography
+// --------------------------------------------------------------------------
+:root {
+  --bg-cream: #FAF7F2;
+  --surface-white: #FFFFFF;
+  --text-espresso: #1C1917;
+  --text-muted: #57534E;
+  --accent-terracotta: #C84B31;
+  --accent-terracotta-dark: #A63A22;
+  --accent-terracotta-tint: #FDF3F0;
+  --badge-sage: #4A6B53;
+  --badge-sage-tint: #EEF4F0;
+  --border-warm: #E6E1DA;
+  --font-serif: "Fraunces", "Playfair Display", Georgia, serif;
+  --font-scifi: "Space Grotesk", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", Monaco, Consolas, monospace;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+html {
+  font-size: 16px !important;
+  scroll-behavior: smooth;
+  background-color: #FAF7F2;
+  color-scheme: only light;
+  accent-color: #C84B31;
+}
+
+html:has(body.surface-blog) {
+  background-color: #080C14;
+  color: #E2E8F0;
+  color-scheme: only dark;
+  accent-color: #38BDF8;
+}
+
+body {
+  background-color: #FAF7F2;
+  color: #1C1917;
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.page__title,
+.archive__item-title {
+  font-family: var(--font-serif);
+  color: #1C1917;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p, li, blockquote {
+  text-wrap: pretty;
+}
+
+.masthead {
+  background-color: #FAF7F2;
+  border-bottom: 1px solid #E6E1DA;
+
+  &__inner-wrap {
+    font-family: var(--font-sans);
+    max-width: clamp(1200px, 94vw, 1760px) !important;
+    padding: 0.75rem 2rem;
+  }
+}
+
+.greedy-nav {
+  background: #FAF7F2;
+
+  a {
+    color: #1C1917;
+    font-weight: 600;
+  }
+
+  .visible-links a:before {
+    background: #C84B31;
+  }
+}
+
+.page__title {
+  font-size: clamp(1.9rem, 3.5vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.35rem;
+  text-wrap: balance;
+}
+
+// --------------------------------------------------------------------------
+// Recipe Editorial Header & Top Utility Action Bar
+// --------------------------------------------------------------------------
+.layout--recipe #main {
+  max-width: clamp(1200px, 94vw, 1760px) !important;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @media (max-width: 640px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.layout--recipe .page {
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-right: 0 !important;
+
+  .page__inner-wrap > header {
+    max-width: 100%;
+    margin-bottom: 0.4rem;
+
+    .page__meta {
+      display: none;
+    }
+  }
+
+  .page__meta,
+  .page__share {
+    float: none !important;
+    max-width: 100%;
+  }
+}
+
+.layout--recipe .pagination {
+  float: none !important;
+  max-width: 100%;
+}
+
+.recipe-editorial-header {
+  max-width: 100%;
+  margin: 0 0 1.35rem 0;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid #E6E1DA;
+
+  &--has-hero {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 1.75rem;
+    align-items: center;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 1.15rem;
+    }
+  }
+}
+
+.recipe-lead-excerpt {
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: #44403C;
+  margin: 0.25rem 0 1rem 0;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+.recipe-top-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #FFFFFF;
+  border: 1px solid #E6E1DA;
+  border-left: 4px solid #C84B31;
+  border-radius: 12px;
+  padding: 0.875rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.04);
+}
+
+.recipe-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.recipe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.15rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: all 0.18s ease;
+  line-height: 1.2;
+
+  &--primary {
+    background-color: #C84B31;
+    color: #FFFFFF !important;
+    border: 1px solid #C84B31;
+    box-shadow: 0 2px 4px rgba(200, 75, 49, 0.2);
+
+    &:hover, &:focus {
+      background-color: #A63A22;
+      border-color: #A63A22;
+      transform: translateY(-1px);
+    }
+  }
+
+  &--secondary,
+  &--outline {
+    background-color: #FAF7F2;
+    color: #1C1917 !important;
+    border: 1px solid #D6CFC5;
+
+    &:hover, &:focus {
+      background-color: #F0EAE1;
+      border-color: #C84B31;
+      color: #C84B31 !important;
+    }
+  }
+
+  &--wakelock {
+    background-color: #FAF7F2;
+    color: #1C1917 !important;
+    border: 1px solid #D6CFC5;
+
+    .wakelock-indicator {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #A8A29E;
+      display: inline-block;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    &.is-active {
+      background-color: #EEF4F0;
+      border-color: #4A6B53;
+      color: #2D4434 !important;
+
+      .wakelock-indicator {
+        background-color: #4A6B53;
+        box-shadow: 0 0 0 3px rgba(74, 107, 83, 0.25);
+      }
+    }
+  }
+}
+
+.recipe-quick-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.recipe-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #FAF7F2;
+  border: 1px solid #E6E1DA;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+
+  &__label {
+    color: #57534E;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  &__value {
+    font-family: var(--font-mono);
+    color: #1C1917;
+    font-weight: 600;
+  }
+}
+
+.recipe-hero-figure {
+  max-width: 100%;
+  margin: 0;
+  border-radius: 14px;
+  overflow: clip;
+  border: 1px solid #E6E1DA;
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.06);
+
+  .recipe-hero-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 320px;
+    object-fit: cover;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Editorial Narrative Prose Above Recipe Card
+// --------------------------------------------------------------------------
+.recipe-narrative-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #1C1917;
+  max-width: 100%;
+  margin: 0 0 1.75rem 0;
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    text-wrap: pretty;
+  }
+
+  h2, h3 {
+    font-family: var(--font-serif);
+    color: #1C1917;
+    margin-top: 1.35rem;
+    margin-bottom: 0.5rem;
+    padding-left: 0.85rem;
+    border-left: 4px solid #C84B31;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  h2 {
+    font-size: 1.45rem;
+  }
+
+  h3 {
+    font-size: 1.22rem;
+  }
+
+  ol, ul {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1.4rem;
+
+    li {
+      margin-bottom: 0.45rem;
+      text-wrap: pretty;
+    }
+  }
+
+  blockquote,
+  .technique-callout {
+    background-color: #FFFFFF;
+    border-left: 4px solid #C84B31;
+    padding: 0.75rem 1.15rem;
+    border-radius: 0 10px 10px 0;
+    margin: 1rem 0;
+    font-style: normal;
+    color: #292524;
+    box-shadow: 0 2px 6px rgba(28, 25, 23, 0.04);
+    text-wrap: pretty;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Elevated Recipe Card (#recipe-card)
+// --------------------------------------------------------------------------
+#recipe-card,
+.recipe-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E6E1DA;
+  border-top: 6px solid #C84B31;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(28, 25, 23, 0.07), 0 2px 6px rgba(28, 25, 23, 0.03);
+  padding: 1.5rem 1.85rem;
+  max-width: 100%;
+  margin: 1.25rem auto 2rem auto;
+  scroll-margin-top: 1.5rem;
+
+  @media (max-width: 640px) {
+    padding: 1.25rem 1rem;
+  }
+}
+
+.recipe-card__header {
+  display: none;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #E6E1DA;
+}
+
+.recipe-card__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid #E6E1DA;
+}
+
+.recipe-card__header-main {
+  flex: 1;
+}
+
+.recipe-card__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #C84B31;
+  font-weight: 600;
+}
+
+.recipe-card__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.65rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: #1C1917;
+  margin: 0 0 0.65rem 0;
+  line-height: 1.2;
+  border: none !important;
+  padding: 0 !important;
+  text-wrap: balance;
+}
+
+.recipe-card__excerpt {
+  font-size: 1rem;
+  color: #57534E;
+  line-height: 1.6;
+  margin: 0 0 1.25rem 0;
+}
+
+.recipe-card__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.recipe-card__thumbnail-wrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: clip;
+  border: 1px solid #E6E1DA;
+
+  .recipe-card__thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+// Structured 4-Column Metadata Grid
+.recipe-card__meta-grid {
+  flex: 1 1 540px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: #FAF7F2;
+  border: 1px solid #E6E1DA;
+  border-radius: 10px;
+  margin: 0;
+  overflow: clip;
+
+  @media (max-width: 720px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.recipe-card__meta-item {
+  padding: 0.65rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-right: 1px solid #E6E1DA;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  @media (max-width: 720px) {
+    &:nth-child(2n) {
+      border-right: none;
+    }
+    &:nth-child(1),
+    &:nth-child(2) {
+      border-bottom: 1px solid #E6E1DA;
+    }
+  }
+}
+
+.recipe-card__meta-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #57534E;
+}
+
+.recipe-card__meta-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1C1917;
+}
+
+.recipe-card__calories {
+  color: #57534E;
+  font-weight: 500;
+}
+
+// Recipe Body Columns (Ingredients + Instructions)
+.recipe-card__body {
+  display: grid;
+  grid-template-columns: minmax(290px, 1fr) 1.85fr;
+  gap: 2.25rem;
+  align-items: start;
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.recipe-card__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 2px solid #1C1917;
+}
+
+.recipe-card__section-title {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1C1917;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  text-wrap: balance;
+}
+
+// 1x / 2x / 3x Scaler Controls
+.recipe-scaler {
+  display: inline-flex;
+  background-color: #FAF7F2;
+  border: 1px solid #D6CFC5;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.recipe-scale-btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: transparent;
+  color: #57534E;
+  border: none;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: #1C1917;
+  }
+
+  &.is-active {
+    background-color: #C84B31;
+    color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(200, 75, 49, 0.3);
+  }
+}
+
+// Interactive Ingredient Checkboxes & Pantry Badges
+.recipe-ingredients-list {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
+.recipe-ingredient-row {
+  margin-bottom: 0.4rem !important;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, opacity 0.2s ease;
+
+  &:hover {
+    background-color: #FAF7F2;
+  }
+}
+
+.recipe-ingredient-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #1C1917;
+  user-select: none;
+}
+
+.recipe-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.recipe-checkbox-custom {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #C84B31;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  margin-top: 0.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  &::after {
+    content: "";
+    width: 5px;
+    height: 10px;
+    border: solid #FFFFFF;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.15s ease;
+    margin-bottom: 2px;
+  }
+}
+
+.recipe-checkbox:focus-visible + .recipe-checkbox-custom {
+  outline: 2px solid #C84B31;
+  outline-offset: 2px;
+}
+
+.recipe-checkbox:checked + .recipe-checkbox-custom {
+  background-color: #C84B31;
+  border-color: #C84B31;
+
+  &::after {
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.recipe-ingredient-row:has(.recipe-checkbox:checked),
+.recipe-ingredient-row.is-completed {
+  opacity: 0.52;
+
+  .recipe-ingredient-text {
+    text-decoration: line-through;
+    color: #57534E;
+  }
+}
+
+.recipe-ing-qty {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #1C1917;
+}
+
+.recipe-pantry-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: #EEF4F0;
+  color: #4A6B53;
+  border: 1px solid rgba(74, 107, 83, 0.3);
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  text-decoration: none !important;
+}
+
+// Editorial Numbered Instructions
+.recipe-instructions-list {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
+.recipe-instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.1rem !important;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid #F0ECE3;
+
+  &:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.recipe-step-counter {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #C84B31;
+  min-width: 2rem;
+  padding-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.recipe-step-content {
+  flex: 1;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #1C1917;
+  text-wrap: pretty;
+
+  p {
+    margin: 0;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  p + p {
+    margin-top: 0.5rem;
+  }
+
+  strong {
+    color: #1C1917;
+    font-weight: 700;
+  }
+
+  code,
+  code.highlighter-rouge {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #F5F0E6;
+    color: #9A3412;
+    border: 1px solid #E2DBD0;
+    border-radius: 5px;
+    padding: 0.08rem 0.42rem;
+    margin: 0 0.08rem;
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Cooking for Engineers Block Grid (.engineer-grid-table)
+// --------------------------------------------------------------------------
+.recipe-card__engineer-grid {
+  margin-top: 2.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid #E6E1DA;
+}
+
+.recipe-card__section-header--grid {
+  align-items: flex-end;
+  margin-bottom: 1.1rem;
+}
+
+.engineer-grid-heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.engineer-grid-subtitle {
+  margin: 0 !important;
+  font-size: 0.85rem;
+  color: #57534E;
+  line-height: 1.4;
+}
+
+.engineer-grid-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.engineer-grid-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.engineer-grid-expand-btn {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.engineer-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid #1C1917;
+  color: #1C1917;
+
+  &--prep {
+    background-color: #EEF4F0;
+  }
+
+  &--heat {
+    background-color: #FDF3F0;
+  }
+
+  &--finish {
+    background-color: #F7EFE5;
+  }
+}
+
+.engineer-grid-wrapper {
+  overflow-x: auto;
+  max-inline-size: 100%;
+  container-type: inline-size;
+  cursor: zoom-in;
+
+  &:focus-visible {
+    outline: 2px solid #C84B31;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+.engineer-subgrid + .engineer-subgrid {
+  margin-top: 1.35rem;
+}
+
+.engineer-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 !important;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #1C1917;
+  border: 1px solid #1C1917;
+  display: table !important;
+
+  caption.engineer-subgrid__caption {
+    caption-side: top;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9A3412;
+    padding: 0 0 0.42rem 0;
+  }
+
+  @media (max-width: 780px) {
+    min-width: 640px;
+  }
+
+  thead {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    background-color: #1C1917;
+  }
+
+  thead th {
+    background-color: #1C1917;
+    color: #FAF7F2;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.42rem 0.5rem;
+    border: 1px solid #1C1917;
+    text-align: left;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  th,
+  td {
+    border: 1px solid #1C1917;
+    padding: 0.45rem 0.52rem;
+    vertical-align: middle;
+  }
+
+  td.ing-qty,
+  td.ing-unit,
+  td.ing-name {
+    background-color: #F5F0E6;
+    color: #1C1917;
+  }
+
+  td.ing-qty {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+    width: 2.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  td.ing-unit {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: #44403C;
+    white-space: nowrap;
+    width: 3rem;
+  }
+
+  td.ing-name {
+    font-weight: 600;
+    width: 120px;
+    min-width: 105px;
+
+    &[colspan]:not([colspan="1"]) {
+      width: auto;
+    }
+
+    &.engineer-subgrid-ref {
+      background-color: #EFE8DC;
+      color: #7C2D12;
+      font-style: italic;
+    }
+  }
+
+  td.action-cell {
+    background-color: #FFFFFF;
+    color: #1C1917;
+    font-weight: 500;
+    text-align: left;
+
+    &--prep {
+      background-color: #EEF4F0;
+    }
+
+    &--heat {
+      background-color: #FDF3F0;
+    }
+
+    &--finish {
+      background-color: #F7EFE5;
+      font-weight: 600;
+      border-left: 2px solid #1C1917;
+    }
+  }
+}
+
+// Chromeless Landscape Lightbox Dialog (<dialog id="engineer-grid-dialog">)
+.engineer-grid-dialog {
+  position: fixed;
+  width: min(96vw, 1520px);
+  max-width: 96vw;
+  max-height: 94vh;
+  margin: auto;
+  padding: 0.5rem;
+  border: 2px solid #1C1917;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  color: #1C1917;
+  box-shadow: 0 24px 64px rgba(28, 25, 23, 0.42);
+  overflow: hidden;
+
+  &::backdrop {
+    background-color: rgba(28, 25, 23, 0.72);
+    backdrop-filter: blur(4px);
+  }
+}
+
+.engineer-grid-dialog__close-form {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 10;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.engineer-grid-close-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #FAF7F2;
+  background-color: rgba(28, 25, 23, 0.88);
+  color: #FAF7F2;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #C84B31;
+    transform: scale(1.06);
+  }
+}
+
+.engineer-grid-dialog__canvas {
+  overflow: auto;
+  max-height: calc(94vh - 1rem);
+
+  .engineer-subgrid + .engineer-subgrid {
+    margin-top: 1.5rem;
+  }
+
+  .engineer-grid-table {
+    font-size: 1rem;
+    line-height: 1.55;
+
+    caption.engineer-subgrid__caption {
+      font-size: 0.88rem;
+      padding: 0.25rem 0 0.5rem 0;
+    }
+
+    thead th {
+      font-size: 0.76rem;
+      padding: 0.65rem 0.85rem;
+    }
+
+    th,
+    td {
+      padding: 0.75rem 0.9rem;
+    }
+
+    td.ing-name {
+      width: 175px;
+      min-width: 150px;
+
+      &[colspan]:not([colspan="1"]) {
+        width: auto;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Dedicated Single-Page Print Stylesheet (@media print)
+// --------------------------------------------------------------------------
+@media print {
+  .masthead,
+  .greedy-nav,
+  .recipe-top-actions,
+  .recipe-narrative-body,
+  .page__taxonomy,
+  .page__date,
+  .pagination,
+  .page__footer,
+  .page__related,
+  .sidebar,
+  .recipe-card__controls,
+  .recipe-scaler,
+  .engineer-grid-subtitle,
+  .engineer-grid-expand-btn,
+  .engineer-grid-dialog,
+  .recipe-card__sources-title,
+  .recipe-card__sources-summary,
+  .recipe-card__sources-list,
+  #wake-lock-btn {
+    display: none !important;
+  }
+
+  .recipe-print-credit {
+    display: block !important;
+    margin: 0.45rem 0 0 0 !important;
+    padding-top: 0.35rem !important;
+    border-top: 1px solid #000000 !important;
+    font-family: var(--font-mono);
+    font-size: 8pt !important;
+    color: #000000 !important;
+  }
+
+  html, body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  #main,
+  .page,
+  .page__inner-wrap,
+  .page__content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+  }
+
+  .recipe-editorial-header {
+    display: none !important;
+  }
+
+  .recipe-card__header {
+    display: flex !important;
+  }
+
+  .recipe-card__toolbar {
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+
+  #recipe-card,
+  .recipe-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0.2in !important;
+    border: 1px solid #000000 !important;
+    border-top: 3px solid #000000 !important;
+    box-shadow: none !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .recipe-card__meta-grid {
+    background: #FFFFFF !important;
+    border: 1px solid #000000 !important;
+    margin: 0.6rem 0 0.85rem 0 !important;
+  }
+
+  .recipe-card__body {
+    display: grid !important;
+    grid-template-columns: 1fr 1.6fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .recipe-instruction-step,
+  .recipe-ingredient-row {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .recipe-step-counter,
+  .recipe-card__title,
+  .recipe-ing-qty,
+  .recipe-step-content,
+  .recipe-ingredient-label {
+    color: #000000 !important;
+  }
+
+  .recipe-step-content code {
+    background: #F5F5F5 !important;
+    color: #000000 !important;
+    border: 1px solid #666666 !important;
+  }
+
+  .recipe-card__engineer-grid {
+    margin-top: 1.15rem !important;
+    padding-top: 0.85rem !important;
+    border-top: 1px solid #000000 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .engineer-grid-wrapper {
+    overflow: visible !important;
+    max-inline-size: none !important;
+  }
+
+  .engineer-subgrid + .engineer-subgrid {
+    margin-top: 0.7rem !important;
+  }
+
+  .engineer-grid-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 8pt !important;
+    line-height: 1.3 !important;
+    border-collapse: collapse !important;
+    border: 1px solid #000000 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+
+    caption.engineer-subgrid__caption {
+      color: #000000 !important;
+      font-size: 8.5pt !important;
+      padding: 0 0 3pt 0 !important;
+    }
+
+    thead th {
+      position: static !important;
+      background-color: #EAE6DF !important;
+      color: #000000 !important;
+      border: 1px solid #000000 !important;
+      padding: 3pt 4pt !important;
+    }
+
+    th,
+    td {
+      border: 1px solid #000000 !important;
+      padding: 3pt 4pt !important;
+      color: #000000 !important;
+    }
+  }
+}
+
+// ==========================================================================
+// ROOM 1: KITCHEN HOME & RECIPE CATALOG (/ and /recipes/)
+// ==========================================================================
+body.kitchen-home,
+body.kitchen-recipes {
+  #main {
+    max-width: clamp(1200px, 94vw, 1760px) !important;
+    width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    @media (max-width: 640px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .page {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-right: 0 !important;
+  }
+
+  .page__meta {
+    display: none;
+  }
+}
+
+body.kitchen-home .page__inner-wrap > header {
+  display: none;
+}
+
+.weekly-menu-container {
+  margin-bottom: 3rem;
+  background-color: #FFFFFF;
+  border: 1px solid #E6E1DA;
+  border-left: 5px solid #C84B31;
+  padding: 2rem 2.25rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(28, 25, 23, 0.05);
+
+  @media (max-width: 640px) {
+    padding: 1.4rem 1.25rem;
+  }
+}
+
+.weekly-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.weekly-menu-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #C84B31;
+  margin-bottom: 0.25rem;
+}
+
+.weekly-menu-title {
+  margin: 0 !important;
+  font-family: var(--font-serif);
+  color: #1C1917;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  line-height: 1.2;
+}
+
+.weekly-menu-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.weekly-menu-week-pill {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #C84B31;
+  background-color: #FDF3F0;
+  border: 1px solid rgba(200, 75, 49, 0.28);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+.weekly-menu-api-pill {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #57534E !important;
+  background-color: #FAF7F2;
+  border: 1px solid #D6CFC5;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  text-decoration: none !important;
+  transition: border-color 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: #C84B31;
+    color: #C84B31 !important;
+  }
+}
+
+.weekly-menu-lead {
+  margin: 0 0 1.5rem 0 !important;
+  color: #57534E;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.weekly-meals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.weekly-meal-card {
+  background-color: #FAF7F2;
+  border: 1px solid #E6E1DA;
+  border-radius: 12px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: #C84B31;
+    box-shadow: 0 8px 20px rgba(28, 25, 23, 0.06);
+  }
+
+  &__day {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #C84B31;
+    margin-bottom: 0.35rem;
+  }
+
+  &__title {
+    margin: 0.15rem 0 0.7rem 0 !important;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.3;
+
+    a {
+      color: #1C1917;
+      text-decoration: none;
+
+      &:hover {
+        color: #C84B31;
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__notes {
+    font-size: 0.88rem;
+    color: #57534E;
+    font-style: italic;
+    border-top: 1px dashed #D6CFC5;
+    padding-top: 0.65rem;
+    margin: 0.35rem 0 0 0 !important;
+  }
+}
+
+.weekly-meal-scale-badge {
+  font-family: var(--font-mono);
+  background-color: #EEF4F0;
+  color: #4A6B53;
+  border: 1px solid rgba(74, 107, 83, 0.3);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.weekly-meal-time {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: #57534E;
+}
+
+.recipes-catalog-container {
+  margin-bottom: 2.5rem;
+}
+
+.kitchen-section-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.35rem;
+}
+
+.kitchen-section-title {
+  margin: 0 !important;
+  font-family: var(--font-serif);
+  color: #1C1917;
+  font-size: 1.8rem;
+}
+
+.kitchen-section-link {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #C84B31 !important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.kitchen-catalog-intro {
+  font-size: 1.08rem;
+  color: #57534E;
+  max-width: 720px;
+  margin: 0 0 2rem 0 !important;
+  line-height: 1.65;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+  gap: 1.5rem;
+}
+
+.recipe-catalog-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E6E1DA;
+  border-top: 4px solid #C84B31;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(28, 25, 23, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(28, 25, 23, 0.08);
+  }
+
+  &__thumb-link {
+    display: block;
+    height: 190px;
+    overflow: hidden;
+    border-bottom: 1px solid #E6E1DA;
+  }
+
+  &__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #C84B31;
+    font-weight: 600;
+    margin-bottom: 0.45rem;
+  }
+
+  &__title {
+    margin: 0 0 0.65rem 0 !important;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    line-height: 1.28;
+
+    a {
+      color: #1C1917;
+      text-decoration: none;
+
+      &:hover {
+        color: #C84B31;
+      }
+    }
+  }
+
+  &__excerpt {
+    font-size: 0.95rem;
+    color: #57534E;
+    line-height: 1.6;
+    margin: 0 0 1.35rem 0 !important;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__cta {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  &__kcal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #57534E;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Recipe Trust Signals: Status Badges, Kitchen Notes & Provenance Sources
+// --------------------------------------------------------------------------
+.recipe-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  text-decoration: none !important;
+  line-height: 1.2;
+
+  &--untested {
+    background-color: #FFFBEB;
+    color: #B45309 !important;
+    border: 1px solid #F59E0B;
+  }
+
+  &--tested {
+    background-color: #4A6B53;
+    color: #FAF7F2 !important;
+    border: 1px solid #3A5642;
+
+    &:hover,
+    &:focus-visible {
+      background-color: #3A5642;
+      color: #FFFFFF !important;
+    }
+  }
+
+  &--draft {
+    background-color: #F5F5F4;
+    color: #57534E !important;
+    border: 1px dashed #A8A29E;
+  }
+}
+
+.recipe-status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+
+  &--untested {
+    color: #B45309;
+    background-color: #FFFBEB;
+    border: 1px solid rgba(245, 158, 11, 0.45);
+  }
+
+  &--tested {
+    color: #2F4F38;
+    background-color: #EEF4F0;
+    border: 1px solid rgba(74, 107, 83, 0.38);
+  }
+}
+
+.recipe-kitchen-notes {
+  margin: 0 0 1.5rem 0;
+  padding: 0.85rem 1.1rem;
+  background-color: #EEF4F0;
+  border: 1px solid rgba(74, 107, 83, 0.35);
+  border-left: 4px solid #4A6B53;
+  border-radius: 8px;
+
+  &__summary {
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #2F4F38;
+  }
+
+  &__body {
+    margin: 0.45rem 0 0 0 !important;
+    font-size: 0.95rem;
+    color: #1C1917;
+    line-height: 1.55;
+  }
+}
+
+.recipe-card__sources {
+  margin-top: 2rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid #E6E1DA;
+
+  &-title {
+    margin: 0 0 0.35rem 0 !important;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #57534E;
+  }
+
+  &-summary {
+    margin: 0 0 0.5rem 0 !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1C1917;
+  }
+
+  &-list {
+    margin: 0 !important;
+    padding-left: 1.2rem !important;
+    font-size: 0.88rem;
+    color: #44403C;
+
+    li {
+      margin-bottom: 0.25rem;
+    }
+
+    a {
+      color: #C84B31;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+
+  &-author {
+    color: #57534E;
+  }
+}
+
+.recipe-print-credit {
+  display: none;
+}
+
+// ==========================================================================
+// ROOM 2: DARK SCI-FI TELEMETRY BLOG SURFACE (body.surface-blog)
+// ==========================================================================
+body.surface-blog {
+  --scifi-bg: #080C14;
+  --scifi-surface: #0E1525;
+  --scifi-surface-hover: #131D33;
+  --scifi-code-bg: #05080F;
+  --scifi-border: #1E2D45;
+  --scifi-border-bright: #38BDF8;
+  --scifi-text: #E2E8F0;
+  --scifi-heading: #F8FAFC;
+  --scifi-muted: #94A3B8;
+  --scifi-cyan: #38BDF8;
+  --scifi-cyan-bright: #22D3EE;
+  --scifi-amber: #FBBF24;
+  --scifi-emerald: #34D399;
+
+  color-scheme: only dark;
+  accent-color: #38BDF8;
+  background-color: var(--scifi-bg);
+  background-image:
+    radial-gradient(ellipse 80% 420px at 50% -90px, rgba(34, 211, 238, 0.12), transparent 70%),
+    linear-gradient(rgba(56, 189, 248, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.032) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
+  background-attachment: scroll;
+  color: var(--scifi-text);
+
+  h1, h2, h3, h4, h5, h6,
+  .page__title,
+  .archive__item-title,
+  .archive__subtitle {
+    font-family: var(--font-scifi);
+    color: var(--scifi-heading);
+    letter-spacing: -0.02em;
+  }
+
+  // Dark Sci-Fi Masthead & Navigation
+  .masthead {
+    background-color: rgba(8, 12, 20, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--scifi-border);
+  }
+
+  .greedy-nav {
+    background: transparent;
+
+    a {
+      color: var(--scifi-text);
+    }
+
+    .site-title {
+      font-family: var(--font-scifi);
+      color: var(--scifi-heading);
+      letter-spacing: -0.01em;
+    }
+
+    .site-subtitle {
+      color: var(--scifi-muted);
+    }
+
+    .visible-links a {
+      color: #CBD5E1;
+
+      &:hover {
+        color: var(--scifi-cyan-bright);
+      }
+
+      &:before {
+        background: var(--scifi-cyan-bright);
+        height: 2px;
+      }
+    }
+
+    .search__toggle {
+      color: var(--scifi-cyan);
+
+      &:hover {
+        color: var(--scifi-heading);
+      }
+    }
+
+    .greedy-nav__toggle .navicon,
+    .greedy-nav__toggle .navicon:before,
+    .greedy-nav__toggle .navicon:after {
+      background: var(--scifi-cyan);
+    }
+
+    .hidden-links {
+      background: var(--scifi-surface);
+      border: 1px solid var(--scifi-border);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+
+      a {
+        color: var(--scifi-text);
+
+        &:hover {
+          background: var(--scifi-surface-hover);
+          color: var(--scifi-cyan-bright);
+        }
+      }
+    }
+  }
+
+  // Reclaim Minimal Mistakes 300px sidebar across all blog posts & archives
+  #main {
+    max-width: clamp(1100px, 90vw, 1600px) !important;
+    width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .page,
+  .archive {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-right: 0 !important;
+  }
+
+  // Wider container when viewing the /blog/ Hub itself
+  &:has(.scifi-hub) .page {
+    max-width: 100% !important;
+  }
+
+  // Post Header Telemetry Bar
+  .scifi-post-header-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--scifi-border);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+
+  .scifi-back-link {
+    color: var(--scifi-cyan) !important;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+
+    &:hover {
+      color: var(--scifi-cyan-bright) !important;
+      text-decoration: underline;
+    }
+  }
+
+  .scifi-post-timestamp {
+    color: var(--scifi-amber);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .page__meta {
+    color: var(--scifi-muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    border-top-color: var(--scifi-border);
+  }
+
+  // Post Reading Typography & Links
+  .page__content {
+    color: #CBD5E1;
+    font-size: 1.05rem;
+    line-height: 1.8;
+
+    p, li {
+      color: #CBD5E1;
+    }
+
+    strong {
+      color: var(--scifi-heading);
+    }
+
+    a:not(.btn):not(.scifi-chip):not(.scifi-read-more) {
+      color: var(--scifi-cyan);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(56, 189, 248, 0.45);
+
+      &:hover {
+        color: var(--scifi-cyan-bright);
+        text-decoration-color: var(--scifi-cyan-bright);
+      }
+    }
+
+    h2 {
+      margin-top: 2.4rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--scifi-border);
+      color: var(--scifi-heading);
+    }
+
+    h3 {
+      margin-top: 1.85rem;
+      color: #E2E8F0;
+    }
+
+    hr {
+      border-color: var(--scifi-border);
+    }
+
+    blockquote {
+      background-color: var(--scifi-surface);
+      border-left: 3px solid var(--scifi-cyan);
+      border-top: 1px solid var(--scifi-border);
+      border-right: 1px solid var(--scifi-border);
+      border-bottom: 1px solid var(--scifi-border);
+      color: #CBD5E1;
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    // Inline code chips in sci-fi posts
+    p > code,
+    li > code,
+    td > code {
+      font-family: var(--font-mono);
+      font-size: 0.84em;
+      background-color: rgba(56, 189, 248, 0.12);
+      color: #7DD3FC;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 4px;
+      padding: 0.12rem 0.4rem;
+    }
+
+    // Fenced Terminal Code Blocks (PowerShell, Docker, YAML, Bash)
+    div.highlighter-rouge,
+    figure.highlight {
+      background-color: var(--scifi-code-bg);
+      color: #E2E8F0;
+      border: 1px solid var(--scifi-border);
+      border-top: 2px solid var(--scifi-cyan-bright);
+      border-radius: 8px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      margin: 1.5rem 0;
+
+      pre.highlight,
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.86rem;
+        line-height: 1.65;
+        background: transparent;
+        color: #E2E8F0;
+      }
+
+      // Dark-mode Rouge token overrides for crisp contrast
+      .c, .c1, .cm, .cs { color: #64748B; font-style: italic; }
+      .k, .kd, .kn, .kp, .kr, .kt { color: #38BDF8; font-weight: 600; }
+      .s, .s1, .s2, .sb, .sc, .sd, .sh { color: #34D399; }
+      .nf, .nc, .nn { color: #FBBF24; }
+      .nv, .vi, .vg, .vc, .nb { color: #C084FC; }
+      .mi, .mf, .mh, .mo { color: #FB923C; }
+      .o, .ow, .p { color: #CBD5E1; }
+    }
+
+    table {
+      background-color: var(--scifi-surface);
+      color: var(--scifi-text);
+      border: 1px solid var(--scifi-border);
+
+      th {
+        background-color: #131E35;
+        color: var(--scifi-heading);
+        border-color: var(--scifi-border);
+      }
+
+      td {
+        border-color: var(--scifi-border);
+      }
+    }
+  }
+
+  // Sci-Fi /blog/ Hub Dossier & Year Log Cards
+  .scifi-dossier {
+    background-color: var(--scifi-surface);
+    border: 1px solid var(--scifi-border);
+    border-top: 2px solid var(--scifi-cyan-bright);
+    border-radius: 12px;
+    padding: 1.85rem 2rem;
+    margin-bottom: 2.75rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+
+    @media (max-width: 640px) {
+      padding: 1.35rem 1.2rem;
+    }
+
+    &__main {
+      display: flex;
+      align-items: center;
+      gap: 1.65rem;
+
+      @media (max-width: 640px) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    &__avatar-wrap {
+      flex-shrink: 0;
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      padding: 3px;
+      border: 2px solid var(--scifi-cyan);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.22);
+      overflow: hidden;
+    }
+
+    &__avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    &__info {
+      flex: 1;
+    }
+
+    &__bio {
+      margin: 0.4rem 0 1rem 0 !important;
+      color: #CBD5E1 !important;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    &__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  }
+
+  .scifi-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--scifi-cyan);
+    margin-bottom: 0.35rem;
+  }
+
+  .scifi-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--scifi-emerald);
+    box-shadow: 0 0 8px var(--scifi-emerald);
+    display: inline-block;
+  }
+
+  .scifi-hub__title {
+    margin: 0 !important;
+    font-family: var(--font-scifi);
+    font-size: clamp(1.65rem, 3vw, 2.2rem);
+    color: var(--scifi-heading);
+    line-height: 1.18;
+  }
+
+  .scifi-chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.28rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid var(--scifi-border);
+    text-decoration: none !important;
+
+    &--muted {
+      background-color: rgba(15, 23, 42, 0.7);
+      color: var(--scifi-muted);
+    }
+
+    &--link {
+      background-color: rgba(56, 189, 248, 0.08);
+      color: var(--scifi-cyan) !important;
+      border-color: rgba(56, 189, 248, 0.32);
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        background-color: rgba(56, 189, 248, 0.2);
+        border-color: var(--scifi-cyan-bright);
+        color: var(--scifi-heading) !important;
+      }
+    }
+  }
+
+  .scifi-year-section {
+    margin-bottom: 2.75rem;
+  }
+
+  .scifi-year-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.15rem;
+    border-bottom: 1px solid var(--scifi-border);
+  }
+
+  .scifi-year-title {
+    margin: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--scifi-cyan-bright) !important;
+  }
+
+  .scifi-year-count {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--scifi-muted);
+    background-color: var(--scifi-surface);
+    border: 1px solid var(--scifi-border);
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+  }
+
+  .scifi-post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .scifi-post-card {
+    background-color: var(--scifi-surface);
+    border: 1px solid var(--scifi-border);
+    border-left: 3px solid var(--scifi-cyan);
+    border-radius: 8px;
+    padding: 1.25rem 1.4rem;
+    transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+
+    &:hover,
+    &:focus-within {
+      background-color: var(--scifi-surface-hover);
+      border-color: rgba(56, 189, 248, 0.55);
+      border-left-color: var(--scifi-cyan-bright);
+      transform: translateX(3px);
+    }
+
+    &__meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      margin-bottom: 0.4rem;
+    }
+
+    &__date {
+      color: var(--scifi-amber);
+      font-weight: 600;
+    }
+
+    &__readtime {
+      color: var(--scifi-muted);
+    }
+
+    &__title {
+      margin: 0 0 0.55rem 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      font-family: var(--font-scifi);
+      font-size: 1.25rem;
+      line-height: 1.3;
+
+      a {
+        color: var(--scifi-heading) !important;
+        text-decoration: none !important;
+
+        &:hover {
+          color: var(--scifi-cyan-bright) !important;
+        }
+      }
+    }
+
+    &__excerpt {
+      margin: 0 0 0.95rem 0 !important;
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: #94A3B8 !important;
+    }
+
+    &__footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    &__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+  }
+
+  .scifi-meta-sep {
+    color: #475569;
+  }
+
+  .scifi-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #7DD3FC;
+    background-color: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+  }
+
+  .scifi-read-more {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--scifi-cyan) !important;
+    text-decoration: none !important;
+
+    &:hover {
+      color: var(--scifi-cyan-bright) !important;
+    }
+  }
+
+  // Taxonomy, Pagination, Related Posts, Search & Footer inside Blog Room
+  .page__taxonomy-item {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    background-color: rgba(56, 189, 248, 0.08);
+    color: var(--scifi-cyan) !important;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgba(56, 189, 248, 0.2);
+      color: var(--scifi-heading) !important;
+    }
+  }
+
+  .taxonomy__index a {
+    border-bottom-color: var(--scifi-border);
+    color: var(--scifi-text);
+
+    &:hover {
+      color: var(--scifi-cyan-bright);
+    }
+  }
+
+  .taxonomy__section {
+    border-bottom-color: var(--scifi-border);
+  }
+
+  .archive__subtitle {
+    border-bottom-color: var(--scifi-border);
+    color: var(--scifi-cyan);
+  }
+
+  .archive__item-title a {
+    color: var(--scifi-heading);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--scifi-cyan-bright);
+    }
+  }
+
+  .archive__item-excerpt {
+    color: var(--scifi-muted);
+  }
+
+  .pagination {
+    float: none !important;
+    max-width: 760px;
+    margin: 2rem auto 0 auto !important;
+  }
+
+  .pagination--pager {
+    background-color: var(--scifi-surface);
+    color: var(--scifi-cyan) !important;
+    border: 1px solid var(--scifi-border);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+
+    &:hover:not(.disabled) {
+      background-color: var(--scifi-surface-hover);
+      border-color: var(--scifi-cyan-bright);
+      color: var(--scifi-heading) !important;
+    }
+
+    &.disabled {
+      color: #475569 !important;
+      background-color: rgba(14, 21, 37, 0.45);
+    }
+  }
+
+  .page__related {
+    float: none !important;
+    width: 100% !important;
+    max-width: 760px;
+    margin: 2.5rem auto 0 auto !important;
+    border-top: 1px solid var(--scifi-border);
+
+    .page__related-title {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--scifi-cyan);
+    }
+
+    .archive__item {
+      background-color: var(--scifi-surface);
+      border: 1px solid var(--scifi-border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+  }
+
+  .search-content {
+    background-color: var(--scifi-bg);
+
+    .search-input {
+      color: var(--scifi-heading);
+      border-bottom-color: var(--scifi-cyan);
+    }
+  }
+
+  .page__footer {
+    background-color: #05080F;
+    color: var(--scifi-muted);
+    border-top: 1px solid var(--scifi-border);
+
+    footer {
+      color: var(--scifi-muted);
+    }
+
+    a {
+      color: #CBD5E1;
+
+      &:hover {
+        color: var(--scifi-cyan-bright);
+      }
+    }
+
+    .fas,
+    .fab,
+    .far {
+      color: var(--scifi-cyan);
+    }
+  }
+
+  // Soft-Archive Banner, Empty-State Panel & Collapsed 2022 Archive Drawer
+  .scifi-archived-banner {
+    margin: 0 0 1.25rem 0;
+    padding: 0.6rem 0.95rem;
+    border-radius: 6px;
+    border: 1px solid rgba(251, 191, 36, 0.42);
+    border-left: 3px solid var(--scifi-amber);
+    background-color: rgba(251, 191, 36, 0.1);
+    color: var(--scifi-amber);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .scifi-empty-state {
+    background-color: rgba(14, 21, 37, 0.72);
+    border: 1px dashed var(--scifi-border);
+    border-radius: 10px;
+    padding: 2rem 1.75rem;
+    margin-bottom: 2.25rem;
+    text-align: left;
+
+    &__title {
+      margin: 0.35rem 0 0.25rem 0 !important;
+      font-family: var(--font-scifi);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--scifi-heading) !important;
+    }
+
+    &__sub {
+      margin: 0 !important;
+      font-size: 0.92rem;
+      color: var(--scifi-muted) !important;
+    }
+  }
+
+  .scifi-archive-drawer {
+    margin-top: 2rem;
+    background-color: rgba(14, 21, 37, 0.6);
+    border: 1px solid var(--scifi-border);
+    border-radius: 8px;
+    padding: 0.85rem 1.15rem;
+
+    &__summary {
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--scifi-muted);
+      list-style-position: inside;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--scifi-cyan-bright);
+      }
+    }
+
+    &__list {
+      list-style: none;
+      margin: 0.85rem 0 0.2rem 0 !important;
+      padding: 0.75rem 0 0 0 !important;
+      border-top: 1px solid var(--scifi-border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    &__item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      margin: 0 !important;
+    }
+
+    &__date {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--scifi-amber);
+      flex-shrink: 0;
+    }
+
+    &__link {
+      color: var(--scifi-text) !important;
+      text-decoration: none !important;
+
+      &:hover {
+        color: var(--scifi-cyan-bright) !important;
+        text-decoration: underline !important;
+      }
+    }
+  }
+}
+
+
+// ==========================================================================
+// 5-THEME SYSTEM (gruvbox | telemetry | catppuccin | kitchen | paper) & LAYOUT C
+// ==========================================================================
+html[data-theme="gruvbox"] {
+  --hz-bg: #141617;
+  --hz-surface: #1D2021;
+  --hz-surface-hover: #252829;
+  --hz-code-bg: #1D2021;
+  --hz-border: #32302F;
+  --hz-text: #D4BE98;
+  --hz-heading: #DDC7A1;
+  --hz-muted: #7C6F64;
+  --hz-accent: #E78A4E;
+  --hz-accent-2: #D8A657;
+  --hz-radius: 12px;
+  --hz-head-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  --hz-body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  --syn-kw: #EA6962;
+  --syn-fn: #A9B665;
+  --syn-ty: #D8A657;
+  --syn-st: #A9B665;
+  --syn-cm: #7C6F64;
+  color-scheme: only dark;
+  background-color: #141617;
+  color: #D4BE98;
+  accent-color: #E78A4E;
+}
+
+html[data-theme="telemetry"] {
+  --hz-bg: #080C14;
+  --hz-surface: #0E1525;
+  --hz-surface-hover: #131D33;
+  --hz-code-bg: #05080F;
+  --hz-border: #1E2D45;
+  --hz-text: #CBD5E1;
+  --hz-heading: #F1F5F9;
+  --hz-muted: #64748B;
+  --hz-accent: #38BDF8;
+  --hz-accent-2: #FBBF24;
+  --hz-radius: 4px;
+  --hz-head-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  --hz-body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  --syn-kw: #F472B6;
+  --syn-fn: #38BDF8;
+  --syn-ty: #FBBF24;
+  --syn-st: #34D399;
+  --syn-cm: #64748B;
+  color-scheme: only dark;
+  background-color: #080C14;
+  color: #CBD5E1;
+  accent-color: #38BDF8;
+}
+
+html[data-theme="catppuccin"] {
+  --hz-bg: #1E1E2E;
+  --hz-surface: #181825;
+  --hz-surface-hover: #242538;
+  --hz-code-bg: #11111B;
+  --hz-border: #313244;
+  --hz-text: #BAC2DE;
+  --hz-heading: #CDD6F4;
+  --hz-muted: #7F849C;
+  --hz-accent: #CBA6F7;
+  --hz-accent-2: #A6E3A1;
+  --hz-radius: 8px;
+  --hz-head-font: var(--font-mono);
+  --hz-body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+  --syn-kw: #CBA6F7;
+  --syn-fn: #89B4FA;
+  --syn-ty: #F9E2AF;
+  --syn-st: #A6E3A1;
+  --syn-cm: #6C7086;
+  color-scheme: only dark;
+  background-color: #1E1E2E;
+  color: #BAC2DE;
+  accent-color: #CBA6F7;
+}
+
+html[data-theme="kitchen"] {
+  --hz-bg: #FAF7F2;
+  --hz-surface: #FFFFFF;
+  --hz-surface-hover: #FBF1EC;
+  --hz-code-bg: #F3EFE6;
+  --hz-border: #E6E1DA;
+  --hz-text: #44403C;
+  --hz-heading: #1C1917;
+  --hz-muted: #8A847C;
+  --hz-accent: #C84B31;
+  --hz-accent-2: #9A6B1F;
+  --hz-radius: 10px;
+  --hz-head-font: var(--font-serif);
+  --hz-body-font: var(--font-sans);
+  --syn-kw: #C84B31;
+  --syn-fn: #3F6B4E;
+  --syn-ty: #9A6B1F;
+  --syn-st: #5B7A2E;
+  --syn-cm: #A8A29E;
+  color-scheme: only light;
+  background-color: #FAF7F2;
+  color: #44403C;
+  accent-color: #C84B31;
+}
+
+html[data-theme="paper"] {
+  --hz-bg: #FFFFFF;
+  --hz-surface: #FFFFFF;
+  --hz-surface-hover: #F6F8FA;
+  --hz-code-bg: #F6F8FA;
+  --hz-border: #D8DEE4;
+  --hz-text: #24292F;
+  --hz-heading: #1F2328;
+  --hz-muted: #6E7781;
+  --hz-accent: #1A7F37;
+  --hz-accent-2: #0E7490;
+  --hz-radius: 0px;
+  --hz-head-font: var(--font-mono);
+  --hz-body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --syn-kw: #CF222E;
+  --syn-fn: #8250DF;
+  --syn-ty: #953800;
+  --syn-st: #0A3069;
+  --syn-cm: #6E7781;
+  color-scheme: only light;
+  background-color: #FFFFFF;
+  color: #24292F;
+  accent-color: #1A7F37;
+}
+
+html[data-theme] body.surface-blog,
+html[data-theme="gruvbox"] body.surface-kitchen,
+html[data-theme="telemetry"] body.surface-kitchen,
+html[data-theme="catppuccin"] body.surface-kitchen,
+html[data-theme="paper"] body.surface-kitchen {
+  --scifi-bg: var(--hz-bg);
+  --scifi-surface: var(--hz-surface);
+  --scifi-surface-hover: var(--hz-surface-hover);
+  --scifi-code-bg: var(--hz-code-bg);
+  --scifi-border: var(--hz-border);
+  --scifi-border-bright: var(--hz-accent);
+  --scifi-text: var(--hz-text);
+  --scifi-heading: var(--hz-heading);
+  --scifi-muted: var(--hz-muted);
+  --scifi-cyan: var(--hz-accent);
+  --scifi-cyan-bright: var(--hz-accent);
+  --scifi-amber: var(--hz-accent-2);
+  --scifi-emerald: #34D399;
+
+  background-color: var(--hz-bg);
+  background-image: none;
+  color: var(--hz-text);
+  font-family: var(--hz-body-font);
+
+  h1, h2, h3, h4, h5, h6,
+  .page__title,
+  .archive__item-title {
+    font-family: var(--hz-head-font);
+    color: var(--hz-heading);
+  }
+
+  .masthead {
+    background-color: var(--hz-bg);
+    border-bottom: 1px solid var(--hz-border);
+  }
+
+  .greedy-nav {
+    background: transparent;
+
+    .visible-links a {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--hz-muted);
+
+      &:hover {
+        color: var(--hz-heading);
+      }
+
+      &:before {
+        background: var(--hz-accent);
+      }
+    }
+  }
+
+  .page__content {
+    color: var(--hz-text);
+
+    p, li {
+      color: var(--hz-text);
+    }
+
+    h2, h3 {
+      color: var(--hz-heading);
+      border-bottom-color: var(--hz-border);
+    }
+
+    p > code,
+    li > code,
+    td > code {
+      background-color: var(--hz-surface);
+      color: var(--hz-accent);
+      border-color: var(--hz-border);
+    }
+
+    div.highlighter-rouge,
+    figure.highlight {
+      background-color: var(--hz-code-bg);
+      color: var(--hz-text);
+      border: 1px solid var(--hz-border);
+      border-top: 2px solid var(--hz-accent);
+      border-radius: var(--hz-radius);
+      box-shadow: none;
+
+      pre.highlight,
+      code {
+        color: var(--hz-text);
+      }
+
+      .c, .c1, .cm, .cs { color: var(--syn-cm); font-style: italic; }
+      .k, .kd, .kn, .kp, .kr, .kt { color: var(--syn-kw); font-weight: 600; }
+      .s, .s1, .s2, .sb, .sc, .sd, .sh { color: var(--syn-st); }
+      .nf, .nc, .nn { color: var(--syn-fn); }
+      .nv, .vi, .vg, .vc, .nb { color: var(--syn-ty); }
+    }
+  }
+
+  .page__footer {
+    background-color: var(--hz-bg);
+    border-top: 1px solid var(--hz-border);
+  }
+}
+
+html[data-theme="telemetry"] body.surface-blog {
+  background-image: radial-gradient(700px 260px at 85% -5%, rgba(56, 189, 248, 0.11), transparent 70%);
+}
+
+// Header Wordmark Variants (.hz-brand)
+.hz-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none !important;
+
+  .hv {
+    display: none;
+    font-family: var(--font-mono);
+    line-height: 1.2;
+  }
+}
+
+html[data-theme="gruvbox"] .hz-brand .hv-diamond,
+html:not([data-theme]) .hz-brand .hv-diamond,
+html[data-theme="telemetry"] .hz-brand .hv-plain,
+html[data-theme="catppuccin"] .hz-brand .hv-powerline,
+html[data-theme="kitchen"] .hz-brand .hv-serif,
+html[data-theme="paper"] .hz-brand .hv-robby {
+  display: inline-flex;
+  align-items: center;
+}
+
+@keyframes hz-blink {
+  50% { opacity: 0; }
+}
+
+.hz-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  background-color: var(--hz-accent, #38BDF8);
+  margin-left: 3px;
+  vertical-align: -0.15em;
+  animation: hz-blink 1.06s steps(1) infinite;
+}
+
+.hv-plain {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--hz-heading, #F1F5F9);
+}
+
+.hv-serif {
+  font-family: var(--font-serif) !important;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--hz-heading, #1C1917);
+
+  .hz-caret {
+    height: 0.9em;
+  }
+}
+
+.hv-diamond {
+  gap: 4px;
+  font-size: 0.76rem;
+  font-weight: 700;
+
+  .hv-seg {
+    padding: 0.22rem 0.68rem;
+    color: #141617;
+    border-radius: 999px;
+
+    &--1 { background-color: #E78A4E; }
+    &--2 { background-color: #D8A657; }
+    &--3 { background-color: #A9B665; }
+  }
+}
+
+.hv-powerline {
+  font-size: 0.76rem;
+  font-weight: 700;
+
+  .hv-seg {
+    position: relative;
+    padding: 0.22rem 0.72rem 0.22rem 0.98rem;
+    color: #11111B;
+
+    &--1 {
+      padding-left: 0.62rem;
+      border-radius: 4px 0 0 4px;
+      background-color: #F5C2E7;
+    }
+    &--2 { background-color: #CBA6F7; }
+    &--3 { background-color: #89B4FA; margin-right: 10px; }
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      background: inherit;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+      z-index: 2;
+    }
+  }
+}
+
+.hv-robby {
+  gap: 0.55rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+
+  .hv-arrow { color: #1A7F37; font-weight: 700; }
+  .hv-dir { color: #0E7490; }
+  .hv-git { color: #1D4ED8; }
+  .hv-br { color: #B91C1C; }
+}
+
+// Palette Theme Switcher Button & Popover
+.hz-theme-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  margin-right: 0.35rem;
+}
+
+.hz-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--hz-border, #32302F);
+  color: var(--hz-muted, #7C6F64);
+  border-radius: 6px;
+  padding: 0.32rem 0.48rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--hz-heading, #DDC7A1);
+    border-color: var(--hz-accent, #E78A4E);
+  }
+}
+
+.hz-theme-ico {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+}
+
+.hz-theme-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--hz-accent, #E78A4E);
+}
+
+.hz-theme-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 256px;
+  padding: 6px;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+  display: none;
+  z-index: 1200;
+
+  &.is-open {
+    display: block;
+  }
+}
+
+.hz-theme-opt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--hz-text, #D4BE98);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--hz-surface-hover, #252829);
+  }
+
+  &.is-active {
+    outline: 1px solid var(--hz-accent, #E78A4E);
+  }
+}
+
+.hz-theme-mini {
+  width: 50px;
+  height: 30px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(127, 127, 127, 0.3);
+  display: block;
+
+  b {
+    position: absolute;
+    top: 6px;
+    height: 5px;
+    border-radius: 3px;
+  }
+
+  em {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    top: 16px;
+    height: 8px;
+    border-radius: 2px;
+  }
+}
+
+.hz-theme-label {
+  display: block;
+  line-height: 1.3;
+
+  small {
+    display: block;
+    color: var(--hz-muted, #7C6F64);
+    font-size: 0.64rem;
+  }
+}
+
+// Layout C Blog Hub (.hz-hub, .hz-feature-card, .hz-project-shelf, .hz-post-list, .hz-project-grid)
+.hz-hub {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.hz-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hz-accent-2, #D8A657);
+  margin-bottom: 0.4rem;
+}
+
+.hz-feature-card {
+  margin: 0.5rem 0 1.25rem 0;
+  padding: 1.25rem 1.4rem;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-left: 3px solid var(--hz-accent, #E78A4E);
+  border-radius: var(--hz-radius, 12px);
+
+  &__title {
+    margin: 0 0 0.45rem 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    font-family: var(--hz-head-font);
+    font-size: 1.38rem;
+    line-height: 1.25;
+
+    a {
+      color: var(--hz-heading, #DDC7A1) !important;
+      text-decoration: none !important;
+
+      &:hover {
+        color: var(--hz-accent, #E78A4E) !important;
+      }
+    }
+  }
+
+  &__excerpt {
+    margin: 0 !important;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    color: var(--hz-text, #D4BE98) !important;
+  }
+}
+
+html[data-theme="gruvbox"] .hz-feature-card {
+  border-left: 1px solid var(--hz-border);
+  border-top: 2px solid var(--hz-accent);
+}
+
+html[data-theme="catppuccin"] .hz-feature-card {
+  border-left: 1px solid #313244;
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, #F5C2E7, #CBA6F7, #89B4FA, #94E2D5, #A6E3A1) 1;
+}
+
+html[data-theme="kitchen"] .hz-feature-card {
+  box-shadow: 0 6px 18px rgba(28, 25, 23, 0.06);
+}
+
+html[data-theme="paper"] .hz-feature-card {
+  border: 0;
+  border-left: 2px solid var(--hz-accent);
+  padding: 0.35rem 0 0.35rem 1.15rem;
+  background: transparent;
+}
+
+.hz-project-shelf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.hz-project-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--hz-border, #32302F);
+  background-color: var(--hz-surface, #1D2021);
+  color: var(--hz-accent, #E78A4E) !important;
+  border-radius: 999px;
+  text-decoration: none !important;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--hz-accent, #E78A4E);
+    background-color: var(--hz-surface-hover, #252829);
+  }
+}
+
+.hz-post-list {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 0 2rem 0 !important;
+
+  &__item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.96rem;
+    line-height: 2.2;
+    border-bottom: 1px dashed var(--hz-border, #32302F);
+    margin: 0 !important;
+  }
+
+  &__date {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--hz-muted, #7C6F64);
+    width: 86px;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__link {
+    color: var(--hz-heading, #DDC7A1) !important;
+    text-decoration: none !important;
+
+    &:hover {
+      color: var(--hz-accent, #E78A4E) !important;
+      text-decoration: underline !important;
+    }
+  }
+}
+
+html[data-theme="paper"] .hz-post-list__item {
+  border-bottom: 0;
+}
+
+.hz-projects-intro {
+  max-width: 780px;
+  margin: 0 0 1.5rem 0;
+  color: var(--hz-muted, #7C6F64);
+}
+
+.hz-project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1.15rem;
+}
+
+.hz-project-card {
+  padding: 1.2rem 1.35rem;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-radius: var(--hz-radius, 12px);
+
+  &__title {
+    margin: 0 0 0.45rem 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    font-size: 1.12rem;
+    color: var(--hz-heading, #DDC7A1);
+
+    a {
+      color: var(--hz-heading, #DDC7A1) !important;
+      text-decoration: none !important;
+
+      &:hover {
+        color: var(--hz-accent, #E78A4E) !important;
+      }
+    }
+  }
+
+  &__desc {
+    margin: 0 !important;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+// Credly Certification Badge Shelf (/about/)
+.hz-cred-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem 0;
+}
+
+.hz-cred-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-radius: var(--hz-radius, 10px);
+  text-decoration: none !important;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--hz-accent, #E78A4E);
+    background-color: var(--hz-surface-hover, #252829);
+    transform: translateY(-1px);
+  }
+
+  img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin: 0 !important;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+
+    strong {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      color: var(--hz-heading, #DDC7A1);
+    }
+
+    small {
+      font-size: 0.72rem;
+      color: var(--hz-muted, #7C6F64);
+      margin-top: 0.15rem;
+    }
+  }
+}
+

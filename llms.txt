@@ -1,0 +1,17 @@
+---
+layout: null
+permalink: /llms.txt
+---
+{%- assign live_recipes = site.recipes | where_exp: "r", "r.status != 'draft'" -%}
+# Hawzy's Kitchen & Recipe Blog
+
+> An agentic family recipe catalog, weekly dinner planning engine, and grocery fulfillment platform.
+
+## Machine Endpoints
+- [Active Weekly Menu JSON]({{ '/api/weekly-menu.json' | absolute_url }}): Scaled weekly menu, scheduled meals, kitchen-testing status, and ingredient manifests.
+- [All Recipes JSON]({{ '/api/recipes.json' | absolute_url }}): Complete catalog of structured recipe objects including `status` (`untested` / `tested`), `origin`, `tested_on`, and `sources`.
+
+## Recipes
+{% for recipe in live_recipes %}
+- [{{ recipe.title }}]({{ recipe.url | absolute_url }}) [{{ recipe.status | default: "untested" }}]: {{ recipe.excerpt | strip_html | strip_newlines | strip }} ({{ recipe.cuisine }}, {{ recipe.prep_minutes | plus: recipe.cook_minutes }} mins)
+{% endfor %}

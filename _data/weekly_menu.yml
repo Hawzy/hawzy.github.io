@@ -1,0 +1,13 @@
+week_of: "2026-11-08"
+default_modality: "PICKUP"
+postal_code: "99223"
+preferred_retailer_key: "fred-meyer"
+meals:
+  - day: "Tuesday"
+    recipe_slug: "crispy-mongolian-beef-broccoli"
+    scale_factor: 1.0
+    notes: "Crispy wok-seared flank steak & broccoli night"
+  - day: "Friday"
+    recipe_slug: "blackstone-shabu-steak-fried-rice"
+    scale_factor: 1.5
+    notes: "Flat-top hibachi night with extra lunch portions"

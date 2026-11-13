@@ -1,0 +1,64 @@
+---
+layout: single
+---
+
+{% include recipe-schema.html %}
+
+{% assign total_mins = page.prep_minutes | plus: page.cook_minutes %}
+{% assign hero_img = page.image | default: page.header.teaser %}
+
+<div class="recipe-editorial-header{% if hero_img and hero_img != '' %} recipe-editorial-header--has-hero{% endif %}">
+  <div class="recipe-editorial-header__main">
+    {% if page.excerpt %}
+      <p class="recipe-lead-excerpt">{{ page.excerpt | strip_html }}</p>
+    {% endif %}
+
+    <!-- Top Utility Action Bar ("Jump to Recipe" & "Print Recipe") -->
+    <div class="recipe-top-actions" role="region" aria-label="Recipe quick actions and summary">
+      <div class="recipe-action-buttons">
+        <a href="#recipe-card" class="recipe-btn recipe-btn--primary">Jump to Recipe &darr;</a>
+        <button type="button" class="recipe-btn recipe-btn--secondary" onclick="window.print()">Print Recipe &#128424;&#65039;</button>
+      </div>
+
+      <div class="recipe-quick-pills">
+        {% if page.status == 'tested' %}
+          {% if page.test_notes and page.test_notes != '' %}
+            <a href="#from-my-kitchen" class="recipe-status-badge recipe-status-badge--tested"><span aria-hidden="true">&#10003;</span> Kitchen-tested &middot; {{ page.tested_on }}</a>
+          {% else %}
+            <span class="recipe-status-badge recipe-status-badge--tested"><span aria-hidden="true">&#10003;</span> Kitchen-tested &middot; {{ page.tested_on }}</span>
+          {% endif %}
+        {% elsif page.status == 'draft' %}
+          <span class="recipe-status-badge recipe-status-badge--draft"><span aria-hidden="true">&#9676;</span> Pipeline draft</span>
+        {% else %}
+          <span class="recipe-status-badge recipe-status-badge--untested"><span aria-hidden="true">&#9679;</span> Untested draft</span>
+        {% endif %}
+        <span class="recipe-pill">
+          <span class="recipe-pill__label">Total Time</span>
+          <strong class="recipe-pill__value">{{ total_mins }} mins</strong>
+        </span>
+        <span class="recipe-pill">
+          <span class="recipe-pill__label">Yield</span>
+          <strong class="recipe-pill__value">{{ page.servings }} servings</strong>
+        </span>
+        {% if page.cuisine %}
+          <span class="recipe-pill">
+            <span class="recipe-pill__label">Cuisine</span>
+            <strong class="recipe-pill__value">{{ page.cuisine }}</strong>
+          </span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if hero_img and hero_img != "" %}
+    <figure class="recipe-hero-figure">
+      <img src="{{ hero_img | relative_url }}" alt="{{ page.title | escape }}" class="recipe-hero-image" loading="eager">
+    </figure>
+  {% endif %}
+</div>
+
+<div class="recipe-narrative-body">
+  {{ content }}
+</div>
+
+{% include recipe-card.html %}

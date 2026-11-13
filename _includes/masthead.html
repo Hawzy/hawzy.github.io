@@ -7,9 +7,12 @@
         {% unless logo_path == empty %}
           <a class="site-logo" href="{{ '/' | relative_url }}"><img src="{{ logo_path | relative_url }}" alt="{{ site.masthead_title | default: site.title }}"></a>
         {% endunless %}
-        <a class="site-title" href="{{ '/' | relative_url }}">
-          {{ site.masthead_title | default: site.title }}
-          {% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
+        <a class="site-title hz-brand" href="{{ '/' | relative_url }}" aria-label="hawzy home">
+          <span class="hv hv-diamond"><span class="hv-seg hv-seg--1">hawzy</span><span class="hv-seg hv-seg--2">~/blog</span><span class="hv-seg hv-seg--3">main</span></span>
+          <span class="hv hv-plain">hawzy<i class="hz-caret" aria-hidden="true"></i></span>
+          <span class="hv hv-powerline"><span class="hv-seg hv-seg--1">hawzy</span><span class="hv-seg hv-seg--2">~/blog</span><span class="hv-seg hv-seg--3">main &#10003;</span></span>
+          <span class="hv hv-serif">hawzy<i class="hz-caret" aria-hidden="true"></i></span>
+          <span class="hv hv-robby"><span class="hv-arrow">&rarr;</span><span class="hv-dir">hawzy</span><span class="hv-git">git:(<span class="hv-br">main</span>)</span></span>
         </a>
         <ul class="visible-links">
           {%- for link in site.data.navigation.main -%}
@@ -18,6 +21,34 @@
             </li>
           {%- endfor -%}
         </ul>
+        <div class="hz-theme-picker">
+          <button class="hz-theme-btn" id="hz-theme-btn" type="button" aria-label="Select color theme" aria-expanded="false" aria-controls="hz-theme-menu">
+            <svg class="hz-theme-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.1-1.6-1.1-2.7 0-.8.7-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg>
+            <span class="hz-theme-dot" aria-hidden="true"></span>
+          </button>
+          <div class="hz-theme-menu" id="hz-theme-menu" role="menu" aria-label="Color themes">
+            <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="gruvbox">
+              <span class="hz-theme-mini" style="background:#141617"><b style="left:5px;width:12px;background:#E78A4E"></b><b style="left:19px;width:12px;background:#D8A657"></b><b style="left:33px;width:12px;background:#A9B665"></b><em style="background:#1D2021"></em></span>
+              <span class="hz-theme-label">Gruvbox<small>warm dark &middot; rounded pills</small></span>
+            </button>
+            <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="telemetry">
+              <span class="hz-theme-mini" style="background:#080C14"><b style="left:5px;width:22px;background:#38BDF8"></b><em style="background:#0E1525;border-left:2px solid #38BDF8"></em></span>
+              <span class="hz-theme-label">Telemetry<small>cool navy &middot; blinking cursor</small></span>
+            </button>
+            <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="catppuccin">
+              <span class="hz-theme-mini" style="background:#1E1E2E"><b style="left:5px;width:12px;background:#F5C2E7"></b><b style="left:17px;width:12px;background:#CBA6F7"></b><b style="left:29px;width:12px;background:#89B4FA"></b><em style="background:#181825"></em></span>
+              <span class="hz-theme-label">Catppuccin<small>pastel dark &middot; powerline</small></span>
+            </button>
+            <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="kitchen">
+              <span class="hz-theme-mini" style="background:#FAF7F2"><b style="left:5px;width:22px;background:#C84B31"></b><em style="background:#FFFFFF;border-left:2px solid #C84B31"></em></span>
+              <span class="hz-theme-label">Kitchen<small>warm light &middot; serif</small></span>
+            </button>
+            <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="paper">
+              <span class="hz-theme-mini" style="background:#FFFFFF"><b style="left:5px;width:6px;background:#1A7F37"></b><b style="left:14px;width:14px;background:#0E7490"></b><b style="left:31px;width:12px;background:#B91C1C"></b><em style="background:#F6F8FA"></em></span>
+              <span class="hz-theme-label">Paper<small>stark light &middot; robbyrussell &rarr;</small></span>
+            </button>
+          </div>
+        </div>
         {% if site.search == true %}
         <button class="search__toggle" type="button">
           <span class="visually-hidden">{{ site.data.ui-text[site.locale].search_label | default: "Toggle search" }}</span>
@@ -33,3 +64,63 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function () {
+    var colors = { gruvbox: "#141617", telemetry: "#080C14", catppuccin: "#1E1E2E", kitchen: "#FAF7F2", paper: "#FFFFFF" };
+    var root = document.documentElement;
+    var btn = document.getElementById("hz-theme-btn");
+    var menu = document.getElementById("hz-theme-menu");
+    if (!btn || !menu) return;
+    var opts = menu.querySelectorAll(".hz-theme-opt");
+    function syncActive() {
+      var cur = root.getAttribute("data-theme") || "gruvbox";
+      opts.forEach(function (o) {
+        var on = o.getAttribute("data-theme-opt") === cur;
+        o.classList.toggle("is-active", on);
+        o.setAttribute("aria-checked", on ? "true" : "false");
+      });
+    }
+    function closeMenu() {
+      menu.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = menu.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) syncActive();
+    });
+    opts.forEach(function (opt) {
+      opt.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var t = opt.getAttribute("data-theme-opt");
+        if (!t || !colors[t]) return;
+        root.setAttribute("data-theme", t);
+        try { localStorage.setItem("hawzy-theme", t); } catch (err) {}
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", colors[t]);
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "select_theme", { theme_id: t });
+        }
+        if (typeof window.clarity === "function") {
+          window.clarity("set", "theme", t);
+          window.clarity("event", "select_theme_" + t);
+        }
+        syncActive();
+        closeMenu();
+      });
+    });
+    document.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeMenu();
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "S" || e.key === "s")) {
+        e.preventDefault();
+        var open = menu.classList.toggle("is-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open) syncActive();
+      }
+    });
+    syncActive();
+  })();
+</script>

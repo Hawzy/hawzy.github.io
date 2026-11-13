@@ -1,0 +1,40 @@
+{% assign live_recipes = site.recipes | where_exp: "r", "r.status != 'draft'" %}
+<div class="recipes-grid">
+  {% for recipe in live_recipes %}
+    {% assign card_img = recipe.image | default: recipe.header.teaser %}
+    <article class="recipe-catalog-card">
+      {% if card_img and card_img != "" %}
+        <a href="{{ recipe.url | relative_url }}" class="recipe-catalog-card__thumb-link" tabindex="-1" aria-hidden="true">
+          <img src="{{ card_img | relative_url }}" alt="" class="recipe-catalog-card__thumb" loading="lazy">
+        </a>
+      {% endif %}
+      <div class="recipe-catalog-card__body">
+        <div>
+          <div class="recipe-catalog-card__eyebrow">
+            <span class="recipe-status-dot recipe-status-dot--{{ recipe.status | default: 'untested' }}" title="{% if recipe.status == 'tested' %}Kitchen-tested{% else %}Untested draft{% endif %}">{% if recipe.status == 'tested' %}&#10003; Tested{% else %}&#9679; Untested{% endif %}</span>
+            <span aria-hidden="true">&bull;</span>
+            <span>{{ recipe.cuisine }}</span>
+            <span aria-hidden="true">&bull;</span>
+            <span>{{ recipe.prep_minutes | plus: recipe.cook_minutes }} MINS</span>
+            {% if recipe.servings %}
+              <span aria-hidden="true">&bull;</span>
+              <span>{{ recipe.servings }} SERVINGS</span>
+            {% endif %}
+          </div>
+          <h3 class="recipe-catalog-card__title">
+            <a href="{{ recipe.url | relative_url }}">{{ recipe.title }}</a>
+          </h3>
+          <p class="recipe-catalog-card__excerpt">
+            {{ recipe.excerpt | strip_html | strip_newlines | truncate: 165 }}
+          </p>
+        </div>
+        <div class="recipe-catalog-card__footer">
+          <a href="{{ recipe.url | relative_url }}" class="recipe-btn recipe-btn--primary recipe-catalog-card__cta">View Recipe &rarr;</a>
+          {% if recipe.calories_per_serving %}
+            <span class="recipe-catalog-card__kcal">{{ recipe.calories_per_serving }} kcal</span>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+</div>

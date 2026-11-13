@@ -1,0 +1,382 @@
+{% assign total_mins = page.prep_minutes | plus: page.cook_minutes %}
+{% assign card_img = page.image | default: page.header.teaser %}
+
+<section id="recipe-card" class="recipe-card" aria-labelledby="recipe-card-title">
+  <!-- Card Header (Print-first title block + compact screen toolbar) -->
+  <header class="recipe-card__header">
+    <div class="recipe-card__header-main">
+      <div class="recipe-card__eyebrow">
+        {% if page.cuisine %}<span class="recipe-card__cuisine-tag">{{ page.cuisine }}</span>{% endif %}
+        {% if page.categories and page.categories.size > 0 %}
+          <span class="recipe-card__cat-tag">{{ page.categories | join: " &bull; " }}</span>
+        {% endif %}
+        {% if page.status == 'tested' %}
+          {% if page.test_notes and page.test_notes != '' %}
+            <a href="#from-my-kitchen" class="recipe-status-badge recipe-status-badge--tested"><span aria-hidden="true">&#10003;</span> Kitchen-tested &middot; {{ page.tested_on }}</a>
+          {% else %}
+            <span class="recipe-status-badge recipe-status-badge--tested"><span aria-hidden="true">&#10003;</span> Kitchen-tested &middot; {{ page.tested_on }}</span>
+          {% endif %}
+        {% elsif page.status == 'draft' %}
+          <span class="recipe-status-badge recipe-status-badge--draft"><span aria-hidden="true">&#9676;</span> Pipeline draft</span>
+        {% else %}
+          <span class="recipe-status-badge recipe-status-badge--untested"><span aria-hidden="true">&#9679;</span> Untested draft</span>
+        {% endif %}
+      </div>
+      <h2 id="recipe-card-title" class="recipe-card__title">{{ page.title }}</h2>
+      {% if page.excerpt %}
+        <p class="recipe-card__excerpt">{{ page.excerpt | strip_html }}</p>
+      {% endif %}
+    </div>
+
+    {% if card_img and card_img != "" %}
+      <div class="recipe-card__thumbnail-wrap">
+        <img src="{{ card_img | relative_url }}" alt="{{ page.title | escape }}" class="recipe-card__thumbnail" loading="lazy">
+      </div>
+    {% endif %}
+  </header>
+
+  <!-- Compact Toolbar: 4-Column Metadata Grid + Controls -->
+  <div class="recipe-card__toolbar">
+    <div class="recipe-card__meta-grid" role="list" aria-label="Recipe timing and nutrition">
+      <div class="recipe-card__meta-item" role="listitem">
+        <span class="recipe-card__meta-label">PREP TIME</span>
+        <span class="recipe-card__meta-value">{{ page.prep_minutes }} mins</span>
+      </div>
+      <div class="recipe-card__meta-item" role="listitem">
+        <span class="recipe-card__meta-label">COOK TIME</span>
+        <span class="recipe-card__meta-value">{{ page.cook_minutes }} mins</span>
+      </div>
+      <div class="recipe-card__meta-item" role="listitem">
+        <span class="recipe-card__meta-label">TOTAL TIME</span>
+        <span class="recipe-card__meta-value">{{ total_mins }} mins</span>
+      </div>
+      <div class="recipe-card__meta-item" role="listitem">
+        <span class="recipe-card__meta-label">YIELD / CALORIES</span>
+        <span class="recipe-card__meta-value">
+          <span id="recipe-servings-val" data-base-servings="{{ page.servings }}">{{ page.servings }}</span> servings
+          {% if page.calories_per_serving %}
+            <span class="recipe-card__calories">&bull; {{ page.calories_per_serving }} kcal</span>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    <div class="recipe-card__controls">
+      <button type="button" id="wake-lock-btn" class="recipe-btn recipe-btn--wakelock" aria-pressed="false" onclick="toggleCookMode(this)">
+        <span class="wakelock-indicator" aria-hidden="true"></span>
+        <span class="wakelock-label">Cook Mode (Keep Screen Awake)</span>
+      </button>
+      <button type="button" class="recipe-btn recipe-btn--outline" onclick="window.print()">
+        <span aria-hidden="true">&#128424;&#65039;</span> Print Recipe
+      </button>
+    </div>
+  </div>
+
+  {% if page.test_notes and page.test_notes != "" %}
+    <details id="from-my-kitchen" class="recipe-kitchen-notes" open>
+      <summary class="recipe-kitchen-notes__summary">From my kitchen</summary>
+      <p class="recipe-kitchen-notes__body">{{ page.test_notes | escape }}</p>
+    </details>
+  {% endif %}
+
+  <!-- Main Recipe Body: Ingredients & Instructions -->
+  <div class="recipe-card__body">
+    <!-- Ingredients Column -->
+    <div class="recipe-card__ingredients">
+      <div class="recipe-card__section-header">
+        <h3 class="recipe-card__section-title">Ingredients</h3>
+        <div class="recipe-scaler" role="group" aria-label="Scale recipe ingredients">
+          <button type="button" class="recipe-scale-btn is-active" data-scale="1" aria-pressed="true" onclick="scaleRecipe(1, this)">1x</button>
+          <button type="button" class="recipe-scale-btn" data-scale="2" aria-pressed="false" onclick="scaleRecipe(2, this)">2x</button>
+          <button type="button" class="recipe-scale-btn" data-scale="3" aria-pressed="false" onclick="scaleRecipe(3, this)">3x</button>
+        </div>
+      </div>
+
+      <ul class="recipe-ingredients-list">
+        {% for ing in page.ingredients %}
+          {% assign qty_str = ing.quantity | append: "" %}
+          {% assign frac_label = qty_str %}
+          {% if ing.quantity == 0.25 %}
+            {% assign frac_label = "1/4" %}
+          {% elsif ing.quantity == 0.33 or ing.quantity == 0.333 or ing.quantity == 0.3333 or ing.quantity == 0.3334 %}
+            {% assign frac_label = "1/3" %}
+          {% elsif ing.quantity == 0.5 %}
+            {% assign frac_label = "1/2" %}
+          {% elsif ing.quantity == 0.66 or ing.quantity == 0.67 or ing.quantity == 0.6667 %}
+            {% assign frac_label = "2/3" %}
+          {% elsif ing.quantity == 0.75 %}
+            {% assign frac_label = "3/4" %}
+          {% elsif ing.quantity == 1.5 %}
+            {% assign frac_label = "1 1/2" %}
+          {% elsif ing.quantity == 2.5 %}
+            {% assign frac_label = "2 1/2" %}
+          {% endif %}
+          {% assign text_stripped = ing.display_text | strip %}
+          {% assign prefix_space = qty_str | append: " " %}
+          {% assign frac_prefix_space = frac_label | append: " " %}
+          {% assign rest_text = "" %}
+          {% assign display_qty = frac_label %}
+          {% assign has_prefix = false %}
+          {% if text_stripped contains prefix_space %}
+            {% assign check_prefix = text_stripped | slice: 0, prefix_space.size %}
+            {% if check_prefix == prefix_space %}
+              {% assign has_prefix = true %}
+              {% assign rest_len = text_stripped.size | minus: prefix_space.size %}
+              {% assign rest_text = text_stripped | slice: prefix_space.size, rest_len %}
+              {% assign display_qty = qty_str %}
+            {% endif %}
+          {% endif %}
+          {% if has_prefix == false and frac_label != qty_str %}
+            {% assign check_frac = text_stripped | slice: 0, frac_prefix_space.size %}
+            {% if check_frac == frac_prefix_space %}
+              {% assign has_prefix = true %}
+              {% assign rest_len = text_stripped.size | minus: frac_prefix_space.size %}
+              {% assign rest_text = text_stripped | slice: frac_prefix_space.size, rest_len %}
+              {% assign display_qty = frac_label %}
+            {% endif %}
+          {% endif %}
+          <li class="recipe-ingredient-row" onclick="toggleIngredientRow(event, this)">
+            <label class="recipe-ingredient-label" for="ing-{{ forloop.index }}">
+              <input type="checkbox" id="ing-{{ forloop.index }}" class="recipe-checkbox">
+              <span class="recipe-checkbox-custom" aria-hidden="true"></span>
+              <span class="recipe-ingredient-text">
+                {% if has_prefix %}
+                  <span class="recipe-ing-qty" data-base-qty="{{ ing.quantity }}">{{ display_qty }}</span>
+                  <span class="recipe-ing-desc">{{ rest_text }}</span>
+                {% else %}
+                  <span class="recipe-ing-qty" data-base-qty="{{ ing.quantity }}">{{ frac_label }}</span>
+                  <span class="recipe-ing-unit">{{ ing.unit }}</span>
+                  <span class="recipe-ing-desc">({{ ing.display_text }})</span>
+                {% endif %}
+                {% if ing.pantry_staple %}
+                  <span class="recipe-pantry-badge">PANTRY</span>
+                {% endif %}
+              </span>
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Instructions Column -->
+    <div class="recipe-card__instructions">
+      <div class="recipe-card__section-header">
+        <h3 class="recipe-card__section-title">Instructions</h3>
+      </div>
+
+      <ol class="recipe-instructions-list">
+        {% for step in page.instructions %}
+          <li class="recipe-instruction-step">
+            <span class="recipe-step-counter" aria-hidden="true">{% if forloop.index < 10 %}0{{ forloop.index }}{% else %}{{ forloop.index }}{% endif %}</span>
+            <div class="recipe-step-content">{{ step | markdownify }}</div>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+
+  {% if page.engineer_grid_html and page.engineer_grid_html != "" %}
+    <!-- Cooking for Engineers Block Grid (Order of Operations) -->
+    <div class="recipe-card__engineer-grid">
+      <div class="recipe-card__section-header recipe-card__section-header--grid">
+        <div class="engineer-grid-heading-group">
+          <h3 id="engineer-grid-title" class="recipe-card__section-title">Recipe Block Grid (Order of Operations)</h3>
+          <p class="engineer-grid-subtitle">Cooking for Engineers dependency matrix &mdash; follow ingredients down the left and combine phases left-to-right.</p>
+        </div>
+        <div class="engineer-grid-header-actions">
+          <div class="engineer-grid-legend" aria-label="Color key for cooking actions">
+            <span class="engineer-legend-chip engineer-legend-chip--prep">Prep / Chill</span>
+            <span class="engineer-legend-chip engineer-legend-chip--heat">Heat / Sear / Simmer</span>
+            <span class="engineer-legend-chip engineer-legend-chip--finish">Assemble &amp; Serve</span>
+          </div>
+          <button type="button" class="recipe-btn recipe-btn--outline engineer-grid-expand-btn" onclick="openEngineerGridModal()" aria-haspopup="dialog" aria-controls="engineer-grid-dialog">
+            <span aria-hidden="true">&#10530;</span> Expand Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <div class="engineer-grid-wrapper" tabindex="0" role="region" aria-labelledby="engineer-grid-title" onclick="openEngineerGridModal()" title="Click to expand fullscreen landscape view">
+        {{ page.engineer_grid_html }}
+      </div>
+    </div>
+
+    <!-- Chromeless Landscape Lightbox Dialog for Cooking for Engineers Block Grid -->
+    <dialog id="engineer-grid-dialog" class="engineer-grid-dialog" closedby="any" aria-label="{{ page.title | escape }} - Recipe Block Grid">
+      <form method="dialog" class="engineer-grid-dialog__close-form">
+        <button type="submit" class="engineer-grid-close-pill" aria-label="Close fullscreen block grid" title="Close (Esc)">
+          &#10005;
+        </button>
+      </form>
+      <div class="engineer-grid-dialog__canvas" tabindex="0">
+        {{ page.engineer_grid_html }}
+      </div>
+    </dialog>
+  {% endif %}
+
+  <footer class="recipe-card__sources" aria-label="Recipe sources and provenance">
+    <h3 class="recipe-card__sources-title">Sources &amp; inspiration</h3>
+    {% if page.origin == 'family' %}
+      <p class="recipe-card__sources-summary">Family recipe</p>
+      <p class="recipe-print-credit">Source: Family recipe</p>
+    {% elsif page.sources and page.sources.size > 0 %}
+      <p class="recipe-card__sources-summary">Researched across {{ page.sources.size }} {% if page.sources.size == 1 %}source{% else %}sources{% endif %}</p>
+      <ul class="recipe-card__sources-list">
+        {% for src in page.sources %}
+          <li class="recipe-card__sources-item">
+            <a href="{{ src.url }}" rel="noopener noreferrer" target="_blank">{{ src.title }}</a>{% if src.author and src.author != "" %} &mdash; <span class="recipe-card__sources-author">{{ src.author }}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <p class="recipe-print-credit">Sources ({{ page.sources.size }}): {{ page.sources | map: "title" | join: "; " }}</p>
+    {% else %}
+      <p class="recipe-card__sources-summary">Research synthesis &mdash; source citations backfilling</p>
+      <p class="recipe-print-credit">Source: Research synthesis</p>
+    {% endif %}
+  </footer>
+</section>
+
+<script>
+(function() {
+  function formatScaledQty(val) {
+    var rounded = Math.round(val * 100) / 100;
+    var nearestInt = Math.round(rounded);
+    if (Math.abs(rounded - nearestInt) < 0.04) {
+      return String(nearestInt);
+    }
+    var whole = Math.floor(rounded);
+    var frac = rounded - whole;
+    var fracStr = '';
+    if (Math.abs(frac - 0.25) < 0.04) fracStr = '1/4';
+    else if (Math.abs(frac - 0.333) < 0.04) fracStr = '1/3';
+    else if (Math.abs(frac - 0.5) < 0.04) fracStr = '1/2';
+    else if (Math.abs(frac - 0.665) < 0.04) fracStr = '2/3';
+    else if (Math.abs(frac - 0.75) < 0.04) fracStr = '3/4';
+
+    if (fracStr) {
+      return whole > 0 ? (whole + ' ' + fracStr) : fracStr;
+    }
+    return String(rounded);
+  }
+
+  window.scaleRecipe = function(multiplier, btnEl) {
+    var card = document.getElementById('recipe-card');
+    if (!card) return;
+
+    var buttons = card.querySelectorAll('.recipe-scale-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      var btnScale = parseFloat(buttons[i].getAttribute('data-scale'));
+      var isMatch = (btnScale === multiplier);
+      buttons[i].classList.toggle('is-active', isMatch);
+      buttons[i].setAttribute('aria-pressed', isMatch ? 'true' : 'false');
+    }
+
+    var qtySpans = card.querySelectorAll('[data-base-qty]');
+    for (var j = 0; j < qtySpans.length; j++) {
+      var baseQty = parseFloat(qtySpans[j].getAttribute('data-base-qty'));
+      if (!isNaN(baseQty)) {
+        qtySpans[j].textContent = formatScaledQty(baseQty * multiplier);
+      }
+    }
+
+    var servingsEl = document.getElementById('recipe-servings-val');
+    if (servingsEl) {
+      var baseServings = parseFloat(servingsEl.getAttribute('data-base-servings'));
+      if (!isNaN(baseServings)) {
+        servingsEl.textContent = formatScaledQty(baseServings * multiplier);
+      }
+    }
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'recipe_scale', { scale_factor: multiplier });
+    }
+    if (typeof window.clarity === 'function') {
+      window.clarity('event', 'recipe_scale_' + multiplier + 'x');
+    }
+  };
+
+  window.toggleIngredientRow = function(event, rowEl) {
+    var checkbox = rowEl.querySelector('.recipe-checkbox');
+    if (!checkbox) return;
+    if (event.target !== checkbox && event.target.tagName !== 'LABEL' && !event.target.closest('label')) {
+      checkbox.checked = !checkbox.checked;
+    }
+    setTimeout(function() {
+      if (checkbox.checked) {
+        rowEl.classList.add('is-completed');
+      } else {
+        rowEl.classList.remove('is-completed');
+      }
+    }, 0);
+  };
+
+  var wakeLockSentinel = null;
+  window.toggleCookMode = async function(btnEl) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'toggle_cook_mode');
+    }
+    if (typeof window.clarity === 'function') {
+      window.clarity('event', 'toggle_cook_mode');
+    }
+    var labelEl = btnEl.querySelector('.wakelock-label');
+    if (!('wakeLock' in navigator)) {
+      var isPressed = btnEl.getAttribute('aria-pressed') === 'true';
+      btnEl.setAttribute('aria-pressed', isPressed ? 'false' : 'true');
+      btnEl.classList.toggle('is-active', !isPressed);
+      if (labelEl) {
+        labelEl.textContent = !isPressed ? 'Cook Mode Active (Simulated)' : 'Cook Mode (Keep Screen Awake)';
+      }
+      return;
+    }
+
+    try {
+      if (wakeLockSentinel !== null) {
+        await wakeLockSentinel.release();
+        wakeLockSentinel = null;
+        btnEl.setAttribute('aria-pressed', 'false');
+        btnEl.classList.remove('is-active');
+        if (labelEl) labelEl.textContent = 'Cook Mode (Keep Screen Awake)';
+      } else {
+        wakeLockSentinel = await navigator.wakeLock.request('screen');
+        btnEl.setAttribute('aria-pressed', 'true');
+        btnEl.classList.add('is-active');
+        if (labelEl) labelEl.textContent = 'Cook Mode Active (Screen Awake)';
+        wakeLockSentinel.addEventListener('release', function() {
+          wakeLockSentinel = null;
+          btnEl.setAttribute('aria-pressed', 'false');
+          btnEl.classList.remove('is-active');
+          if (labelEl) labelEl.textContent = 'Cook Mode (Keep Screen Awake)';
+        });
+      }
+    } catch (err) {
+      btnEl.classList.toggle('is-active');
+      var active = btnEl.classList.contains('is-active');
+      btnEl.setAttribute('aria-pressed', active ? 'true' : 'false');
+      if (labelEl) {
+        labelEl.textContent = active ? 'Cook Mode Active' : 'Cook Mode (Keep Screen Awake)';
+      }
+    }
+  };
+
+  window.openEngineerGridModal = function() {
+    var dialog = document.getElementById('engineer-grid-dialog');
+    if (dialog && typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    }
+  };
+
+  var gridDialog = document.getElementById('engineer-grid-dialog');
+  if (gridDialog && !('closedBy' in HTMLDialogElement.prototype)) {
+    gridDialog.addEventListener('click', function(event) {
+      if (event.target !== gridDialog) return;
+      var rect = gridDialog.getBoundingClientRect();
+      var isDialogContent = (
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width
+      );
+      if (isDialogContent) return;
+      gridDialog.close();
+    });
+  }
+})();
+</script>

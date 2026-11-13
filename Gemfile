@@ -1,8 +1,10 @@
 source "https://rubygems.org"
 
-gem "github-pages", "~> 223", group: :jekyll_plugins
-
-# If you have any plugins, put them here!
-group :jekyll_plugins do
-
-end
+gem "jekyll", "~> 4.3"
+gem "minimal-mistakes-jekyll", "~> 4.28"
+gem "jekyll-include-cache"
+gem "jekyll-feed"
+gem "jekyll-seo-tag"
+gem "jekyll-sitemap"
+gem "webrick"
+gem "tzinfo-data", platforms: [:mingw, :x64_mingw, :mswin]

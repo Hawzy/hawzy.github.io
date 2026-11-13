@@ -9,5 +9,25 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 <meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#778899">
+<meta name="theme-color" content="{% if page.collection == 'recipes' or page.surface == 'kitchen' %}#FAF7F2{% else %}#141617{% endif %}">
+{% if page.archived == true or (page.collection == 'recipes' and page.status == 'draft') %}<meta name="robots" content="noindex">{% endif %}
+
+<script>
+  (function () {
+    var valid = { gruvbox: "#141617", telemetry: "#080C14", catppuccin: "#1E1E2E", kitchen: "#FAF7F2", paper: "#FFFFFF" };
+    var root = document.documentElement;
+    var saved = null;
+    try { saved = localStorage.getItem("hawzy-theme"); } catch (e) {}
+    var def = root.getAttribute("data-default-theme") || "gruvbox";
+    var chosen = (saved && valid[saved]) ? saved : (valid[def] ? def : "gruvbox");
+    root.setAttribute("data-theme", chosen);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta && valid[chosen]) meta.setAttribute("content", valid[chosen]);
+  })();
+</script>
+
+<!-- Editorial & Sci-Fi Typography: Fraunces, Space Grotesk, Plus Jakarta Sans, and JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..600&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <!-- end custom head snippets -->
