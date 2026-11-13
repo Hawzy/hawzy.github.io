@@ -333,6 +333,105 @@ class TestBlogPipeline(unittest.TestCase):
         self.assertIn("/?tag=antigravity", built_html)
         self.assertIn("#antigravity", built_html)
 
+    def test_audit_validates_additive_asset_and_x_post_url(self):
+        audit_posts = load_audit_posts()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            missing_asset = tmp_path / "2026-11-13-no-asset.md"
+            missing_asset.write_text(
+                "---\n"
+                'title: "No Asset Test"\n'
+                'excerpt: "Verifies require_additive_asset catches missing or short additive_asset."\n'
+                "categories:\n  - Blog\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            errs = audit_posts.audit_post_file(
+                missing_asset, REPO_ROOT, require_additive_asset=True
+            )
+            self.assertTrue(
+                any("additive_asset" in e for e in errs),
+                f"Expected additive_asset error, got {errs}",
+            )
+
+            short_asset = tmp_path / "2026-11-13-short-asset.md"
+            short_asset.write_text(
+                "---\n"
+                'title: "Short Asset Test"\n'
+                'excerpt: "Verifies short additive_asset fails validation checks properly."\n'
+                'additive_asset: "too short"\n'
+                "categories:\n  - Blog\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            short_errs = audit_posts.audit_post_file(
+                short_asset, REPO_ROOT, require_additive_asset=True
+            )
+            self.assertTrue(
+                any("additive_asset" in e for e in short_errs),
+                f"Expected short additive_asset error, got {short_errs}",
+            )
+
+            bad_x_url = tmp_path / "2026-11-13-bad-x-url.md"
+            bad_x_url.write_text(
+                "---\n"
+                'title: "Bad X URL Test"\n'
+                'excerpt: "Verifies invalid x_post_url fails validation while valid x.com URL passes."\n'
+                'additive_asset: "Copy-paste configuration template and benchmark table."\n'
+                'x_post_url: "https://example.com/not-x"\n'
+                "categories:\n  - Blog\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            bad_url_errs = audit_posts.audit_post_file(
+                bad_x_url, REPO_ROOT, require_additive_asset=True
+            )
+            self.assertTrue(
+                any("x_post_url" in e for e in bad_url_errs),
+                f"Expected x_post_url error, got {bad_url_errs}",
+            )
+
+            valid_post = tmp_path / "2026-11-13-valid-x-url.md"
+            valid_post.write_text(
+                "---\n"
+                'title: "Valid X URL Test"\n'
+                'excerpt: "Verifies valid additive_asset and x_post_url pass audit cleanly."\n'
+                'additive_asset: "Copy-paste configuration template and benchmark table."\n'
+                'x_post_url: "https://x.com/hawzzy/status/1856789012345678901"\n'
+                "categories:\n  - Blog\n"
+                "tags:\n  - antigravity\n"
+                "---\n\nBody text.\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                audit_posts.audit_post_file(
+                    valid_post, REPO_ROOT, require_additive_asset=True
+                ),
+                [],
+            )
+
+    def test_x_discussion_embed_partial_and_layout_wiring(self):
+        partial = REPO_ROOT / "_includes" / "x-discussion-embed.html"
+        self.assertTrue(partial.exists(), f"Missing {partial}")
+        p_text = partial.read_text(encoding="utf-8")
+        for token in (
+            'class="twitter-tweet"',
+            'data-dnt="true"',
+            "IntersectionObserver",
+            "platform.twitter.com/widgets.js",
+            "kitchen",
+            "paper",
+        ):
+            self.assertIn(token, p_text)
+
+        single_layout = (REPO_ROOT / "_layouts" / "single.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("{% include x-discussion-embed.html %}", single_layout)
+
 
 if __name__ == "__main__":
     unittest.main()

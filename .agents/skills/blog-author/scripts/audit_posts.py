@@ -19,6 +19,7 @@ INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
 TODO_MARKER_RE = re.compile(r"\bTODO-[A-Za-z0-9_-]+")
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]]*\]\((/[^)\s#?]+)")
 TAG_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+X_POST_URL_RE = re.compile(r"^https://(?:x|twitter)\.com/[A-Za-z0-9_]{1,15}/status/\d+$")
 
 KNOWN_SITE_ROUTES = (
     "/blog/",
@@ -140,6 +141,7 @@ def audit_post_file(
     post_path: Path,
     repo_root: Path,
     banned_phrases: list[str] | None = None,
+    require_additive_asset: bool | None = None,
 ) -> list[str]:
     """Audit a single Jekyll post file. Returns a list of error strings."""
     text = post_path.read_text(encoding="utf-8")
@@ -173,6 +175,30 @@ def audit_post_file(
     categories = fm.get("categories")
     if not isinstance(categories, list) or len(categories) == 0:
         errors.append(f"{post_path.name}: missing non-empty 'categories' list in frontmatter")
+
+    enforce_additive = (
+        require_additive_asset
+        if require_additive_asset is not None
+        else rel_post.startswith("_posts/")
+    )
+    if enforce_additive or "additive_asset" in fm:
+        additive_asset = fm.get("additive_asset")
+        if not isinstance(additive_asset, str) or len(additive_asset.strip()) < 15:
+            errors.append(
+                f"{post_path.name}: missing or too-short 'additive_asset' in frontmatter (min 15 chars describing the blog-exclusive table/code/diagram)"
+            )
+
+    if "x_post_url" in fm:
+        x_post_url = fm.get("x_post_url")
+        if isinstance(x_post_url, str) and x_post_url.strip():
+            if not X_POST_URL_RE.match(x_post_url.strip()):
+                errors.append(
+                    f"{post_path.name}: 'x_post_url' must match https://x.com/<handle>/status/<id>"
+                )
+        elif x_post_url is not None and x_post_url != "":
+            errors.append(
+                f"{post_path.name}: 'x_post_url' must match https://x.com/<handle>/status/<id>"
+            )
 
     tags = fm.get("tags")
     if not isinstance(tags, list) or len(tags) == 0:
@@ -318,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
         dossier_dir = (
             args.dossier if args.dossier.is_absolute() else (repo_root / args.dossier)
         )
-        for required_file in ("notes.md", "facts.md", "twitter-thread.md"):
+        for required_file in ("notes.md", "facts.md"):
             req_path = dossier_dir / required_file
             if not req_path.exists():
                 all_errors.append(f"{dossier_dir.name}: missing required {required_file}")

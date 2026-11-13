@@ -1,0 +1,49 @@
+{% if page.collection == 'posts' and page.x_post_url and page.archived != true %}
+<section class="hz-x-discussion" aria-label="Discussion on X" data-x-embed-container>
+  <div class="hz-x-discussion__header">
+    <span class="hz-x-discussion__eyebrow">// JOIN THE DISCUSSION ON X</span>
+    <a href="{{ page.x_post_url }}" class="hz-x-discussion__open" target="_blank" rel="noopener noreferrer">Open on X &nearr;</a>
+  </div>
+  <p class="hz-x-discussion__prompt">Have a question, benchmark, or alternative pattern? Reply directly on the X thread below.</p>
+  <div class="hz-x-discussion__embed">
+    <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+      <p>{{ page.x_post_teaser | default: page.excerpt }}</p>
+      <a href="{{ page.x_post_url }}">Discuss this post on X (@{{ site.twitter.username | default: "hawzzy" }})</a>
+    </blockquote>
+  </div>
+</section>
+<script>
+(function() {
+  var container = document.querySelector('[data-x-embed-container]');
+  if (!container) return;
+  var bq = container.querySelector('blockquote.twitter-tweet');
+  var activeTheme = document.documentElement.getAttribute('data-theme') || 'gruvbox';
+  if (bq) {
+    bq.setAttribute('data-theme', (activeTheme === 'kitchen' || activeTheme === 'paper') ? 'light' : 'dark');
+  }
+  var loaded = false;
+  function loadWidgets() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://platform.twitter.com/widgets.js';
+    s.async = true;
+    s.charset = 'utf-8';
+    document.body.appendChild(s);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          loadWidgets();
+          io.disconnect();
+        }
+      });
+    }, { rootMargin: '250px' });
+    io.observe(container);
+  } else {
+    window.addEventListener('load', loadWidgets, { once: true });
+  }
+})();
+</script>
+{% endif %}

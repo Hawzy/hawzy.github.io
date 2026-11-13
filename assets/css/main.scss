@@ -3445,3 +3445,74 @@ html[data-theme="paper"] .hz-post-list__item {
   }
 }
 
+// Dual-Home Reverse-Reach X Discussion Embed Footer
+.hz-x-discussion {
+  margin: 2rem 0 1.5rem 0;
+  padding: 1.15rem 1.3rem;
+  background-color: var(--hz-surface, #1D2021);
+  border: 1px solid var(--hz-border, #32302F);
+  border-left: 3px solid var(--hz-accent, #E78A4E);
+  border-radius: var(--hz-radius, 12px);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.45rem;
+  }
+
+  &__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hz-accent, #E78A4E);
+  }
+
+  &__open {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--hz-border, #32302F);
+    border-radius: 6px;
+    color: var(--hz-heading, #DDC7A1) !important;
+    text-decoration: none !important;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--hz-accent, #E78A4E);
+      color: var(--hz-accent, #E78A4E) !important;
+    }
+  }
+
+  &__prompt {
+    margin: 0 0 0.85rem 0 !important;
+    font-size: 0.9rem;
+    color: var(--hz-muted, #A89984);
+  }
+
+  &__embed {
+    blockquote.twitter-tweet {
+      margin: 0 !important;
+      padding: 0.85rem 1rem;
+      border-left: 2px solid var(--hz-border, #32302F);
+      background: transparent;
+      color: var(--hz-text, #D4BE98);
+      font-size: 0.92rem;
+
+      p {
+        margin: 0 0 0.5rem 0 !important;
+      }
+
+      a {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--hz-accent, #E78A4E);
+      }
+    }
+  }
+}
+
+

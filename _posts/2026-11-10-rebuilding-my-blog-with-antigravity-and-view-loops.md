@@ -1,6 +1,7 @@
 ---
 title: "Rebuilding My Blog with Antigravity and Visual View Loops"
 excerpt: "How I relaunched this static Jekyll blog after four years using Google Antigravity skills, a live browser view loop, five Oh My Posh themes, and deterministic Python auditors."
+additive_asset: "Full 5-theme SCSS token table (#141617, #080C14, #1E1E2E, #FAF7F2, #FFFFFF), Oh My Posh prompt CSS mappings, and copy-paste audit_posts.py verification command"
 date: 2026-11-10
 categories:
   - Blog
