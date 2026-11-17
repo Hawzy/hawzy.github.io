@@ -22,10 +22,11 @@
           {%- endfor -%}
         </ul>
         <div class="hz-theme-picker">
-          <button class="hz-theme-btn" id="hz-theme-btn" type="button" aria-label="Select color theme" aria-expanded="false" aria-controls="hz-theme-menu">
+          <button class="hz-theme-btn" id="hz-theme-btn" type="button" aria-label="Select color theme" aria-describedby="hz-theme-hint" aria-expanded="false" aria-controls="hz-theme-menu">
             <svg class="hz-theme-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.1-1.6-1.1-2.7 0-.8.7-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg>
             <span class="hz-theme-dot" aria-hidden="true"></span>
           </button>
+          <span class="hz-theme-hint" id="hz-theme-hint" role="tooltip">Themes <span class="hz-theme-keys"><kbd data-key-mod>Ctrl</kbd><kbd>Shift</kbd><kbd>S</kbd></span></span>
           <div class="hz-theme-menu" id="hz-theme-menu" role="menu" aria-label="Color themes">
             <button type="button" class="hz-theme-opt" role="menuitemradio" data-theme-opt="gruvbox">
               <span class="hz-theme-mini" style="background:#141617"><b style="left:5px;width:12px;background:#E78A4E"></b><b style="left:19px;width:12px;background:#D8A657"></b><b style="left:33px;width:12px;background:#A9B665"></b><em style="background:#1D2021"></em></span>
@@ -47,6 +48,7 @@
               <span class="hz-theme-mini" style="background:#FFFFFF"><b style="left:5px;width:6px;background:#1A7F37"></b><b style="left:14px;width:14px;background:#0E7490"></b><b style="left:31px;width:12px;background:#B91C1C"></b><em style="background:#F6F8FA"></em></span>
               <span class="hz-theme-label">Paper<small>stark light &middot; robbyrussell &rarr;</small></span>
             </button>
+            <p class="hz-theme-menu__foot"><span class="hz-theme-keys"><kbd data-key-mod>Ctrl</kbd><kbd>Shift</kbd><kbd>S</kbd></span> from anywhere &middot; <kbd>Esc</kbd> closes</p>
           </div>
         </div>
         {% if site.search == true %}
@@ -73,6 +75,11 @@
     var menu = document.getElementById("hz-theme-menu");
     if (!btn || !menu) return;
     var opts = menu.querySelectorAll(".hz-theme-opt");
+    var picker = menu.parentNode;
+    var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || "");
+    if (isMac) {
+      document.querySelectorAll("[data-key-mod]").forEach(function (k) { k.textContent = "\u2318"; });
+    }
     function syncActive() {
       var cur = root.getAttribute("data-theme") || "gruvbox";
       opts.forEach(function (o) {
@@ -82,8 +89,10 @@
       });
     }
     function closeMenu() {
-      menu.classList.remove("is-open");
+      menu.classList.remove("is-open", "is-floating");
       btn.setAttribute("aria-expanded", "false");
+      // Return a floated menu to its home in the header picker
+      if (menu.parentNode !== picker) picker.appendChild(menu);
     }
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -109,18 +118,35 @@
         }
         syncActive();
         closeMenu();
+        window.dispatchEvent(new Event("resize"));
       });
     });
     document.addEventListener("click", closeMenu);
+    menu.addEventListener("click", function (e) { e.stopPropagation(); });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeMenu();
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "S" || e.key === "s")) {
         e.preventDefault();
-        var open = menu.classList.toggle("is-open");
-        btn.setAttribute("aria-expanded", open ? "true" : "false");
-        if (open) syncActive();
+        if (menu.classList.contains("is-open")) {
+          closeMenu();
+          return;
+        }
+        // Masthead scrolls away (and its backdrop-filter traps position:fixed children),
+        // so float the menu from <body> when the button is off-screen
+        var r = btn.getBoundingClientRect();
+        var offscreen = r.bottom <= 0 || r.top >= window.innerHeight;
+        if (offscreen) document.body.appendChild(menu);
+        menu.classList.toggle("is-floating", offscreen);
+        menu.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+        syncActive();
+        var first = menu.querySelector(".hz-theme-opt.is-active") || opts[0];
+        if (first) first.focus({ preventScroll: true });
       }
     });
     syncActive();
+    window.addEventListener("load", function () {
+      window.dispatchEvent(new Event("resize"));
+    });
   })();
 </script>

@@ -37,3 +37,15 @@
 ## 3. Takeaway & What's Next
 - Treating the blog itself like software—with voice profiles, provenance dossiers (`notes.md`, `facts.md`, `twitter-thread.md`, `review.md`), and deterministic auditors—makes writing a lot less tedious.
 - Next up: **Post #2** on the Agentic Kitchen (recipe pipeline, *Cooking for Engineers* block grids, and weekly dinner/grocery automation), with other side-project writeups kept private in `blog-ops/BACKLOG.md` until published.
+
+## 4. Follow-up Interview (2026-11-16, revision pass)
+- Superpowers: it's a skill I have in Antigravity, but it wasn't doing a ton of heavy lifting on this project. It does help with consistency and guiding the agent to the destination you describe. Don't feature it heavily.
+- Not much actually got cut during the mockup loop; it was more conversational additions and pivots ("Kitchen & Code" was like that too).
+- Sometimes I just let the agent guess the best option and I don't like it. Sometimes I have a good alternate, sometimes not, but being opinionated is important.
+- I type a lot / verbosely into Antigravity prompts. Always been a quick typist; was employed as a transcriptionist in college classrooms and could get up to 150 wpm with their software.
+- I use Gruvbox Material in Antigravity, but find myself gravitating toward Catppuccin on the site even though pink usually isn't my favorite.
+- Nothing super annoying: one big plan followed by a lot of tiny revisions until I was satisfied.
+- OK to tease the dinner planner / grocery automation post as next up.
+- Current repo numbers observed 2026-11-16: 63 unittest tests; assets/css/main.scss is 3,687 lines; home shelf is now #tag filter chips with projects on /projects/.
+- Carried over from the author-approved 2026-11-10 published version (kept verbatim in the revision): Kitchen & Code header lasted about forty-eight hours; whole rebuild took one evening; the macropad was a three-key Drop macropad; "1983 green-screen" phrasing; whole-branch code-reviewer subagent caught that the post mentioned the Ctrl+Shift+S theme shortcut before the keydown listener existed in _includes/masthead.html; "(what is it testing, who knows!?)".
+- Correction (2026-11-16): the rebuild took a couple evenings, not one. Don't mention X threads or the post reviewer subagents; describe the auditor as linting prose and formatting.

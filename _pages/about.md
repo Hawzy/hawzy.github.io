@@ -8,9 +8,9 @@ classes:
   - surface-blog
 ---
 
-Hi, I'm **Nick Hasenoehrl (`hawzy`)**, a corporate security person living in **Spokane, WA** with my wife and three daughters (`#girldad`).
+Hi, I'm Nick Hasenoehrl (hawzy). I work in corporate security and live in Spokane, WA with my wife and three daughters.
 
-After graduating from Western Washington University with a degree in Management Information Systems (`2006`), I spent 11+ years in Windows Systems and Network Administration (`2007-2018`: Active Directory, PKI, SCCM, Jamf/Intune, and PowerShell automation) before moving full-time into security in `2018`. Today I work in corporate security focusing on enterprise SaaS security, DLP, endpoint protection, and cloud IAM.
+I got my degree in Management Information Systems from Western Washington University in 2006, spent about 11 years as a Windows systems and network admin (Active Directory, PKI, SCCM, Jamf/Intune, and a lot of PowerShell), and moved into security full-time in 2018. These days I mostly work on SaaS security, DLP, endpoint protection, and cloud IAM.
 
 <div class="hz-cred-grid" aria-label="Verified Credly Certifications">
   <a class="hz-cred-badge" href="https://www.credly.com/badges/458979f9-1b9b-46d9-a69e-042a06930ce1" target="_blank" rel="noopener">
@@ -50,21 +50,25 @@ After graduating from Western Washington University with a degree in Management 
   </a>
 </div>
 
-When I originally started this blog in early 2022 for `#100DaysOfCode`, I was writing quick notes on PowerShell profiles, Oh My Posh prompts, and Docker Compose. Four years later, most of my side-project time goes into pairing with AI agents in **Google Antigravity** to get recurring chores off my plate or over-engineer my hobbies:
+### About This Blog
 
-- **[Projects (`/projects/`)]({{ '/projects/' | relative_url }}):** Overview of the tools, bots, and custom Antigravity skills I'm building.
-- **[Kitchen &amp; Weekly Menu (`/recipes/`)]({{ '/recipes/' | relative_url }}):** Our active family dinner rotation, recipes formatted with *Cooking for Engineers* dependency grids, and Business-to-Agent (`B2A`) JSON endpoints ([`/api/recipes.json`](/api/recipes.json), [`/api/weekly-menu.json`](/api/weekly-menu.json), [`/llms.txt`](/llms.txt)) for automated grocery fulfillment.
+I originally kicked off this blog in early 2022 as part of #100DaysOfCode (which I did NOT finish tyvm, but 17% ain't bad). Those posts are still in the archive. Now I'm reusing and rebuilding it to write up the side projects I build with AI agents in Google Antigravity, mostly to get recurring chores off my plate or over-engineer a hobby.
 
-### Outside of Work, Code, and Parenting
+- **[Projects]({{ '/projects/' | relative_url }}):** What I'm building and the posts about each one.
+- **[Kitchen]({{ '/recipes/' | relative_url }}):** Our weekly dinner rotation and family recipes, plus JSON endpoints for automated grocery ordering.
 
-- **Fantasy Football:** I play in 7 leagues and commission a 16-team salary-cap auction keeper best ball league.
-- **Board &amp; Card Games:** Tabletop board games, **Poker**, and **Magic: The Gathering (MTG)**. You can find me on **[Board Game Arena (`hawzy`)](https://boardgamearena.com/player?id=89351360)**.
-- **Sports &amp; Everything Else:** Cheering on the **Seattle Seahawks** (*Go Seahawks*) and **Gonzaga basketball** (*Go Zags*), plus cooking, 3D printing, and PC gaming.
+### Outside of Work
+
+- **Fantasy football:** I love leagues with wacky rules, and I run a 16-team auction keeper best ball league.
+- **Games:** Board games, poker, and Magic: The Gathering (I'm also the reigning Washington State champion). I'm [hawzy on Board Game Arena](https://boardgamearena.com/player?id=89351360).
+- **Everything else:** Cooking, 3D printing, and PC gaming.
+
+Go Hawks! Go Zags!
 
 ### Find Me Online
 
 - **GitHub:** [github.com/hawzy](https://github.com/hawzy)
-- **Board Game Arena:** [boardgamearena.com/player?id=89351360](https://boardgamearena.com/player?id=89351360)
-- **Credly:** [credly.com/users/nick-hasenoehrl](https://www.credly.com/users/nick-hasenoehrl)
 - **Twitter / X:** [@hawzzy](https://twitter.com/hawzzy)
 - **LinkedIn:** [linkedin.com/in/nhasenoehrl](https://www.linkedin.com/in/nhasenoehrl/)
+- **Credly:** [credly.com/users/nick-hasenoehrl](https://www.credly.com/users/nick-hasenoehrl)
+- **Board Game Arena:** [boardgamearena.com/player?id=89351360](https://boardgamearena.com/player?id=89351360)

@@ -43,10 +43,7 @@
   {% endfor %}
   {% assign active_tag_list = raw_tags | replace: "||", "|" | split: "|" | uniq | sort %}
 
-  <nav class="hz-project-shelf" aria-label="Projects and active tags">
-    {% for proj in site.data.projects %}
-      <a href="{{ '/projects/#' | append: proj.slug | relative_url }}" class="hz-project-chip">{{ proj.slug }}</a>
-    {% endfor %}
+  <nav class="hz-project-shelf" aria-label="Filter by tag">
     {% for tag_slug in active_tag_list %}
       {% if tag_slug != "" %}
         <a href="{{ '/?tag=' | append: tag_slug | relative_url }}" class="hz-tag-chip" data-filter-tag="{{ tag_slug }}">#{{ tag_slug }}</a>
