@@ -23,4 +23,4 @@ Every number, path, hex code, and command in `_posts/2026-11-10-rebuilding-my-bl
 - **[f11] Public Projects Indexed on `/projects/`:**
   - `blog-relaunch` (`c:\github\agy\blog` — 5-theme Jekyll site & agentic writing pipeline)
   - `dinner-planner` (`c:\github\agy\recipes` — Agentic Kitchen & Weekly Dinner Planner teaser)
-- **[f12] Superpowers Links & Test Count:** `Superpowers` links to `https://github.com/obra/superpowers`; the rendered spec and plan live at `/docs/superpowers/specs/2026-11-10-blog-relaunch-themes-and-writing-skills-design.html` and `/docs/superpowers/plans/2026-11-10-blog-relaunch-themes-and-writing-skills.html`; `python -m unittest discover -s tests -v` runs 59 tests.
+- **[f12] Superpowers Links & Test Count:** `Superpowers` links to `https://github.com/obra/superpowers`; the rendered spec and plan live at `/docs/superpowers/specs/2026-11-10-blog-relaunch-themes-and-writing-skills-design.html` and `/docs/superpowers/plans/2026-11-10-blog-relaunch-themes-and-writing-skills.html`; `python -m unittest discover -s tests -v` runs 63 tests.

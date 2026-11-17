@@ -18,9 +18,9 @@
 {% endif %}
 <html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js" data-default-theme="{% if is_kitchen_surface %}kitchen{% else %}gruvbox{% endif %}">
   <head>
+    {% include /analytics-providers/custom.html %}
     {% include head.html %}
     {% include head/custom.html %}
-    {% include /analytics-providers/custom.html %}
   </head>
 
   <body class="layout--{{ page.layout | default: layout.layout }}{% if is_blog_surface %} surface-blog{% else %} surface-kitchen{% endif %}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
