@@ -33,7 +33,7 @@ So I tucked the seventeen 2022 posts into a collapsible archive drawer at the bo
 
 The biggest thing I've learned working this way is that the agent will happily make a decision for you if you don't. Sometimes it guesses well. Sometimes I look at what it picked and immediately don't like it. Sometimes I have a better alternative ready, and sometimes I don't, but saying "no, not that" is still the important part.
 
-The best example from this project: during an early pass, the agent turned the site header into *"Hawzy's Kitchen & Code"* and put the dinner schedule on the homepage. That lasted about forty-eight hours before I killed it off, because #1 it sounds like a daytime cable segment, and #2 dinner automation is only one of a half-dozen side projects I'm building. Nothing about that was "wrong" from the agent's point of view. It just wasn't what I wanted.
+The best example from this project: during an early pass, the agent turned the site header into *"Hawzy's Kitchen & Code"* and put the dinner schedule on the homepage. I killed that off pretty quickly, because #1 it sounds like a daytime cable segment, and #2 dinner automation is only one of a half-dozen side projects I'm building. Nothing about that was "wrong" from the agent's point of view. It just wasn't what I wanted.
 
 It also helps that I type a lot. My prompts in Antigravity are pretty verbose, which comes from always being a quick typist (I worked as a classroom transcriptionist in college and could get up to 150 wpm with their software). More context up front means fewer bad guesses later.
 
