@@ -1,7 +1,7 @@
 ---
-title: "Shipping a Zero-Backend HELOC Calculator on GitHub Pages (with $0.0000 Python-to-JS Parity)"
-excerpt: "How I turned a deterministic Python HELOC engine into a 64.2 KiB zero-dependency GitHub Pages web app with BigInt banker's rounding, CI parity fixtures, and zero telemetry."
-additive_asset: "Full 20-file bundle size breakdown (64.22 KiB gzipped), copy-paste IEEE-754 BigInt pyRound() function, CI parity workflow YAML, and 4-scenario benchmark comparison table"
+title: "Building a No-Ad HELOC Calculator (and What the Rate Scenarios Actually Mean)"
+excerpt: "I built a free, browser-only HELOC calculator for an upcoming renovation. Here is what payment shock and each built-in rate scenario mean, plus how it matches Python to $0.0000."
+additive_asset: "Plain-English guide to all 4 Prime rate scenarios and 6 built-in presets, plus the 20-file bundle table (64.22 KiB gzipped), copy-paste IEEE-754 BigInt pyRound() function, and CI parity YAML"
 date: 2026-11-21
 categories:
   - Blog
@@ -15,36 +15,89 @@ tags:
   - javascript
 ---
 
-Most bank HELOC calculators online have two annoying habits. First, they happily quote your teaser draw-period payment while hiding the cliff when the draw period ends and the principal starts amortizing. Second, they load half a dozen ad trackers onto a page where you are typing in your home value, mortgage balance, and credit margin. Plus almost none of them model statutory rate ceilings like Washington's `WAC 208-620-235` 25.0% usury cap alongside contractual lifetime caps.
+We have an upcoming home renovation on the calendar, and trying out online HELOC calculators annoyed me enough that I built my own. Most bank calculators online have two bad habits: they quote a low teaser draw payment while hiding the cliff when full amortization kicks in, and they fire half a dozen ad trackers onto a page where you are typing in your home value and mortgage balance. Almost none of them check statutory ceilings like Washington's `WAC 208-620-235` 25.0% usury cap alongside contractual lifetime caps either.
 
-I already had a clean Python HELOC simulation engine sitting on disk (`heloc-calculator`), so I used Google Antigravity to port it into a 100% client-side static web app hosted separately on GitHub Pages at [hawzy.github.io/heloc-calculator](https://hawzy.github.io/heloc-calculator/) (source on [GitHub](https://github.com/Hawzy/heloc-calculator), MIT licensed). Zero backend, zero cookies, zero external CDN or font requests, and `<meta name="referrer" content="no-referrer">` so shareable query-string scenarios never leak out in HTTP headers.
+So I turned my Python HELOC engine (`heloc-calculator`) into a free, zero-ad web app at [hawzy.github.io/heloc-calculator](https://hawzy.github.io/heloc-calculator/) (MIT source on [GitHub](https://github.com/Hawzy/heloc-calculator)). Everything executes locally in your browser with zero backend, zero cookies, zero external font or CDN requests, and `<meta name="referrer" content="no-referrer">` so shareable parameter URLs do not leak out in HTTP headers.
 
-Getting a browser calculator to stay light while matching Python down to the last cent took a few deliberate constraints. Here is how that shook out.
+If you just want to run numbers for a project, here is what the payment cliff and the built-in scenarios actually mean, followed by how the math stays identical to Python down to `$0.0000`.
 
 ---
 
-## Why I Skipped Pyodide, Bundlers, and Chart Libraries
+## What a HELOC Payment Cliff Actually Looks Like
 
-The original v1 core Python engine (`heloc/core/{formulas.py,models.py,rates.py,simulator.py}`) was only `17,891` bytes across four files (~18 KB, growing to `33,949` bytes across five core modules in v2 once `analytics.py` landed). Shipping Python in the browser via Pyodide/WASM plus `pydantic` and `pandas` would have hauled tens of megabytes into a visitor's tab just to run a 360-month loop.
+Unlike a fixed home equity loan, a HELOC splits into two very different phases:
 
-I got a timely reminder of why browser finance tools shouldn't drag heavy C-extension stacks around on `2026-11-20` when running `pytest` in my global Python `3.12` environment:
+1. **Draw period:** You typically pay interest only (calculated via Regulation Z `12 CFR 1026.40` Daily Periodic Rates across your `365` or `360` year basis) while you are still able to pull funds up to your credit limit.
+2. **Repayment period:** Revolving draws freeze and the remaining balance `P` switches to fully amortizing payments over the remaining months `n = M_total - m + 1`. Because variable Prime movements change the effective APR each month, the payment dynamically re-amortizes against the live balance rather than staying frozen.
+
+**Payment shock** is the dollar and percentage jump between your last draw-period required payment and your first repayment-period required payment. Every run also simulates a twin `$0`-prepayment baseline in the background so you can see exactly how much interest and how many months extra monthly payments save you.
+
+---
+
+## What the 4 Prime Rate Scenarios Mean
+
+A HELOC rate equals `Prime + Margin`, clamped between `0%` and `min(lifetime_cap, regulatory_ceiling)` (or your introductory teaser APR during the intro window). The four rate modes let you test how sensitive your payment is to Prime moving while you carry a balance:
+
+| Scenario | How Prime Moves Each Month | When to Use It |
+| :--- | :--- | :--- |
+| **`Flat`** | Holds `base_prime` constant for every month (`[base_prime] * total_months`). | Baseline sanity check assuming rates stay where they are today. |
+| **`Rising`** | Steps up once per year (`base_prime + ((m // 12) * annual_step)`, defaulting to `+0.50%/yr`). | Steady rate-hike drift across a multi-year renovation payoff. |
+| **`Stress Test`** | Surges `+0.75%` every `6` months (`semester_idx = min(m // 6, 6)`), topping out at `+4.50%` over 3 years. | Worst-case affordability test to see if a sharp rate spike breaks your monthly budget. |
+| **`Custom`** | Reads your own annual (expanded `12x`) or monthly Prime rate list, padding with the final value if shorter than the loan. | Modeling a specific rate cut/hike path you want to test manually. |
+
+---
+
+## What the 6 Built-In Presets Show
+
+If you open the calculator for the first time, six one-click presets at the top show very different ways a HELOC behaves under those scenarios:
+
+| Built-In Preset | Setup | Initial Draw -> First Repay | Payment Shock | Total Interest | Payoff & Savings |
+| :--- | :--- | :--- | :--- | ---: | :--- |
+| **Blueprint Rising** *(default)* | `$50k` / `$100k` limit, `0.99%` 12-mo intro, `6%` Prime + `2%` (`+0.5%/yr`), `10yr` / `20yr`, `+$300/mo` prepay | `$41.25` -> `$164.02` | `+$15.06/mo` (`+10.1%`) | `$31,699.80` | `166` mos (`13.8` yrs), saving `$134,309.88` & `194` mos |
+| **Flat Baseline** | `$50k` / `$100k` limit, no intro, flat `7%` Prime + `2%` (`9.0%` APR), `10yr` / `20yr`, `$0` prepay | `$375.00` -> `$449.86` | `+$74.86/mo` (`+19.96%`) | `$102,967.11` | `360` mos (`30.0` yrs), baseline (`$0` saved) |
+| **Stress Test 15yr** | `$60k` / `$120k` limit, no intro, `6.5%` Prime + `2.5%` (`stress_test`), `5yr` / `10yr`, `$0` prepay | `$450.00` -> `$913.65` | `+$238.65/mo` (`+35.4%`) | `$85,412.49` | `180` mos (`15.0` yrs) |
+| **WA 25% Usury Cap** | `$20k` / `$50k` limit, `25%` Prime + `3%` (`30%` lifetime cap, clamped to `25.00%` WA CLA), `1yr` / `1yr` | `$416.67` -> `$1,900.89` | `+$1,484.22/mo` (`+356.2%`) | `$7,810.61` | `24` mos (`2.0` yrs) |
+| **Early Draw Payoff** | `$10k` / `$50k` limit, `0.99%` 12-mo intro, flat `7%` Prime + `2%`, `+$2,000/mo` prepay | `$8.25` -> `$0.00` | `$0.00/mo` (`0.0%`) | `$24.75` | `5` mos (`0.4` yrs), saving `$19,767.67` & `355` mos |
+| **Staged Reno + Bonus** | `$30k` / `$100k` limit, `6.5%` Prime + `2%` (`+0.5%/yr`), `5yr` / `10yr`, `+$200/mo`, `+$15k` Mo 14 draw, `-$8k` Mo 24 lump sum | `$212.50` -> `$344.38` | `+$123.88/mo` (`+56.18%`) | `$25,001.27` | `147` mos (`12.25` yrs, peak `$42,400`), saving `$29,143.01` & `33` mos |
+
+Two patterns jump out from those presets right away:
+
+- **Renovations rarely draw all the money on Day 1.** `Staged Reno + Bonus` starts with `$30,000`, adds a `+$15,000` Kitchen Reno draw at Month 14, applies an `-$8,000` Annual Bonus lump sum at Month 24, and still knocks `33` months and `$29,143.01` of interest off the baseline.
+- **Steady extra principal crushes the payment cliff.** On the default `Blueprint Rising` numbers, clicking `Zero Payment Shock` in the goal solver finds `$416.67/mo` extra prepayment via binary search, paying the entire line off in `120` months (`10.0` yrs) for `$20,431.47` total interest and a `$0.00/mo` shock.
+
+---
+
+## Six Collapsible Planning Drawers (Plus Offline Tools)
+
+To keep the initial view clean, deeper planning controls live inside `6` collapsed `<details>` drawers:
+
+1. **CLTV Borrowing Power Estimator (`#drawer-cltv`):** Enter home value (`$600k`), first mortgage (`$350k`), and max CLTV (`85%`) to calculate your `$160,000` eligible credit line, then click `Apply Eligible Limit to Credit Line`.
+2. **Binary-Search Goal Solver (`#drawer-solver`):** Solves down to the cent for any target payoff horizon (years or months) or `Zero Payment Shock`, then applies that extra payment directly.
+3. **Staged Draws & Lump Sums (`#drawer-events`):** Plots mid-loan draws (`+$15k` Kitchen Reno at Month 14) and bonus paydowns (`-$5k` at Month 12) onto the chart markers and milestone timeline.
+4. **Draw Minimum Rules & Fixed HELoan Comparison (`#drawer-draw-heloan`):** Tests interest-only draws against `%` of balance / dollar floors and compares the variable line against a fixed-rate Home Equity Loan (`7.5% / 15yr` at `$463.51/mo`).
+5. **Calendar Dates & Non-APR Fee Ledger (`#drawer-dates-fees`):** Maps months onto location-agnostic calendar dates (`calendar_month` appends to the 12-column CSV export) and tracks closing, annual, and early-closure fees separately from Reg Z APR.
+6. **Intro Teaser, Caps & Day-Count (`#drawer-advanced`):** Keeps the `intro_apr` toggle, lifetime cap, WA regulatory ceiling, balance method (`average_daily_balance`, `adjusted_balance`, `previous_balance`), and `365`/`360` year basis out of the way until you tweak them.
+
+Outside those drawers, the toolbar handles `localStorage` saved presets, a side-by-side `Compare vs.` delta strip, shareable URL query strings, light/dark switching, 1-click CSV export, synchronized pointer/keyboard (`Home` / `ArrowRight`) chart crosshairs, and `@media print` formatting.
+
+---
+
+## Under the Hood (For the Nerds)
+
+### 1. Why I Skipped Pyodide, Bundlers, and Chart Libraries
+The original v1 core Python engine (`heloc/core/{formulas.py,models.py,rates.py,simulator.py}`) totaled `17,891` bytes (~18 KB, growing to `33,949` bytes across five core modules in v2 once `analytics.py` landed). Shipping Pyodide/WASM plus `pydantic` and `pandas` into a visitor's tab for a 360-month loop would have forced tens of megabytes of cold boot.
+
+I got a reminder of why browser finance tools shouldn't haul C-extension stacks around on `2026-11-20` when running `pytest` in my global Python `3.12` environment:
 
 ```text
 ValueError: numpy.dtype size changed, may indicate binary incompatibility.
 Expected 96 from C header, got 88 from PyObject
 ```
 
-Four test files crashed at collection time on `import pandas` inside `heloc/core/simulator.py`. An isolated `.venv` (Python `3.12.7`) fixed local tests immediately, and it cemented the static web choice: keep the Python package, CLI (`heloc`), and `calculate_heloc_trajectory` agent tool intact, and port the core math to plain ES modules under `web/js/engine/`.
+Four test files crashed at collection time on `import pandas` inside `heloc/core/simulator.py`. Using an isolated `.venv` (Python `3.12.7`) fixed local tests immediately, and cemented keeping the Python package, `heloc` CLI, and `calculate_heloc_trajectory` tool intact while porting the core math to plain ES modules under `web/js/engine/`. I also skipped Vite/TypeScript (`node_modules` overhead) and `Chart.js`/`uPlot` (`50-200 KB` + canvas theming glue) in favor of `20` static files using `@supports (color: light-dark(white, black))` CSS tokens, native Popover API toggletips, and custom inline SVG charts.
 
-I also skipped Vite/TypeScript (`node_modules` overhead for a handful of modules) and external chart libraries like `Chart.js` or `uPlot` (`50-200 KB` of code plus canvas theming and accessibility glue). Everything in `web/` ships straight to GitHub Pages with no build step: plain CSS using `light-dark()` tokens, native Popover API toggletips, and three inline SVG charts with pointer and keyboard (`Home` / `ArrowRight`) crosshairs.
-
----
-
-## The `$0.0000` Parity Trick (Banker's Rounding + Golden Fixtures)
-
-Porting financial math from Python to JavaScript looks straightforward until a halfway tie diverges by a penny. JavaScript's `Math.round()` rounds `.5` ties toward positive infinity, whereas Python's built-in `round(x, ndigits)` implements IEEE-754 binary64 round-half-to-even (banker's rounding) on the exact underlying float representation.
-
-Rather than fudging rounding tolerances, `web/js/engine/rounding.js` (`1,858` bytes, `761` bytes gzipped) reads the exact 64-bit IEEE-754 mantissa and exponent via `DataView.getBigUint64(0, false)` and resolves halfway ties with `BigInt` arithmetic:
+### 2. IEEE-754 Banker's Rounding + CI Golden Fixtures (`$0.0000` Delta)
+JavaScript's `Math.round()` rounds `.5` ties toward positive infinity, whereas Python's `round(x, ndigits)` implements IEEE-754 binary64 round-half-to-even (banker's rounding). Left alone, halfway ties drift by a penny across long schedules. Instead, `web/js/engine/rounding.js` (`1,858` bytes, `761` bytes gzipped) reads the raw 64-bit IEEE-754 layout with `DataView.getBigUint64(0, false)` and computes exact `BigInt` remainder tie-breaks:
 
 ```js
 const _view = new DataView(new ArrayBuffer(8));
@@ -68,7 +121,7 @@ export function pyRound(value, ndigits = 2) {
 
 *(Works copy-pasted as-is for any `ndigits >= 0`; `web/js/engine/rounding.js` also handles negative `ndigits`.)*
 
-To keep Python and JavaScript locked together permanently, `scripts/generate_golden_fixtures.py` exports `tests/fixtures/golden_parity_vectors.json` (`1,096,619` bytes) straight from the Python engine across `17` benchmark and edge-case scenarios, `4` formula vector groups, and `3` v2 analytics groups (`cltv`, `goal_solver`, `heloan`). Passing `--check` fails CI if anyone updates Python without regenerating fixtures:
+To keep Python and JavaScript synced permanently, `scripts/generate_golden_fixtures.py` exports `tests/fixtures/golden_parity_vectors.json` (`1,096,619` bytes) covering `17` scenarios, `4` formula groups, and `3` v2 analytics groups (`cltv`, `goal_solver`, `heloan`), with `.github/workflows/ci.yml` enforcing parity on Python `3.12` + Node `24`:
 
 ```yaml
 - name: Run Python test suites
@@ -79,13 +132,10 @@ To keep Python and JavaScript locked together permanently, `scripts/generate_gol
   run: node --test web/tests/*.test.mjs
 ```
 
-Running both suites locally and in `.github/workflows/ci.yml` (Python `3.12` + Node `24`) passes `66` Python tests across `9` test modules and `19` Node tests (`7` parity + `12` UI/regression checks in `125.5ms`). CI enforces a `<= $0.01` currency and `<= 0.0001%` APR gate, and the actual measured max delta across all `17` scenarios and every monthly row is **`$0.0000` currency and `0.000000%` APR**.
+That runs `66` Python tests across `9` modules plus `19` Node tests (`7` parity + `12` UI/regression checks in `125.5ms`). CI fails above `$0.01` currency or `0.0001%` rate drift, and the observed max delta across all `17` scenarios and every monthly row is **`$0.0000` currency and `0.000000%` APR**.
 
----
-
-## Deployed Bundle Size Breakdown (20 Files, 64.22 KiB Gzipped)
-
-Every file shipped inside `web/` (excluding `web/tests/`) was measured with Python `pathlib` and `gzip.compress(..., compresslevel=9)`. Because there are zero third-party bundles or font downloads, the entire app cold-loads in `19` same-origin `HTTP 200` requests:
+### 3. Deployed 20-File Bundle Breakdown (`64.22 KiB` Gzipped)
+Measured across `web/` (excluding `web/tests/`) with Python `pathlib` and `gzip.compress(..., compresslevel=9)`, cold-loading in `19` same-origin `HTTP 200` requests:
 
 | Component (`web/`) | Uncompressed | Gzipped | Included Files |
 | :--- | ---: | ---: | :--- |
@@ -98,52 +148,17 @@ Every file shipped inside `web/` (excluding `web/tests/`) was measured with Pyth
 | **`web/.nojekyll`** | `0` B | `20` B | Disables Jekyll processing on Pages artifact |
 | **Total Deployed Site (`20` files)** | **`273,822` B (`267.40 KiB`)** | **`65,763` B (`64.22 KiB`)** | **Zero external requests, zero `node_modules`** |
 
-*(Individual engine sizes: `simulator.js` `11,911` B, `models.js` `10,099` B, `analytics.js` `9,192` B, `trajectory.js` `8,310` B, `rates.js` `2,481` B, `formulas.js` `1,923` B, `rounding.js` `1,858` B, `index.js` `677` B. Other UI sizes: `state.js` `16,777` B, `a11y.js` `10,398` B, `table.js` `7,893` B, `dates.js` `3,905` B, `presets.js` `3,576` B, `theme.js` `2,768` B, `csv.js` `2,439` B.)*
+*(Engine breakdown: `simulator.js` `11,911` B, `models.js` `10,099` B, `analytics.js` `9,192` B, `trajectory.js` `8,310` B, `rates.js` `2,481` B, `formulas.js` `1,923` B, `rounding.js` `1,858` B, `index.js` `677` B. Other UI: `state.js` `16,777` B, `a11y.js` `10,398` B, `table.js` `7,893` B, `dates.js` `3,905` B, `presets.js` `3,576` B, `theme.js` `2,768` B, `csv.js` `2,439` B.)*
 
----
+### 4. The `stepMismatch` Freeze (and Two CSS Traps)
+My favorite QA bug catch came from plain HTML5 Constraint Validation (`commit 49cb1fa`). In v1 `web/index.html`, `#lifetime-cap` (default `18.0`) and `#usury-cap` (default `25.0`) had `min="0.01" max="100" step="0.25"`. HTML5 anchors valid `step` increments to `min`, not `0`, meaning the browser considered `0.01, 0.26, ..., 18.01, 25.01` valid and flagged `18.0` and `25.0` as `stepMismatch` invalid on page load. Because `app.js` checked `ctrl.validity.valid` across all enabled inputs on every edit, changing *any* field froze the calculator on the default scenario (oops!).
 
-## Four Benchmark Scenarios and What v2 Added
-
-The engine models Regulation Z (`12 CFR 1026.40`) Daily Periodic Rates (`DPR = APR / (100 * B)` across `365`/`360` year bases and `average_daily_balance` / `adjusted_balance` / `previous_balance`), monthly dynamic re-amortization over `n = M_total - m + 1`, and contractual lifetime caps (`18.0%` default) intersected with Washington's `WAC 208-620-235` `25.0%` usury limit. Every run automatically simulates a twin `$0`-prepayment baseline so you can see real interest and months saved:
-
-| Scenario | Key Inputs | Initial Draw -> First Repay | Payment Shock | Total Interest | Payoff |
-| :--- | :--- | :--- | :--- | ---: | :--- |
-| **Blueprint Rising + `$300/mo` Prepay** | `$50k` / `$100k` limit, `0.99%` 12-mo intro, `6%` Prime + `2%` (`+0.5%/yr`), `10yr` draw / `20yr` repay | `$41.25` -> `$164.02` | `+$15.06/mo` (`+10.1%`) | `$31,699.80` | `166` mos (`13.8` yrs), saving `$134,309.88` & `194` mos |
-| **Zero Shock Goal Solver (v2)** | Blueprint defaults solved by binary search (`$416.67/mo` extra prepay) | Solved `$0.00` cliff | `$0.00/mo` (`0.0%`) | `$20,431.47` | `120` mos (`10.0` yrs) |
-| **Stress Test 15yr** | `$60k` / `$120k` limit, `6.5%` Prime + `2.5%` (`stress_test`), `5yr` draw / `10yr` repay, `$0` prepay | `$450.00` -> `$913.65` | `+$238.65/mo` (`+35.4%`) | `$85,412.49` | `180` mos (`15.0` yrs) |
-| **WA 25% Usury Cap** | `$20k` / `$50k` limit, `25%` Prime + `3%` margin clamped to `25.00%` Month 1, `1yr` / `1yr` | `$416.67` -> `$1,900.89` | `+$1,484.22/mo` (`+356.2%`) | `$7,810.61` | `24` mos (`2.0` yrs) |
-
-In v2 (`commit 85fc95b`), I pushed the deeper levers into `6` collapsed `<details>` Quick-View drawers so the landing view stays fast to scan without stripping away real planning tools:
-
-1. **CLTV Borrowing Power Estimator (`#drawer-cltv`):** Plug in `$600k` home value, `$350k` first mortgage, and `85%` max CLTV to get a `$160,000` eligible line, then click `Apply Eligible Limit to Credit Line`.
-2. **Binary-Search Goal Solver (`#drawer-solver`):** Solves down to the cent for any target payoff horizon (years or months) or `Zero Payment Shock`, then applies that extra monthly payment straight to the simulation.
-3. **Staged Draws & Lump Sums (`#drawer-events`):** Drops planned draws (`+$15k` Kitchen Reno at Month 14) and bonus paydowns (`-$5k` at Month 12) directly onto the chart markers and milestone timeline.
-4. **Draw Minimum Rules & Fixed HELoan Comparison (`#drawer-draw-heloan`):** Tests interest-only draws against `%` of balance / dollar floors and compares the variable line side by side with a fixed-rate Home Equity Loan (`7.5% / 15yr` at `$463.51/mo`).
-5. **Calendar Dates & Non-APR Fee Ledger (`#drawer-dates-fees`):** Maps months onto location-agnostic calendar dates (`calendar_month` appends to the 12-column CSV export) and tracks upfront/annual/early-closure fees separately from Reg Z APR.
-6. **Intro Teaser, Caps & Day-Count (`#drawer-advanced`):** Keeps the `intro_apr` toggle, lifetime cap, WA regulatory ceiling, balance method, and `365`/`360` year basis tucked out of the way until you need them.
-
-Outside those drawers, the toolbar handles `localStorage` saved presets, a side-by-side Compare vs. delta strip, shareable URL query strings, light/dark switching, and `@media print` styling.
-
----
-
-## The Dumbest Bug Caught in QA (and Two CSS Traps)
-
-My favorite bug catch from this build was pure HTML5 Constraint Validation trivia (`commit 49cb1fa`). In v1 `web/index.html`, `#lifetime-cap` (default `18.0`) and `#usury-cap` (default `25.0`) both had `min="0.01" max="100" step="0.25"`.
-
-I forgot that HTML5 calculates valid `step` increments starting from `min`, not `0`. With `min="0.01"`, the browser considered `0.01, 0.26, 0.51, ..., 18.01, 25.01` valid and flagged `18.0` and `25.0` as `stepMismatch` invalid the instant the page loaded. Because `app.js` checked `ctrl.validity.valid` across every enabled form control on each edit, touching *any* input froze the whole calculator on the default scenario with a generic validation banner (oops!). Fixing it took three small moves:
-
-- Set `step="any"` on the decimal inputs (`16` named fields locked down by a Node regression test in `web/tests/ui-utils.test.mjs`).
-- Updated `#validation-banner` to print the exact offending field label (`Fix "Lifetime Cap (%)" to update results; displaying last valid trajectory.`).
-- Ran real headless browser checks across four viewports (`1440×900`, `768×1024`, `390×844`, `320×568`) with `0` console errors and `0` horizontal overflow.
-
-Two CSS traps showed up in the same browser pass (`commits e9b5370` & `49cb1fa`): component `display: flex` / `grid` rules overrode the browser's user-agent `[hidden] { display: none; }` until `@layer utilities` added `[hidden]:not([hidden="until-found"]) { display: none !important; }`, and default `<figure>` margins squeezed the inline SVG charts down to `159px` wide on a `320×568` screen until `figure { margin: 0; }` opened them back up to `258.54px` (`328.54px` on `390×844`), paired with `@container (width < 780px)` stacked table cards.
+Switching decimal inputs to `step="any"` (`16` named fields enforced by `web/tests/ui-utils.test.mjs`) and naming the offending field in `#validation-banner` (`Fix "Lifetime Cap (%)" to update results; displaying last valid trajectory.`) fixed it cleanly. In the same headless Chromium checks across `1440×900`, `768×1024`, `390×844`, and `320×568` (`0` console errors, `0` horizontal overflow), `@layer utilities` added `[hidden]:not([hidden="until-found"]) { display: none !important; }` so `display: flex`/`grid` rules couldn't override `[hidden]`, and `figure { margin: 0; }` widened the inline SVG charts on `320×568` phones from `159px` to `258.54px` (`328.54px` on `390×844`), paired with `@container (width < 780px)` stacked schedule cards.
 
 ---
 
 ## Hosting It Separately on GitHub Pages
 
-Keeping `Hawzy/heloc-calculator` in its own repo instead of stuffing it inside this Jekyll repository keeps builds completely decoupled, while still staying miles below GitHub Pages limits (`1 GB` site cap, `100 GB/month` bandwidth, `10-minute` deploy timeout). Using `.github/workflows/deploy-pages.yml` (`configure-pages@v5`, `upload-pages-artifact@v3` on `path: web`, `deploy-pages@v4`) with `web/.nojekyll` also skips default Jekyll builds (and its 10 builds/hour soft limit) altogether.
+Keeping `Hawzy/heloc-calculator` in its own repo lets `.github/workflows/deploy-pages.yml` (`configure-pages@v5`, `upload-pages-artifact@v3` on `path: web`, `deploy-pages@v4`) publish straight to GitHub Pages without touching Jekyll (well under Pages' `1 GB` site cap, `100 GB/month` bandwidth, `10-minute` timeout, and bypassing Jekyll's 10 builds/hour soft cap), while `_data/projects.yml` links it from [/projects/](/projects/).
 
-Meanwhile, adding a card to `_data/projects.yml` links [hawzy.github.io/heloc-calculator](https://hawzy.github.io/heloc-calculator/) straight from [/projects/](/projects/) right alongside the main blog. All things considered, shipping a `64.22 KiB` gzipped calculator with exact Python parity and zero telemetry feels pretty good (just remember the statutory fine print: Regulation Z and Washington CLA modeling here is strictly an educational simulation, not financial or legal advice).
-
-If you spot a discrepancy in the math or an edge case on your phone screen, let me know.
+All things considered, building a `64.22 KiB` browser-only HELOC calculator that matches Python to the cent without any ad trackers feels pretty good (obligatory fine print: Regulation Z and Washington CLA modeling here is strictly for educational simulation, not financial or legal advice). If you spot a discrepancy in a scenario or something looks off on your phone screen, let me know.

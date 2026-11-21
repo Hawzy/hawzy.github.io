@@ -9,6 +9,7 @@ This file governs the prose voice for all blog posts and companion X/Twitter thr
 - **Lead with the friction or seasonal marker:** Open with what was annoying, broken, or overdue (*"I've been slacking on..."*, *"killed off the logic loops and fixed the formatting so it actually makes sense on a phone screen"*, *"Hawzy's Kitchen & Code was too narrow"*).
 - **Understated, matter-of-fact verdicts:** Instead of hyping a result, use dry understatement (*"there were pretty minimal issues all things considered"*, *"It took two hours, which isn't bad"*).
 - **No em-dashes (`—`) in prose:** Avoid em-dashes (`—` or `&mdash;` or `--`). Use parentheses, commas, colons, or separate sentences instead.
+- **Keep X/Twitter posts simple and human (zero growth-hacker cringe):** Skip formulaic hook templates ("Here is how I built it:", forced "Reply #1 below" bait, or manufactured engagement questions). Prefer a plain 1-2 sentence post saying what I built and why, with a direct link and an optional casual follow-up reply.
 
 ## 2. Sentence Rhythm, Humor & Signature Habits
 - **Conversational setup + parenthetical punchline at the very end of the sentence:**
