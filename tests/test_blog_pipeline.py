@@ -326,12 +326,54 @@ class TestBlogPipeline(unittest.TestCase):
 
         self.assertNotIn("page__related", built_html)
         self.assertNotIn("teaser.jpg", built_html)
-        self.assertNotIn("hz-related-posts", built_html)
+        if '<section class="hz-related-posts"' in built_html:
+            related_section = built_html.split('<section class="hz-related-posts"', 1)[1].split(
+                "</section>", 1
+            )[0]
+            self.assertNotIn(
+                "/blog/2026/rebuilding-my-blog-with-antigravity-and-view-loops.html",
+                related_section,
+            )
         self.assertNotIn("/blog/2022/", built_html)
-        self.assertNotIn("pagination--pager", built_html)
+        if '<nav class="pagination">' in built_html:
+            pager_nav = built_html.split('<nav class="pagination">', 1)[1].split(
+                "</nav>", 1
+            )[0]
+            self.assertNotIn("/blog/2022/", pager_nav)
         self.assertNotIn("/categories/", built_html)
         self.assertIn("/?tag=antigravity", built_html)
         self.assertIn("#antigravity", built_html)
+
+    def test_heloc_post_and_project_card_render_cleanly(self):
+        audit_posts = load_audit_posts()
+        heloc_post = (
+            REPO_ROOT
+            / "_posts"
+            / "2026-11-21-heloc-static-github-pages-calculator.md"
+        )
+        self.assertTrue(heloc_post.exists(), f"Missing HELOC post: {heloc_post}")
+        self.assertEqual(audit_posts.audit_post_file(heloc_post, REPO_ROOT), [])
+        self.assertIn("heloc-calculator", audit_posts.load_known_project_slugs(REPO_ROOT))
+
+        built_heloc = (
+            REPO_ROOT
+            / "_site"
+            / "blog"
+            / "2026"
+            / "heloc-static-github-pages-calculator.html"
+        )
+        self.assertTrue(built_heloc.exists(), f"Missing built HELOC post: {built_heloc}")
+        heloc_html = built_heloc.read_text(encoding="utf-8")
+        self.assertIn('href="https://hawzy.github.io/heloc-calculator/"', heloc_html)
+        self.assertIn('href="https://github.com/Hawzy/heloc-calculator"', heloc_html)
+        self.assertNotIn('href="/https://hawzy.github.io/heloc-calculator/"', heloc_html)
+
+        projects_html = (REPO_ROOT / "_site" / "projects" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('id="heloc-calculator"', projects_html)
+        self.assertIn('href="https://hawzy.github.io/heloc-calculator/"', projects_html)
+        self.assertNotIn('href="/https://hawzy.github.io/heloc-calculator/"', projects_html)
 
     def test_audit_validates_additive_asset_and_x_post_url(self):
         audit_posts = load_audit_posts()

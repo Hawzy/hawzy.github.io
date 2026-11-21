@@ -11,3 +11,11 @@
   surface_url: "/recipes/"
   surface_label: "Open Kitchen Hub & Weekly Menu"
   description: "Dual-surface family recipe catalog and weekly meal rotation pairing Cooking for Engineers dependency grids with machine-readable /api/recipes.json and /api/weekly-menu.json endpoints."
+
+- slug: heloc-calculator
+  title: "Zero-Backend HELOC Payment-Shock Calculator"
+  eyebrow: "Python · Vanilla JS · GitHub Pages"
+  status: active
+  surface_url: "https://hawzy.github.io/heloc-calculator/"
+  surface_label: "Launch Live HELOC Calculator"
+  description: "100% client-side HELOC APR, draw-to-repayment payment shock, CLTV, and goal-solver simulator ported from Python to zero-dependency ES modules with exact $0.0000 CI parity."
