@@ -1,4 +1,5 @@
 import importlib.util
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -473,6 +474,32 @@ class TestBlogPipeline(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("{% include x-discussion-embed.html %}", single_layout)
+
+    def test_blog_post_clears_floats_and_themes_table_headers(self):
+        built_css = REPO_ROOT / "_site" / "assets" / "css" / "main.css"
+        self.assertTrue(built_css.exists(), f"Missing built stylesheet {built_css}")
+        css_text = built_css.read_text(encoding="utf-8")
+
+        page_rule = re.search(
+            r"body\.surface-blog\s+\.page\s*,\s*body\.surface-blog\s+\.archive\s*\{([^}]*)\}",
+            css_text,
+        )
+        self.assertIsNotNone(page_rule, "Missing body.surface-blog .page CSS rule")
+        self.assertRegex(page_rule.group(1), r"display:\s*flow-root")
+
+        related_rule = re.search(r"\.hz-related-posts\s*\{([^}]*)\}", css_text)
+        self.assertIsNotNone(related_rule, "Missing .hz-related-posts CSS rule")
+        self.assertRegex(related_rule.group(1), r"clear:\s*both")
+
+        th_rule = re.search(
+            r"body\.surface-blog\s+\.page__content\s+table\s+th\s*\{([^}]*)\}",
+            css_text,
+        )
+        self.assertIsNotNone(
+            th_rule, "Missing body.surface-blog .page__content table th CSS rule"
+        )
+        self.assertNotIn("#131e35", th_rule.group(1).lower())
+        self.assertIn("var(--hz-code-bg", th_rule.group(1))
 
 
 if __name__ == "__main__":

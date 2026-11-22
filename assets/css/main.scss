@@ -1864,12 +1864,26 @@ body.surface-blog {
 
   .page,
   .archive {
+    display: flow-root;
     float: none !important;
     width: 100% !important;
     max-width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
     padding-right: 0 !important;
+  }
+
+  .page {
+    .page__inner-wrap {
+      display: flow-root;
+      float: none !important;
+
+      .page__content,
+      .page__meta,
+      .page__share {
+        float: none !important;
+      }
+    }
   }
 
   // Wider container when viewing the /blog/ Hub itself
@@ -2018,7 +2032,7 @@ body.surface-blog {
       border: 1px solid var(--scifi-border);
 
       th {
-        background-color: #131E35;
+        background-color: var(--hz-code-bg, var(--scifi-surface-hover));
         color: var(--scifi-heading);
         border-color: var(--scifi-border);
       }
@@ -3441,6 +3455,7 @@ html[data-theme="paper"] .hz-post-list__item {
 }
 
 .hz-related-posts {
+  clear: both;
   margin-top: 2rem;
   padding: 1rem 1.2rem;
   background-color: var(--hz-surface, #1D2021);
